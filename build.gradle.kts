@@ -24,7 +24,7 @@ repositories {
 }
 
 dependencies {
-//    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
     implementation("org.springframework.boot:spring-boot-starter")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.h2database:h2")
@@ -34,6 +34,9 @@ dependencies {
     runtimeOnly ("org.postgresql:postgresql")
     implementation ("org.postgresql:postgresql:42.7.3" )
     implementation ("org.springframework.boot:spring-boot-starter-web")
+    //스웨거 의존성
+//    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
+    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
 }
 

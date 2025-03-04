@@ -18,11 +18,9 @@ public class RiotAccountController {
     public ResponseEntity<AccountDto> getAccountByRiotI(@PathVariable String gameName,
                                                         @PathVariable String tagLine,
                                                         @RequestParam(value = "api_key", required = false) String apiKey){
-        AccountDto account = new AccountDto();
-        account.setGameName(gameName);
-        account.setTagLine(tagLine);
-        return ResponseEntity.ok(account);
 
+        AccountDto account = new AccountDto(gameName, tagLine);
+        return ResponseEntity.ok(account);
     }
 
 /*    // puuid로 계정 조회

@@ -28,4 +28,25 @@ public class SwaggerConfig {
                 )
                 .build();
     }
+
+    @Bean
+    public GroupedOpenApi riotAccountGroupedOpenApi() {
+        return GroupedOpenApi
+                .builder()
+                .group("riot-account")
+                .pathsToMatch("/riot/account/v1/accounts/**")
+                .addOpenApiCustomizer(
+                        openApi ->
+                                openApi
+                                        .setInfo(
+                                                new Info()
+                                                        .title("Riot Account API") // API 제목
+                                                        .description("Riot Games 계정을 조회하기 위한 API") // API 설명
+                                                        .version("1.0.0") // API 버전
+                                        )
+                )
+                .build();
+    }
+
+
 }

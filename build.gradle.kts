@@ -24,20 +24,26 @@ repositories {
 }
 
 dependencies {
+    dependencies {
 
-    implementation("org.springframework.boot:spring-boot-starter")
-    compileOnly("org.projectlombok:lombok")
-    runtimeOnly("com.h2database:h2")
-    annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-    runtimeOnly("org.postgresql:postgresql")
-    implementation("org.postgresql:postgresql:42.7.3")
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    //스웨거 의존성
-//    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
-    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
+        implementation("org.springframework.boot:spring-boot-starter")  // Spring MVC 사용
+        compileOnly("org.projectlombok:lombok")
+        runtimeOnly("com.h2database:h2")
+        annotationProcessor("org.projectlombok:lombok")
+        testImplementation("org.springframework.boot:spring-boot-starter-test")
+        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+        runtimeOnly("org.postgresql:postgresql")
+        implementation("org.postgresql:postgresql:42.7.3")
+        implementation("org.springframework.boot:spring-boot-starter-web")  // Spring MVC 의존성만 남겨두기
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")  // Swagger 의존성
+//        implementation("org.springframework.boot:spring-boot-starter-security")
+        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+
+
+
+
+    }
 
 }
 

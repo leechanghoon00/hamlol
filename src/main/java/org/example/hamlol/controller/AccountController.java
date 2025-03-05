@@ -30,7 +30,7 @@ public class AccountController {
         // Riot API URL을 동적으로 생성
         String url = UriComponentsBuilder.fromHttpUrl("https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id")
                 .pathSegment(accountDto.gameName(), encodedTagLine)  // 인코딩된 tagLine을 사용
-                .queryParam("api_key", apiKey != null ? apiKey : "RGAPI-aadd4324-fa6a-4da7-a3c0-18c0fa9ebdb8")
+                .queryParam("api_key", apiKey != null ? apiKey : "라이엇API킨")
                 .toUriString();
 
         // RestTemplate을 사용하여 Riot API 호출

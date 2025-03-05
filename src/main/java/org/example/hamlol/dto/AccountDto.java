@@ -1,9 +1,12 @@
 package org.example.hamlol.dto;
 
 public record AccountDto(
-        String puuid,
-        String gameName,
-        String tagLine) {
+        String puuid, //puuid
+        String gameName,// 롤닉
+        String tagLine //태그
+            
+
+    ) {
 
 
 

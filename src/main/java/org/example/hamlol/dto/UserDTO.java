@@ -8,7 +8,7 @@ import org.example.hamlol.entity.UserEntity;
 @Setter
 public class UserDTO {
     private Long userId; //회원번호
-    private String username; //아이디
+    private String username; //이름
     private String password; //비밀번호
 
     // DTO를 Entity로 변환하는 메서드

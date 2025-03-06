@@ -1,14 +1,9 @@
 package org.example.hamlol.dto;
 
-public record AccountDto(
-        String puuid, //puuid
+public record AccountRequestDto(
         String gameName,// 롤닉
         String tagLine //태그
-            
-
-    ) {
+        
 
 
-
-
-}
+    ) {}

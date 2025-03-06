@@ -8,11 +8,10 @@ public interface AccountService {
 
 
 
-    //소환사 정보 저장
-    AccountResponseDTO saveAccount(AccountRequestDto accountRequestDto);
+    //라이엇에서 소환사 정보 조회, 저장
+    AccountResponseDTO getAccountInfoAndSaveAccount(AccountRequestDto accountRequestDto)throws Exception;
 
-    //라이엇에서 소환사 정보 조회
-    AccountResponseDTO getAccountInfo(String gameName,String tagLine)throws Exception;
+
 
 
 

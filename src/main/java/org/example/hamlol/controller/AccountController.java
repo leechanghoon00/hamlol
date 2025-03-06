@@ -17,10 +17,8 @@ public class AccountController {
     @PostMapping
     public ResponseEntity<String> saveAccount(@RequestBody AccountRequestDto accountRequestDto) {
         try {
-            // 1. Riot API에서 소환사 정보 조회
-            AccountResponseDTO accountInfo = accountService.getAccountInfo(accountRequestDto.gameName(), accountRequestDto.tagLine());
-            // 2. DB에 저장
-            AccountResponseDTO saveAccount = accountService.saveAccount((accountRequestDto));
+            // 1. Riot API에서 소환사 정보 조회+ 저장
+            AccountResponseDTO saveAccount = accountService.getAccountInfoAndSaveAccount((accountRequestDto));
 
             return ResponseEntity.ok("Account saved successfully!");
         } catch (Exception e) {

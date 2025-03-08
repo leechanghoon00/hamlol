@@ -3,4 +3,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/hamlol
     username: ham
     password: 6778
+  jpa:
+    hibernate:
+      ddl-auto: update
 

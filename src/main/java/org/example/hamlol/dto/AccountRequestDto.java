@@ -5,5 +5,4 @@ public record AccountRequestDto(
         String tagLine, //태그
         String userName
 
-
     ) {}

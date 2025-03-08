@@ -17,7 +17,8 @@ public class AccountEntity {
     @Column(nullable = false)
     private String puuid;     // Riot API에서 받은 puuid
 
-    @OneToOne(mappedBy = "lol_table")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
 

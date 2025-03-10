@@ -14,7 +14,6 @@
         .clearfix:after,.clearfix:before{content:'';display:table}
         .clearfix:after{clear:both;display:block}
         a{color:inherit;text-decoration:none}
-
         .link-wrap{
             width:100%;
             margin:auto;
@@ -77,26 +76,82 @@
 <div class="link-wrap">
     <div class="link-html">
         <h2>계정 연동</h2>
-        <div class="form-group">
-            <label class="label" for="websiteId">햄롤 사이트 아이디</label>
-            <input id="websiteId" type="text" class="input" placeholder="사용자 이름">
-        </div>
-        <div class="form-group">
-            <label class="label" for="gameName">롤 아이디 (소환사명)</label>
-            <input id="gameName" type="text" class="input" placeholder="롤 아이디 입력">
-        </div>
-        <div class="form-group">
-            <label class="label" for="tagLine">태그라인</label>
-            <input id="tagLine" type="text" class="input" placeholder="태그라인 입력">
-        </div>
-        <div class="form-group">
-            <input type="submit" class="button" value="연동">
-        </div>
+        <!-- 계정 연동 폼 -->
+        <form id="accountLinkForm">
+            <div class="form-group">
+                <label class="label" for="websiteId">햄롤 사이트 아이디</label>
+                <!-- 이 필드는 백엔드 UserDTO의 userName으로 사용 -->
+                <input id="websiteId" type="text" class="input" placeholder="사용자 이름" required>
+            </div>
+            <div class="form-group">
+                <label class="label" for="gameName">롤 아이디 (소환사명)</label>
+                <input id="gameName" type="text" class="input" placeholder="롤 아이디 입력" required>
+            </div>
+            <div class="form-group">
+                <label class="label" for="tagLine">태그라인</label>
+                <input id="tagLine" type="text" class="input" placeholder="태그라인 입력" required>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="button" value="연동">
+            </div>
+        </form>
         <div class="hr"></div>
         <div class="foot-lnk">
             <a href="/main" style="color:#fff;">메인 페이지로 돌아가기</a>
         </div>
     </div>
 </div>
+
+<!-- 계정 연동 API 호출 JavaScript -->
+<script>
+
+    // DOM을 이용하여 주어진 ID를 가진 요소 반환
+    document.getElementById("accountLinkForm").addEventListener("submit", function(e) {
+        e.preventDefault(); // 기본 폼 제출 동작 방지
+
+        // 입력 필드 값 가져오기
+        var userId = document.getElementById("websiteId").value;
+        var gameName = document.getElementById("gameName").value;
+        var tagLine = document.getElementById("tagLine").value;
+
+        // json데이터를 DTO로 매핑
+        var lolname = {
+            gameName: gameName,
+            tagLine: tagLine,
+            userName: userId
+        };
+
+
+
+        // fetch API를 사용하여 POST 요청 전송
+        fetch("/api/account", { //이 api에
+            method: "POST", // post형식으로 전송
+            headers: {
+                "Content-Type": "application/json" //타입은 json으로 설정
+            },
+            body: JSON.stringify(lolname) //json문자열로 다시 바꿔서  보냄
+        })
+            // fetch요청을 응답할때 .then사용
+            .then(function(response) {
+                console.log("응답 상태:", response.status); // 응답상캐 반환
+                if (response.ok) {
+                    return response.text(); //성공하면 그 다음 then으로 전달
+                }
+                throw new Error("계정 연동에 실패했습니다. 상태 코드: " + response.status);
+            })
+
+
+            .then(function(result) {
+                console.log("API 결과:", result);
+                alert("계정 연동 성공: " + result);
+            })
+
+            // 꼭 필요한건 아니지만 오류 발생시 원인을 알기위해 추가해도됨
+            // .catch(function(error) {
+            //     console.error("에러 발생:", error);
+            //     alert("Error: " + error.message);
+            // });
+    });
+</script>
 </body>
 </html>

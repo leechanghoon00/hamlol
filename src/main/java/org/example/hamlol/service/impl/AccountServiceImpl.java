@@ -45,7 +45,7 @@ public class AccountServiceImpl implements AccountService {
     // AccountRequestDto를 받아 Riotapi로부터 계정정보 조회후 저장하고  AccountResponseDTO 형태로 반환
     public AccountResponseDTO getAccountInfoAndSaveAccount(AccountRequestDto accountRequestDto) throws Exception {  
 // throws Exception : 메소드 실행 도중 발생할 수 있는 예외를 전달함
-        String apiKey = "RGAPI-3c7e9c31-115d-4ba2-85d2-1fe9e61935a1";  // Riot API 키
+        String apiKey = "라이엇";  // Riot API 키
 
         // URI 빌더를 사용하여 Riot API 요청 URL 생성 (경로 변수 적용)
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.

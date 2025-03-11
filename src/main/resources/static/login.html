@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Login Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body{
             margin:0;
@@ -224,20 +225,21 @@
         </div>
     </div>
 </div>
-<!-- 회원가입 폼 데이터를 백엔드 API와 연동하는 JavaScript -->
+<!-- 회원가입 폼 데이터를 백엔드 API와 연동하는 JavaScript(AJAX)-->
 <script>
-
-    // DOM을 이용하여 주어진 ID를 가진 요소 반환
-    document.getElementById("signupForm").addEventListener("submit", function(e) {
+    //jquery를 사용해 id가 signupFormdls 제출 이벤트 처리
+    $("#signupForm").on("submit", function(e) {
+       // 폼 제출할때 새로고침 방지
         e.preventDefault();
 
-        // html문서내에서 id가 email인 입력요소를 선택해 .value로 읽어서 email에 저장
-        const email = document.getElementById("signup-email").value;
-        const name = document.getElementById("signup-name").value;
-        const password = document.getElementById("signup-password").value;
-        const phone = document.getElementById("signup-phone").value;
+        // .val을 이용해서 jquery갑승ㄹ 가죠옴
+        const email = $("#signup-email").val();
+        const name = $("#signup-name").val();
+        const password = $("#signup-password").val();
+        const phone = $("#signup-phone").val();
 
-        // json데이터를 DTO로 매핑
+
+        // 가져온값을 서버에보낼수있게 바꿈
         const user = {
             email: email,
             username: name,
@@ -245,31 +247,26 @@
             number: phone
         };
 
-        // fetch API를 사용하여 POST 요청 전송
-        fetch("/api/adduser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json" //json형식이라고 명시함
-            },
-            body: JSON.stringify(user) // json문잦열로 바꿔서 요청본문에 포함시킴
-        })
-            .then(response => {
-                if (response.ok) {
-                    return response.text();
-                }
-                throw new Error("회원가입에 실패했습니다.");
-            })
-            .then(result => {
+        // ajax를 이용해 post보내기
+        $.ajax({
+            url: "/api/adduser",                  // 요청을 보낼 api
+            type: "POST",                         // HTTP 요청 방식
+            contentType: "application/json",      // 요청 데이터 형식을 JSON으로 지정
+            data: JSON.stringify(user),           // user 객체를 JSON 문자열로 변환하여 전송
+            success: function(result) {           // 요청이 성공하면 뜸
+                console.log("API 결과:", result);
                 alert("회원가입 성공: " + result);
-                // 성공 시 로그인 탭으로 전환
-                document.getElementById("tab-1").checked = true;
-            })
+                // 성공 시, 로그인 탭(아이디 "tab-1")을 선택 상태로 전환합니다.
+                $("#tab-1").prop("checked", true);
+            },
 
-            // 꼭 필요한건 아니지만 오류 발생시 원인을 알기위해 사용함
-            // .catch(error => {
-            //     alert("Error: " + error.message);
-            // });
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("에러 발생:", errorThrown);
+                alert("Error: " + errorThrown);
+            }
+        });
     });
 </script>
+
 </body>
 </html>

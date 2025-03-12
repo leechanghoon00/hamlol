@@ -11,6 +11,7 @@ import org.example.hamlol.repository.ApiKeyRepository;
 import org.example.hamlol.repository.UserRepository;
 import org.example.hamlol.service.AccountService;
 import org.example.hamlol.service.ApiKeyProvider;
+import org.example.hamlol.urlenum.RiotUrlApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -33,7 +34,9 @@ public class AccountServiceImpl implements AccountService {
     private RestTemplate restTemplate;// HTTP 요청을 외부 API에 보낼떄 사용하는 객체
 
     // 라이엇 api에 요청하는 값
-    private static final String RIOT_API_URL = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}";
+//    private static final String RIOT_API_URL = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}";
+    private  static final String RIOT_API_URL = RiotUrlApi.FIND_BY_PUUID.getUrl();
+
     @Autowired
     private ApiKeyRepository apiKeyRepository;
     @Autowired

@@ -61,8 +61,8 @@ public class ChampServiceImpl implements ChampService {
             }
             //스트림으로 엔티티로 변환
             DtoList.stream()
-                    .map(dto -> new ChampEntity(dto.id(), dto.key(), dto.name()))
-                    .forEach(champRepository::save);
+                    .map(dto -> new ChampEntity(dto.id(), dto.key(), dto.name())) //dto에서 entity로 전달
+                    .forEach(champRepository::save); //champRepository save를 이용해 저장
         }catch (Exception e){
             throw new RuntimeException("오류",e);
 

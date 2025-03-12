@@ -24,6 +24,15 @@ public class AccountEntity {
 
 
 
+    public AccountEntity(String puuid, String gameName, String tagLine, UserEntity userEntity){
+        this.puuid = puuid;
+        this.gameName = gameName;
+        this.tagLine = tagLine;
+        this.userEntity = userEntity;
 
+    }
 
+    public AccountEntity() {
+
+    }
 }

@@ -29,7 +29,6 @@ public class AccountServiceImpl implements AccountService {
     private AccountRepository accountRepository;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private RestTemplate restTemplate;// HTTP 요청을 외부 API에 보낼떄 사용하는 객체
 
@@ -87,11 +86,13 @@ public class AccountServiceImpl implements AccountService {
             UserEntity user = userRepository.findByUserName(accountRequestDto.userName());
 
             // 새 계정정보를 저장할 인스턴스 생성후 set으로 각각 새로 집어넣음
-            AccountEntity accountEntity = new AccountEntity();
-            accountEntity.setPuuid(generatedPuuid);
-            accountEntity.setGameName(accountRequestDto.gameName());
-            accountEntity.setTagLine(accountRequestDto.tagLine());
-            accountEntity.setUserEntity(user);
+            AccountEntity accountEntity = new AccountEntity(
+                    generatedPuuid,
+                    accountRequestDto.gameName(),
+                    accountRequestDto.tagLine(),
+                    user
+            );
+            accountRepository.save(accountEntity);
 
 
 

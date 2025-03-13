@@ -2,7 +2,8 @@ package org.example.hamlol.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.hamlol.dto.AccountRequestDto;
+import org.example.hamlol.dto.AccountRequestDTO;
+import org.example.hamlol.dto.AccountRequestDTO;
 import org.example.hamlol.dto.AccountResponseDTO;
 import org.example.hamlol.entity.AccountEntity;
 import org.example.hamlol.entity.UserEntity;
@@ -51,7 +52,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     // AccountRequestDto를 받아 Riotapi로부터 계정정보 조회후 저장하고  AccountResponseDTO 형태로 반환
-    public AccountResponseDTO getAccountInfoAndSaveAccount(AccountRequestDto accountRequestDto) throws Exception {  
+    public AccountResponseDTO getAccountInfoAndSaveAccount(AccountRequestDTO accountRequestDto) throws Exception {
 // throws Exception : 메소드 실행 도중 발생할 수 있는 예외를 전달함
 
         // api키 가져오기

@@ -1,5 +1,6 @@
 package org.example.hamlol.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hamlol.dto.UserDTO;
 import org.example.hamlol.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -7,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
+@Tag(name = "addUser API", description = "회원가입하기")
+
 public class Usercontroller {
 
     private final UserService userService;

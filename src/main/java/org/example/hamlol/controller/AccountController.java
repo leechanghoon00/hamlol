@@ -1,6 +1,7 @@
 package org.example.hamlol.controller;
 
-import org.example.hamlol.dto.AccountRequestDto;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.example.hamlol.dto.AccountRequestDTO;
 import org.example.hamlol.dto.AccountResponseDTO;
 import org.example.hamlol.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,16 +10,18 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/account")
+@Tag(name = "AccountService API", description = "롤아이디와 태그를이용해 puuid 저장")
+
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<String> saveAccount(@RequestBody AccountRequestDto accountRequestDto) {
+    public ResponseEntity<String> saveAccount(@RequestBody AccountRequestDTO accountRequestDTO) {
         try {
             // 1. Riot API에서 소환사 정보 조회+ 저장
-            AccountResponseDTO saveAccount = accountService.getAccountInfoAndSaveAccount((accountRequestDto));
+            AccountResponseDTO saveAccount = accountService.getAccountInfoAndSaveAccount((accountRequestDTO));
 
             return ResponseEntity.ok("Account saved successfully!");
         } catch (Exception e) {

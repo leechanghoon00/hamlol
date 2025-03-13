@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "champ")
+@Table(name = "table_champ")
 public class ChampEntity {
     @Id
     private String id;

@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "user_table",
+@Table(name = "table_user",
         uniqueConstraints = {
         @UniqueConstraint(name = "UNIQUE_username", columnNames = {"username"})
 })

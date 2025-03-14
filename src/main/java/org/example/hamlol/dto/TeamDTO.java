@@ -2,6 +2,7 @@ package org.example.hamlol.dto;
 
 public record TeamDTO(
         String matchId,         // 매치 ID (외래키)
+        String teamType,        // 팀 타입 ('blue' 또는 'red')
         Integer teamId,         // 팀 ID (예: 1 또는 2)
         Boolean win,            // 승리 여부
         String bans,            // 밴 정보 (JSON 형식의 문자열)

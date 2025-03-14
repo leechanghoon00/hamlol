@@ -6,17 +6,20 @@ import java.util.List;
 
 @Entity
 @Table(name = "table_team",
-        uniqueConstraints = {@UniqueConstraint(columnNames = {"match_id", "team_id"})})
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"match_id", "team_type"})})
 public class TeamEntity {
 
 
+
+
     @Id
+    @Column(name = "team_type", nullable = false)
+    private String teamType;  // 'blue' 또는 'red'
+
     @Column(name = "match_id", nullable = false)
     private String matchId;
 
-    @Column(name = "team_id", nullable = false)
-    private Integer teamId;
-
+    // 'blue' 또는 'red'
     @Column(name = "win")
     private Boolean win;
 
@@ -54,12 +57,12 @@ public class TeamEntity {
     @OneToMany(mappedBy = "team")
     private List<PlayerEntity> players;
 
-    public TeamEntity(String matchId, Integer teamId, Boolean win, String bans,
+    public TeamEntity(String matchId, String teamType, Boolean win, String bans,
                       Integer baronKills, Integer championKills, Integer dragonKills,
                       Integer hordeKills, Integer inhibitorKills, Integer riftHeraldKills,
                       Integer towerKills, MatchEntity match) {
         this.matchId = matchId;
-        this.teamId = teamId;
+        this.teamType = teamType;
         this.win = win;
         this.bans = bans;
         this.baronKills = baronKills;
@@ -71,6 +74,8 @@ public class TeamEntity {
         this.towerKills = towerKills;
         this.match = match;
     }
+
+
 
     public TeamEntity() {
 

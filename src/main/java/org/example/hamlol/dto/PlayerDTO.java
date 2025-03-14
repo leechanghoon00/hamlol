@@ -2,7 +2,7 @@ package org.example.hamlol.dto;
 
 public record PlayerDTO(
         String matchId,                           // 매치 ID (외래키)
-        Integer teamId,                           // 팀 ID (외래키)
+        String teamType,                          // 팀 타입 ('blue' 또는 'red')
         String riotIdGameName,                    // 참가자 롤 닉네임 (PK)
         String championId,                        // 플레이한 챔피언의 ID
         Integer damageDealtToBuildings,           // 타워 딜량

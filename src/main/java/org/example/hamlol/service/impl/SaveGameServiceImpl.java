@@ -31,16 +31,20 @@ public class SaveGameServiceImpl implements SaveGameService {
     @Override
     @Transactional
     public void saveGame(MatchDTO matchDTO, List<TeamDTO> teamDTOs, List<PlayerDTO> playerDTOs) {
+
         MatchEntity matchEntity = new MatchEntity(
                 matchDTO.matchId(),
                 matchDTO.gameDuration(),
-                matchDTO.gamemode()
+                matchDTO.gamemode(),
+                matchDTO.gameCreation()
         );
         matchRepository.save(matchEntity);
+
         for (TeamDTO teamDTO : teamDTOs) {
+
             TeamEntity teamEntity = new TeamEntity(
                     teamDTO.matchId(),
-                    teamDTO.teamId(),
+                    teamDTO.teamType(),
                     teamDTO.win(),
                     teamDTO.bans(),
                     teamDTO.baronKills(),
@@ -54,11 +58,13 @@ public class SaveGameServiceImpl implements SaveGameService {
             );
             teamRepository.save(teamEntity);
         }
+
         for (PlayerDTO playerDTO : playerDTOs) {
+
             PlayerEntity playerEntity = new PlayerEntity(
                     playerDTO.matchId(),
+                    playerDTO.teamType(),
                     playerDTO.riotIdGameName(),
-                    playerDTO.teamId(),
                     playerDTO.championId(),
                     playerDTO.damageDealtToBuildings(),
                     playerDTO.goldEarned(),
@@ -90,6 +96,6 @@ public class SaveGameServiceImpl implements SaveGameService {
                     matchEntity
             );
             playerRepository.save(playerEntity);
+        }
     }
-}
 }

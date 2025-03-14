@@ -10,14 +10,19 @@ uniqueConstraints = {@UniqueConstraint(columnNames = {"match_id","riotIdGameName
 public class PlayerEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "player_id")
+    private Long playerId;
+
     @Column(name = "match_id", nullable = false)
     private String matchId;
 
     @Column(name = "riotIdGameName", nullable = false)
     private String riotIdGameName;
 
-    @Column(name = "team_id", nullable = false)
-    private Integer teamId;
+    @Column(name = "team_type", nullable = false)
+    private String teamType;
+
 
     @Column(name = "champion_id")
     private String championId;
@@ -106,7 +111,7 @@ public class PlayerEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "team_id",insertable = false, updatable = false)
+    @JoinColumn(name = "team_type", referencedColumnName = "team_type", insertable = false, updatable = false)
     private TeamEntity team;
 
 
@@ -116,7 +121,7 @@ public class PlayerEntity {
 
 
 
-    public PlayerEntity(String matchId, String riotIdGameName, Integer teamId, String championId,
+    public PlayerEntity(String matchId, String teamType, String riotIdGameName, String championId,
                         Integer damageDealtToBuildings, Integer goldEarned, String individualPosition,
                         String item0, String item1, String item2, String item3, String item4,
                         String item5, String item6, Integer kills, Integer deaths, Integer assists,
@@ -126,8 +131,8 @@ public class PlayerEntity {
                         Integer visionWardsBoughtInGame, Integer wardsPlaced, Integer wardsKilled,
                         Boolean win, MatchEntity match) {
         this.matchId = matchId;
+        this.teamType = teamType;
         this.riotIdGameName = riotIdGameName;
-        this.teamId = teamId;
         this.championId = championId;
         this.damageDealtToBuildings = damageDealtToBuildings;
         this.goldEarned = goldEarned;

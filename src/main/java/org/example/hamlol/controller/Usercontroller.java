@@ -20,6 +20,7 @@ public class Usercontroller {
     }
 
 
+    //회원가입
     @PostMapping("/adduser")
     public ResponseEntity<String> addUser(@RequestBody UserDTO userDTO){
         try {
@@ -27,6 +28,19 @@ public class Usercontroller {
             return ResponseEntity.ok("성공");
         }catch (Exception e){
             return ResponseEntity.badRequest().body("실패 : "+e.getMessage());
+        }
+    }
+
+
+    //로그인
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
+        try {
+            // 로그인 처리 (email, password 사용)
+            userService.login(userDTO.getEmail(), userDTO.getPassword());
+            return ResponseEntity.ok("로그인 성공");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("로그인 실패: " + e.getMessage());
         }
     }
 }

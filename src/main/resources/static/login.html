@@ -2,271 +2,116 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Login Page</title>
+    <title>로그인 페이지</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        body{
-            margin:0;
-            color:#6a6f8c;
-            background:#c8c8c8;
-            font:600 16px/18px 'Open Sans',sans-serif;
+        /* 공통 스타일 */
+        body {
+            margin: 0;
+            font-family: 'Open Sans', sans-serif;
+            background: #c8c8c8;
+            color: #6a6f8c;
         }
-        *,:after,:before{
-            box-sizing:border-box;
+        .container {
+            width: 100%;
+            max-width: 525px;
+            min-height: 670px;
+            margin: 50px auto;
+            background: rgba(40,57,101,0.9);
+            box-shadow: 0 12px 15px rgba(0,0,0,0.24), 0 17px 50px rgba(0,0,0,0.19);
+            border-radius: 8px;
+            padding: 90px 70px 50px 70px;
         }
-        .clearfix:after,.clearfix:before{
-            content:'';
-            display:table;
+        h2 {
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
         }
-        .clearfix:after{
-            clear:both;
-            display:block;
+        form {
+            margin: 0 auto;
         }
-        a{
-            color:inherit;
-            text-decoration:none;
+        .group {
+            margin-bottom: 20px;
         }
-        .login-wrap{
-            width:100%;
-            margin:auto;
-            max-width:525px;
-            min-height:670px;
-            position:relative;
-            background:url(https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg) no-repeat center;
-            box-shadow:0 12px 15px 0 rgba(0,0,0,.24),0 17px 50px 0 rgba(0,0,0,.19);
+        .group label {
+            color: #aaa;
+            font-size: 14px;
+            display: block;
+            margin-bottom: 5px;
         }
-        .login-html{
-            width:100%;
-            height:100%;
-            position:absolute;
-            padding:90px 70px 50px 70px;
-            background:rgba(40,57,101,.9);
+        .group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            font-size: 16px;
+            color: #fff;
         }
-        .login-html .sign-in-htm,
-        .login-html .sign-up-htm{
-            top:0;
-            left:0;
-            right:0;
-            bottom:0;
-            position:absolute;
-            transform:rotateY(180deg);
-            backface-visibility:hidden;
-            transition:all .4s linear;
+        .group input[type="submit"] {
+            background: #1161ee;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 10px;
         }
-        .login-html .sign-in,
-        .login-html .sign-up,
-        .login-form .group .check{
-            display:none;
+        .group input[type="submit"]:hover {
+            background: #0d4bb3;
         }
-        .login-html .tab,
-        .login-form .group .label,
-        .login-form .group .button{
-            text-transform:uppercase;
+        .link {
+            text-align: center;
+            margin-top: 20px;
         }
-        .login-html .tab{
-            font-size:22px;
-            margin-right:15px;
-            padding-bottom:5px;
-            margin:0 15px 10px 0;
-            display:inline-block;
-            border-bottom:2px solid transparent;
-        }
-        .login-html .sign-in:checked + .tab,
-        .login-html .sign-up:checked + .tab{
-            color:#fff;
-            border-color:#1161ee;
-        }
-        .login-form{
-            min-height:345px;
-            position:relative;
-            perspective:1000px;
-            transform-style:preserve-3d;
-        }
-        .login-form .group{
-            margin-bottom:15px;
-        }
-        .login-form .group .label,
-        .login-form .group .input,
-        .login-form .group .button{
-            width:100%;
-            color:#fff;
-            display:block;
-        }
-        .login-form .group .input,
-        .login-form .group .button{
-            border:none;
-            padding:15px 20px;
-            border-radius:25px;
-            background:rgba(255,255,255,.1);
-        }
-        .login-form .group input[data-type="password"]{
-            text-security:circle;
-            -webkit-text-security:circle;
-        }
-        .login-form .group .label{
-            color:#aaa;
-            font-size:12px;
-        }
-        .login-form .group .button{
-            background:#1161ee;
-        }
-        .login-form .group label .icon{
-            width:15px;
-            height:15px;
-            border-radius:2px;
-            position:relative;
-            display:inline-block;
-            background:rgba(255,255,255,.1);
-        }
-        .login-form .group label .icon:before,
-        .login-form .group label .icon:after{
-            content:'';
-            width:10px;
-            height:2px;
-            background:#fff;
-            position:absolute;
-            transition:all .2s ease-in-out 0s;
-        }
-        .login-form .group label .icon:before{
-            left:3px;
-            width:5px;
-            bottom:6px;
-            transform:scale(0) rotate(0);
-        }
-        .login-form .group label .icon:after{
-            top:6px;
-            right:0;
-            transform:scale(0) rotate(0);
-        }
-        .login-form .group .check:checked + label{
-            color:#fff;
-        }
-        .login-form .group .check:checked + label .icon{
-            background:#1161ee;
-        }
-        .login-form .group .check:checked + label .icon:before{
-            transform:scale(1) rotate(45deg);
-        }
-        .login-form .group .check:checked + label .icon:after{
-            transform:scale(1) rotate(-45deg);
-        }
-        .login-html .sign-in:checked + .tab + .sign-up + .tab + .login-form .sign-in-htm{
-            transform:rotate(0);
-        }
-        .login-html .sign-up:checked + .tab + .login-form .sign-up-htm{
-            transform:rotate(0);
-        }
-        .hr{
-            height:2px;
-            margin:60px 0 50px 0;
-            background:rgba(255,255,255,.2);
-        }
-        .foot-lnk{
-            text-align:center;
+        .link a {
+            color: #fff;
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-<div class="login-wrap">
-    <div class="login-html">
-        <input id="tab-1" type="radio" name="tab" class="sign-in" checked>
-        <label for="tab-1" class="tab">로그인</label>
-        <input id="tab-2" type="radio" name="tab" class="sign-up">
-        <label for="tab-2" class="tab">회원가입</label>
-        <div class="login-form">
-            <!-- 로그인 탭 -->
-            <div class="sign-in-htm">
-                <div class="group">
-                    <label for="user" class="label">이메일</label>
-                    <input id="user" type="text" class="input">
-                </div>
-                <div class="group">
-                    <label for="pass" class="label">비번</label>
-                    <input id="pass" type="password" class="input" data-type="password">
-                </div>
-
-
-                <div class="group">
-                    <input type="submit" class="button" value="Sign In">
-                </div>
-                <div class="hr"></div>
-                <div class="foot-lnk">
-                    <a href="#forgot">Forgot Password?</a>
-                </div>
-            </div>
-            <!-- 회원가입 탭 -->
-            <div class="sign-up-htm">
-                <form id="signupForm">
-                    <div class="group">
-                        <label for="signup-email" class="label">이메일</label>
-                        <input id="signup-email" type="text" class="input" placeholder="이메일 입력">
-                    </div>
-                    <div class="group">
-                        <label for="signup-name" class="label">이름</label>
-                        <input id="signup-name" type="text" class="input" placeholder="이름 입력">
-                    </div>
-                    <div class="group">
-                        <label for="signup-password" class="label">비번</label>
-                        <input id="signup-password" type="password" class="input" data-type="password" placeholder="비밀번호 입력">
-                    </div>
-                    <div class="group">
-                        <label for="signup-phone" class="label">전화번호</label>
-                        <input id="signup-phone" type="text" class="input" placeholder="전화번호 입력">
-                    </div>
-                    <div class="group">
-                        <input type="submit" class="button" value="Sign Up">
-                    </div>
-                </form>
-                <div class="hr"></div>
-                <div class="foot-lnk">
-                    <label for="tab-1">Already Member?</label>
-                </div>
-            </div>
+<div class="container">
+    <h2>로그인</h2>
+    <form id="loginForm">
+        <div class="group">
+            <label for="user">이메일</label>
+            <input id="user" type="text" name="email" placeholder="이메일 입력" required>
         </div>
+        <div class="group">
+            <label for="pass">비밀번호</label>
+            <input id="pass" type="password" name="password" placeholder="비밀번호 입력" required>
+        </div>
+        <div class="group">
+            <input type="submit" class="button" value="로그인">
+        </div>
+    </form>
+    <div class="link">
+        <a href="signup.html">회원가입 하러가기</a>
     </div>
 </div>
-<!-- 회원가입 폼 데이터를 백엔드 API와 연동하는 JavaScript(AJAX)-->
+
 <script>
-    //jquery를 사용해 id가 signupFormdls 제출 이벤트 처리
-    $("#signupForm").on("submit", function(e) {
-       // 폼 제출할때 새로고침 방지
+    $("#loginForm").on("submit", function(e) {
         e.preventDefault();
+        const email = $("#user").val();
+        const password = $("#pass").val();
+        const loginData = { email: email, password: password };
 
-        // .val을 이용해서 jquery갑승ㄹ 가죠옴
-        const email = $("#signup-email").val();
-        const name = $("#signup-name").val();
-        const password = $("#signup-password").val();
-        const phone = $("#signup-phone").val();
-
-
-        // 가져온값을 서버에보낼수있게 바꿈
-        const user = {
-            email: email,
-            username: name,
-            password: password,
-            number: phone
-        };
-
-        // ajax를 이용해 post보내기
         $.ajax({
-            url: "/api/adduser",                  // 요청을 보낼 api
-            type: "POST",                         // HTTP 요청 방식
-            contentType: "application/json",      // 요청 데이터 형식을 JSON으로 지정
-            data: JSON.stringify(user),           // user 객체를 JSON 문자열로 변환하여 전송
-            success: function(result) {           // 요청이 성공하면 뜸
-                console.log("API 결과:", result);
-                alert("회원가입 성공: " + result);
-                // 성공 시, 로그인 탭(아이디 "tab-1")을 선택 상태로 전환합니다.
-                $("#tab-1").prop("checked", true);
+            url: "/api/login",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify(loginData),
+            success: function(response) {
+                console.log("로그인 성공:", response);
+                alert("로그인 성공");
+                window.location.href = "/main.html"; // 로그인 성공 후 이동할 페이지
             },
-
             error: function(jqXHR, textStatus, errorThrown) {
-                console.error("에러 발생:", errorThrown);
-                alert("Error: " + errorThrown);
+                console.error("로그인 에러:", errorThrown);
+                alert("로그인 실패: " + errorThrown);
             }
         });
     });
 </script>
-
 </body>
 </html>

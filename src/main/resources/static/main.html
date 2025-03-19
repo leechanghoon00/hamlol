@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #1161ee;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        a.logout {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #1161ee;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        a.logout:hover {
+            background: #0d4bb3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>환영합니다!</h1>
+    <p>로그인에 성공했습니다.</p>
+    <p>이곳은 메인 페이지입니다.</p>
+    <!-- 로그아웃 처리는 Spring Security에서 /logout URL로 처리 -->
+    <a class="logout" href="/logout">로그아웃</a>
+</div>
+</body>
+</html>

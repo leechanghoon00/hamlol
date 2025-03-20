@@ -74,7 +74,8 @@
     <form id="gameCodeForm">
         <div class="group">
             <label for="gameCode">게임코드</label>
-            <input id="gameCode" type="text" name="gameCode" placeholder="게임코드 입력 (예: 7565284912)" required>
+            <!-- name 속성을 "matchId"로 변경하면 JSON 매핑 시 자동으로 matchId에 할당됩니다 -->
+            <input id="gameCode" type="text" name="matchId" placeholder="게임코드 입력 (예: 7565284912)" required>
         </div>
         <div class="group">
             <input type="submit" class="button" value="등록">
@@ -90,9 +91,10 @@
         e.preventDefault();
         const code = $("#gameCode").val().trim();
         // "KR_" 접두사가 없다면 추가합니다.
-        const gameCode = code.startsWith("KR_") ? code : "KR_" + code;
+        const matchId = code.startsWith("KR_") ? code : "KR_" + code;
 
-        const gameData = { gameCode: gameCode };
+        // JSON key를 matchId로 설정합니다.
+        const gameData = { matchId: matchId };
 
         $.ajax({
             url: "/api/game/save",

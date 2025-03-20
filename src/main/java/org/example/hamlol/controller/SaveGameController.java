@@ -28,13 +28,13 @@ public class SaveGameController {
     @Operation(summary = "게임 저장", description = "매치 정보, 팀 정보, 플레이어 정보를 저장합니다.")
 
     @PostMapping("/save")
-    public ResponseEntity<String> saveGame() {
-// 테스트용 matchId 설정
-        String testMatchId = "KR_7565284912";
-        // 임의의 데이터로 MatchDTO 생성 (필요한 다른 필드는 null 또는 기본값으로 설정)
-        MatchDTO matchDTO = new MatchDTO(testMatchId, null, null, null);
-        // 팀, 플레이어 정보는 빈 리스트로 전달 (URL 연결 확인 목적)
-        saveGameService.saveGame(matchDTO, Collections.emptyList(), Collections.emptyList());
-        return ResponseEntity.status(HttpStatus.OK).body("URL 연결 테스트 완료");
+    public ResponseEntity<String> saveGame(@RequestBody MatchDTO matchDTO) {
+        try {
+            // 팀, 플레이어 정보는 테스트 목적으로 빈 리스트로 전달
+            saveGameService.saveGame(matchDTO, Collections.emptyList(), Collections.emptyList());
+            return ResponseEntity.ok("Game saved successfully!");
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body("Error: " + e.getMessage());
+        }
     }
 }

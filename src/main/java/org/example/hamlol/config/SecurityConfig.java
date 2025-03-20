@@ -10,6 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -32,12 +33,14 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 // URL 접근권한 설정
                 .authorizeHttpRequests(authz -> authz
-                        // 회원가입, 로그인, 정적 HTML 및 리소스는 인증 없이 접근 허용
-                        .requestMatchers("/api/adduser","/api/game/save", "/api/login","/login.html", "/lol.html", "/signup.html", "/main.html", "/savegame.html","/api/account/**", "/static/**", "/favicon", "/error")
+                        // 로그인, 회원가입, 정적 리소스 등은 인증 없이 접근
+                        .requestMatchers("/api/**","/**.html","/login.html","/api/login", "/api/adduser", "/signup.html", "/static/**", "/favicon", "/error")
                         .permitAll()
-                        // 나머지 요청은 인증 필요
+                        // 나머지 모든 요청은 인증 필요
                         .anyRequest().authenticated()
                 )
+
+
                 // 로그아웃 설정
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login.html")        // 로그아웃 후 이동할 페이지

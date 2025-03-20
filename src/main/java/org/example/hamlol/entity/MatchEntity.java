@@ -14,13 +14,13 @@ public class MatchEntity {
     private String matchId;
 
     @Column(name = "gameDuration")
-    private Integer gameDuration;
+    private Long gameDuration;
 
     @Column(name = "gamemode")
     private String gamemode;
 
     @Column(name = "gameCreation")
-    private Integer gameCreation;
+    private Long gameCreation;
 
     @OneToMany(mappedBy = "match")
     private List<TeamEntity> teams;
@@ -28,7 +28,7 @@ public class MatchEntity {
     @OneToMany(mappedBy = "match")
     private List<PlayerEntity> players;
 
-    public MatchEntity(String matchId, Integer gameDuration, String gamemode, Integer gameCreation) {
+    public MatchEntity(String matchId, Long gameDuration, String gamemode, Long gameCreation) {
         this.matchId = matchId;
         this.gameDuration = gameDuration;
         this.gamemode = gamemode;

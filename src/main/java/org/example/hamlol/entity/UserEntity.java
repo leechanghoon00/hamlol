@@ -2,6 +2,7 @@ package org.example.hamlol.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import org.example.hamlol.urlenum.UserType;
 
 @Data
 @Entity
@@ -19,5 +20,8 @@ public class UserEntity {
     private String email;
     private String number;
 
-
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_type", nullable = false)
+    private UserType userType;
 }
+

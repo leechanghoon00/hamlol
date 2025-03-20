@@ -3,6 +3,7 @@ package org.example.hamlol.dto;
 import lombok.Getter;
 import lombok.Setter;
 import org.example.hamlol.entity.UserEntity;
+import org.example.hamlol.urlenum.UserType;
 
 @Getter
 @Setter
@@ -12,6 +13,8 @@ public class UserDTO {
     private String password; //비밀번호
     private String email;
     private String number;
+    private UserType userType; // ADMIN 또는 USER
+
 
     // DTO를 Entity로 변환하는 메서드
     public UserEntity toEntity() {
@@ -21,6 +24,8 @@ public class UserDTO {
         userEntity.setPassword(this.password);  // DTO에서 password를 가져와 Entity에 설정
         userEntity.setEmail(this.email);
         userEntity.setNumber(this.number);
+        userEntity.setUserType(this.userType != null ? this.userType : UserType.USER);
+
         return userEntity;
     }
 }

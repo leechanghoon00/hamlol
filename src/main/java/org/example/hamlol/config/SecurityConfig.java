@@ -33,7 +33,7 @@ public class SecurityConfig {
                 // URL 접근권한 설정
                 .authorizeHttpRequests(authz -> authz
                         // 회원가입, 로그인, 정적 HTML 및 리소스는 인증 없이 접근 허용
-                        .requestMatchers("/api/adduser", "/api/login","/login.html", "/lol.html", "/signup.html", "/main.html","/api/account/**", "/static/**", "/favicon", "/error")
+                        .requestMatchers("/api/adduser","/api/game/save", "/api/login","/login.html", "/lol.html", "/signup.html", "/main.html", "/savegame.html","/api/account/**", "/static/**", "/favicon", "/error")
                         .permitAll()
                         // 나머지 요청은 인증 필요
                         .anyRequest().authenticated()

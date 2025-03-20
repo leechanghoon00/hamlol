@@ -1,6 +1,8 @@
 package org.example.hamlol.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.example.hamlol.dto.MatchDTO;
 import org.example.hamlol.dto.PlayerDTO;
 import org.example.hamlol.dto.TeamDTO;
@@ -10,92 +12,48 @@ import org.example.hamlol.entity.TeamEntity;
 import org.example.hamlol.repository.MatchRepository;
 import org.example.hamlol.repository.PlayerRepository;
 import org.example.hamlol.repository.TeamRepository;
+import org.example.hamlol.service.ApiKeyProvider;
 import org.example.hamlol.service.SaveGameService;
+import org.example.hamlol.urlenum.RiotUrlApi;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
 
 @Service
 public class SaveGameServiceImpl implements SaveGameService {
 
-    private final MatchRepository matchRepository;
-    private final PlayerRepository playerRepository;
-    private final TeamRepository teamRepository;
 
-    public SaveGameServiceImpl(MatchRepository matchRepository, PlayerRepository playerRepository, TeamRepository teamRepository) {
-        this.matchRepository = matchRepository;
-        this.playerRepository = playerRepository;
-        this.teamRepository = teamRepository;
-    }
+    @Autowired
+    private RestTemplate restTemplate;
+
+
+    private final String apiKey = ApiKeyProvider.getApiKey();
+    // 라이엇 api에 요청하는 값
+//    private static final String RIOT_API_URL = /lol/match/v5/matches/{matchId}
+    private  static final String RIOT_API_URL = RiotUrlApi.MATCH.getUrl();
 
     @Override
     @Transactional
     public void saveGame(MatchDTO matchDTO, List<TeamDTO> teamDTOs, List<PlayerDTO> playerDTOs) {
+        // api키 가져오기
+        String apiKey = ApiKeyProvider.getApiKey();
+        String matchId = matchDTO.matchId();
+        // UriComponentsBuilder를 사용하여 URL을 구성합니다.
+        // buildAndExpand(matchId)를 호출하여 {matchId} 자리에 실제 값이 삽입됩니다.
+        String url = UriComponentsBuilder
+                .fromHttpUrl(RIOT_API_URL)
+                .queryParam("api_key", apiKey)
+                .buildAndExpand(matchId)
+                .toUriString();
 
-        MatchEntity matchEntity = new MatchEntity(
-                matchDTO.matchId(),
-                matchDTO.gameDuration(),
-                matchDTO.gamemode(),
-                matchDTO.gameCreation()
-        );
-        matchRepository.save(matchEntity);
-
-        for (TeamDTO teamDTO : teamDTOs) {
-
-            TeamEntity teamEntity = new TeamEntity(
-                    teamDTO.matchId(),
-                    teamDTO.teamType(),
-                    teamDTO.win(),
-                    teamDTO.bans(),
-                    teamDTO.baronKills(),
-                    teamDTO.championKills(),
-                    teamDTO.dragonKills(),
-                    teamDTO.hordeKills(),
-                    teamDTO.inhibitorKills(),
-                    teamDTO.riftHeraldKills(),
-                    teamDTO.towerKills(),
-                    matchEntity
-            );
-            teamRepository.save(teamEntity);
-        }
-
-        for (PlayerDTO playerDTO : playerDTOs) {
-
-            PlayerEntity playerEntity = new PlayerEntity(
-                    playerDTO.matchId(),
-                    playerDTO.teamType(),
-                    playerDTO.riotIdGameName(),
-                    playerDTO.championId(),
-                    playerDTO.damageDealtToBuildings(),
-                    playerDTO.goldEarned(),
-                    playerDTO.individualPosition(),
-                    playerDTO.item0(),
-                    playerDTO.item1(),
-                    playerDTO.item2(),
-                    playerDTO.item3(),
-                    playerDTO.item4(),
-                    playerDTO.item5(),
-                    playerDTO.item6(),
-                    playerDTO.kills(),
-                    playerDTO.deaths(),
-                    playerDTO.assists(),
-                    playerDTO.kda(),
-                    playerDTO.riotIdTagline(),
-                    playerDTO.summoner1Id(),
-                    playerDTO.summoner2Id(),
-                    playerDTO.teamPosition(),
-                    playerDTO.totalDamageDealtToChampions(),
-                    playerDTO.totalDamageTaken(),
-                    playerDTO.totalHealsOnTeammates(),
-                    playerDTO.totalMinionsKilled(),
-                    playerDTO.visionScore(),
-                    playerDTO.visionWardsBoughtInGame(),
-                    playerDTO.wardsPlaced(),
-                    playerDTO.wardsKilled(),
-                    playerDTO.win(),
-                    matchEntity
-            );
-            playerRepository.save(playerEntity);
-        }
+        // URL이 잘 완성되었는지 확인하기 위해 로그 출력 (Postman 테스트 시에도 동일 URL 사용)
+        System.out.println("Constructed URL: " + url);
     }
+
 }

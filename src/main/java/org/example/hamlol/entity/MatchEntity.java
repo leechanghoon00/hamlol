@@ -1,9 +1,11 @@
 package org.example.hamlol.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 @Entity
 @Table(name = "table_match")
 public class MatchEntity {

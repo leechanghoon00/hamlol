@@ -1,7 +1,9 @@
 package org.example.hamlol.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "table_player",
 // 데이터 무결성을 유지핳기위해 사용

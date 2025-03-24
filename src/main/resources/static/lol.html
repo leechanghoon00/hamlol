@@ -145,11 +145,34 @@
                 alert("계정 연동 성공: " + result);
             })
 
-            // 꼭 필요한건 아니지만 오류 발생시 원인을 알기위해 추가해도됨
-            // .catch(function(error) {
-            //     console.error("에러 발생:", error);
-            //     alert("Error: " + error.message);
-            // });
+        function loadPageWithJWT(url, targetUrl) {
+            const jwtToken = localStorage.getItem("jwtToken");
+
+            if (!jwtToken) {
+                alert("로그인이 필요합니다.");
+                location.href = "/login.html";
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'Authorization': 'Bearer ' + jwtToken
+                },
+                success: function(htmlData) {
+                    document.open();
+                    document.write(htmlData);
+                    document.close();
+
+                    history.pushState({}, '', targetUrl);
+                },
+                error: function(xhr) {
+                    alert('페이지 로드 실패: ' + xhr.status);
+                }
+            });
+        }
+
     });
 </script>
 </body>

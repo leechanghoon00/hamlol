@@ -5,7 +5,6 @@
     <title>게임코드 등록</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
-        /* 공통 스타일 */
         body {
             margin: 0;
             font-family: 'Open Sans', sans-serif;
@@ -26,9 +25,6 @@
             color: #fff;
             text-align: center;
             margin-bottom: 30px;
-        }
-        form {
-            margin: 0 auto;
         }
         .group {
             margin-bottom: 20px;
@@ -74,7 +70,6 @@
     <form id="gameCodeForm">
         <div class="group">
             <label for="gameCode">게임코드</label>
-            <!-- name 속성을 "matchId"로 변경하면 JSON 매핑 시 자동으로 matchId에 할당됩니다 -->
             <input id="gameCode" type="text" name="matchId" placeholder="게임코드 입력 (예: 7565284912)" required>
         </div>
         <div class="group">
@@ -82,33 +77,59 @@
         </div>
     </form>
     <div class="link">
-        <a href="/main.html">메인 페이지로 이동</a>
+        <a href="#" onclick="loadPageWithJWT('/main.html', '/main.html'); return false;">메인 페이지로 이동</a>
     </div>
 </div>
 
 <script>
+    // JWT로 페이지 이동 함수 (추가 필수)
+    function loadPageWithJWT(url, targetUrl) {
+        const jwtToken = localStorage.getItem("jwtToken");
+        if (!jwtToken) {
+            alert("로그인이 필요합니다.");
+            location.href = "/login.html";
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken
+            },
+            success: function(htmlData) {
+                document.open();
+                document.write(htmlData);
+                document.close();
+                history.pushState({}, '', targetUrl);
+            },
+            error: function(xhr) {
+                alert('페이지 로드 실패: ' + xhr.status);
+            }
+        });
+    }
+
     $("#gameCodeForm").on("submit", function(e) {
         e.preventDefault();
         const code = $("#gameCode").val().trim();
-        // "KR_" 접두사가 없다면 추가합니다.
         const matchId = code.startsWith("KR_") ? code : "KR_" + code;
 
-        // JSON key를 matchId로 설정합니다.
         const gameData = { matchId: matchId };
 
         $.ajax({
-            url: "/api/game/save",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(gameData),
-            success: function(response) {
-                console.log("게임코드 등록 성공:", response);
-                alert("게임코드 등록 성공!");
-                window.location.href = "/main.html"; // 등록 후 이동할 페이지
+            url: '/api/game/save',
+            type: 'POST',
+            data: JSON.stringify(gameData), // 🔥 여기 정확히 수정
+            contentType: 'application/json',
+            headers: {
+                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') // JWT 헤더 포함 필수
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.error("게임코드 등록 에러:", errorThrown);
-                alert("게임코드 등록 실패: " + errorThrown);
+            success: function(response) {
+                alert('성공적으로 저장되었습니다!');
+                loadPageWithJWT('/main.html', '/main.html'); // 등록 성공 후 메인으로 이동
+            },
+            error: function(xhr) {
+                alert('저장 실패: ' + xhr.status);
             }
         });
     });

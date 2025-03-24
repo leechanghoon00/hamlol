@@ -58,8 +58,47 @@
         <!-- 로그아웃 링크 (Spring Security의 /logout URL 사용) -->
         <a href="/logout">로그아웃</a>
         <!-- 전적 등록하기 링크 -->
-        <a href="/savegame.html">전적 등록하기</a>
+        <a href="#" onclick="loadPageWithJWT('/savegame.html', '/savegame.html'); return false;">전적 등록하기</a>
     </div>
 </div>
+<script>
+    document.querySelector("a[href='/logout']").addEventListener("click", function(e) {
+        e.preventDefault();
+
+        localStorage.removeItem("jwtToken"); // JWT 토큰 삭제
+        alert("로그아웃 되었습니다.");
+        location.href = "/login.html"; // 로그인 페이지로 리디렉션
+    });
+
+    function loadPageWithJWT(url, targetUrl) {
+        const jwtToken = localStorage.getItem("jwtToken");
+
+        if (!jwtToken) {
+            alert("로그인이 필요합니다.");
+            location.href = "/login.html";
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken
+            },
+            success: function(htmlData) {
+                document.open();
+                document.write(htmlData);
+                document.close();
+
+                history.pushState({}, '', targetUrl);
+            },
+            error: function(xhr) {
+                alert('페이지 로드 실패: ' + xhr.status);
+            }
+        });
+    }
+
+</script>
+
 </body>
 </html>

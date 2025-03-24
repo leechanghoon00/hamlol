@@ -7,3 +7,5 @@ spring:
     hibernate:
       ddl-auto: update
 
+jwt:
+  secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33

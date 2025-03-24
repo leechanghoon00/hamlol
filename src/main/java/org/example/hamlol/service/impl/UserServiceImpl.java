@@ -3,6 +3,8 @@ package org.example.hamlol.service.impl;
 import jakarta.transaction.Transactional;
 import org.example.hamlol.dto.UserDTO;
 import org.example.hamlol.entity.UserEntity;
+import org.example.hamlol.jwt.JwtTokenProvider;
+import org.example.hamlol.jwt.TokenInfo;
 import org.example.hamlol.repository.UserRepository;
 import org.example.hamlol.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,15 @@ public class UserServiceImpl implements UserService {
     private final AuthenticationManager authenticationManager;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager, BCryptPasswordEncoder bCryptPasswordEncoder, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @Override
@@ -48,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(String email, String password) {
+    public TokenInfo login(String email, String password) {
         // DB에서 사용자 조회
         UserEntity userEntity = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("사용자 없음: " + email));
@@ -73,6 +77,9 @@ public class UserServiceImpl implements UserService {
 
         // 디버깅 로그 추가
         System.out.println("인증 완료, 로그인 성공");
+        //jwt토큰 생성
+        return jwtTokenProvider.generateToken(authentication.getAuthorities(), email);
+
     }
 
 

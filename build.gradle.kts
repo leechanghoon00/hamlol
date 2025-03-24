@@ -24,31 +24,36 @@ repositories {
 }
 
 dependencies {
-    dependencies {
+    // Spring Boot 스타터
+    implementation("org.springframework.boot:spring-boot-starter")
+    implementation("org.springframework.boot:spring-boot-starter-web")           // 웹 기능 (DispatcherServlet, Jackson 등)
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")     // JPA
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")    // Thymeleaf
+    implementation("org.springframework.boot:spring-boot-starter-security")     // Spring Security
 
+    // Thymeleaf + Spring Security 연동
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 
-        implementation("org.springframework.boot:spring-boot-starter")  // Spring MVC 사용
-        compileOnly("org.projectlombok:lombok")
-        runtimeOnly("com.h2database:h2")
-        annotationProcessor("org.projectlombok:lombok")
-        testImplementation("org.springframework.boot:spring-boot-starter-test")
-        testRuntimeOnly("org.junit.platform:junit-platform-launcher")
-        runtimeOnly("org.postgresql:postgresql")
-        implementation("org.postgresql:postgresql:42.7.3")
-        implementation("org.springframework.boot:spring-boot-starter-web")  // Spring MVC 의존성만 남겨두기
-        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")  // Swagger 의존성
-//        implementation("org.springframework.boot:spring-boot-starter-security")
-        implementation("org.springframework.boot:spring-boot-starter-data-jpa")
-        implementation ("org.springframework.boot:spring-boot-starter-web")
-        implementation ("org.springframework.boot:spring-boot-starter-thymeleaf")
+    // JWT (JSON Web Token)
+    implementation("io.jsonwebtoken:jjwt-api:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.5")
+    runtimeOnly("io.jsonwebtoken:jjwt-jackson:0.11.5")
 
-        //== 스프링 시큐리티 ==//
-        implementation("org.springframework.boot:spring-boot-starter-security")
-        implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
-        testImplementation ("org.springframework.security:spring-security-test")
+    // Swagger / OpenAPI 문서화
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0")
 
-    }
+    // DB (H2, PostgreSQL)
+    runtimeOnly("com.h2database:h2")
+    runtimeOnly("org.postgresql:postgresql")
 
+    // Lombok
+    compileOnly("org.projectlombok:lombok")
+    annotationProcessor("org.projectlombok:lombok")
+
+    // 테스트
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 tasks.withType<Test> {

@@ -105,7 +105,30 @@
             success: function(response) {
                 console.log("로그인 성공:", response);
                 alert("로그인 성공");
-                window.location.href = "/main.html"; // 로그인 성공 후 이동할 페이지
+//  JWT 토큰 저장
+                localStorage.setItem("jwtToken", response.accessToken);
+
+                //  JWT 토큰을 헤더에 넣어서 main.html 요청
+                $.ajax({
+                    url: "/main.html",
+                    type: "GET",
+                    headers: {
+                        "Authorization": "Bearer " + response.accessToken
+                    },
+                    success: function(htmlData) {
+                        // 받은 HTML을 현재 페이지에 즉시 표시
+                        document.open();
+                        document.write(htmlData);
+                        document.close();
+
+                        // 브라우저 주소창을 main.html로 변경
+                        history.pushState({}, '', '/main.html');
+                    },
+                    error: function(xhr) {
+                        alert("메인 페이지 로드 실패: " + xhr.status);
+                    }
+                });
+
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.error("로그인 에러:", errorThrown);

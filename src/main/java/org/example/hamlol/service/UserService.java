@@ -1,6 +1,7 @@
 package org.example.hamlol.service;
 
 import org.example.hamlol.dto.UserDTO;
+import org.example.hamlol.jwt.TokenInfo;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -9,5 +10,6 @@ public interface UserService extends UserDetailsService {
     void addUser(UserDTO userDTO);
 
     // 로그인
-    void login(String email, String password);
+    TokenInfo login(String email, String password);
+
 }

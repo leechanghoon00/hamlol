@@ -1,5 +1,8 @@
 package org.example.hamlol.config;
 
+import jakarta.servlet.Filter;
+import org.example.hamlol.jwt.JwtAuthenticationFilter;
+import org.example.hamlol.jwt.JwtTokenProvider;
 import org.example.hamlol.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,44 +12,44 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    // UserService가 UserDetailsService를 구현하므로, 이를 주입받습니다.
     private final UserDetailsService userDetailsService;
-
-    public SecurityConfig(@Lazy UserService userService) {
+    private final JwtTokenProvider jwtTokenProvider;
+private final org.example.hamlol.security.CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    public SecurityConfig(@Lazy UserService userService, JwtTokenProvider jwtTokenProvider, org.example.hamlol.security.CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.userDetailsService = userService;
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // CSRF 보호 비활성화 (개발 단계에서는 비활성화, 운영 시 활성화 권장)
-                .csrf(AbstractHttpConfigurer::disable)
-                // URL 접근권한 설정
+                .cors(withDefaults()) // CorsFilter 자동 적용
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
                 .authorizeHttpRequests(authz -> authz
-                        // 로그인, 회원가입, 정적 리소스 등은 인증 없이 접근
-                        .requestMatchers("/api/**","/**.html","/login.html","/api/login", "/api/adduser", "/signup.html", "/static/**", "/favicon", "/error")
-                        .permitAll()
-                        // 나머지 모든 요청은 인증 필요
+                        .requestMatchers("/favicon.ico","/login.html", "/api/login", "/api/adduser", "/signup.html", "/static/**", "/favicon", "/error").permitAll()
+                        .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )
+                .exceptionHandling(e -> e.authenticationEntryPoint(customAuthenticationEntryPoint)) // ✅ 핵심
+                .logout(logout -> logout.logoutSuccessUrl("/login.html").invalidateHttpSession(true).permitAll())
+                .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
 
-
-                // 로그아웃 설정
-                .logout(logout -> logout
-                        .logoutSuccessUrl("/login.html")        // 로그아웃 후 이동할 페이지
-                        .invalidateHttpSession(true)
-                        .permitAll()
-                );
         return http.build();
     }
 
@@ -54,12 +57,17 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
-        provider.setPasswordEncoder(bCryptPasswordEncoder());
+        provider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(provider);
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public Filter jwtAuthenticationFilter() {
+        return new JwtAuthenticationFilter(jwtTokenProvider);
     }
 }

@@ -2,6 +2,7 @@ package org.example.hamlol.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.example.hamlol.dto.UserDTO;
+import org.example.hamlol.jwt.TokenInfo;
 import org.example.hamlol.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +35,9 @@ public class Usercontroller {
 
     //로그인
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UserDTO userDTO) {
-        try {
-            // 로그인 처리 (email, password 사용)
-            userService.login(userDTO.getEmail(), userDTO.getPassword());
-            return ResponseEntity.ok("로그인 성공");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("로그인 실패: " + e.getMessage());
-        }
+    public ResponseEntity<TokenInfo> login(@RequestBody UserDTO userDTO) {
+        TokenInfo tokenInfo = userService.login(userDTO.getEmail(), userDTO.getPassword());
+        return ResponseEntity.ok(tokenInfo);
     }
+
 }

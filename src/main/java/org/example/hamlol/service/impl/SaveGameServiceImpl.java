@@ -238,7 +238,7 @@ public class SaveGameServiceImpl implements SaveGameService {
 
             System.err.println(" Riot API 응답 파싱 에러: " + e.getMessage());
             // 클라이언트한테 반환되는 에러 메시지
-            throw new IllegalArgumentException("본인의 전적이 아니므로 저장할 수 없습니다.");
+            throw new IllegalArgumentException("본인의 전적이 아닌경우 등록이 불가합니다.");
 
 
         }

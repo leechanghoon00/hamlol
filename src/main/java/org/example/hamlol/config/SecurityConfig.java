@@ -42,7 +42,7 @@ private final org.example.hamlol.security.CustomAuthenticationEntryPoint customA
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/favicon.ico","/login.html", "/api/login", "/api/adduser", "/signup.html", "/static/**", "/favicon", "/error").permitAll()
+                        .requestMatchers("/api/champ/save","/favicon.ico","/login.html", "/api/login", "/api/adduser", "/signup.html", "/static/**", "/favicon", "/error").permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )

@@ -6,16 +6,14 @@ import jakarta.transaction.Transactional;
 import org.example.hamlol.dto.MatchDTO;
 import org.example.hamlol.dto.PlayerDTO;
 import org.example.hamlol.dto.TeamDTO;
-import org.example.hamlol.entity.MatchEntity;
-import org.example.hamlol.entity.PlayerEntity;
-import org.example.hamlol.entity.TeamEntity;
-import org.example.hamlol.repository.MatchRepository;
-import org.example.hamlol.repository.PlayerRepository;
-import org.example.hamlol.repository.TeamRepository;
+import org.example.hamlol.entity.*;
+import org.example.hamlol.repository.*;
 import org.example.hamlol.service.ApiKeyProvider;
 import org.example.hamlol.service.SaveGameService;
 import org.example.hamlol.urlenum.RiotUrlApi;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -39,14 +37,17 @@ public class SaveGameServiceImpl implements SaveGameService {
     private PlayerRepository playerRepository;
     @Autowired
     private TeamRepository teamRepository;
+    @Autowired
+    private AccountRepository accountRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-    // Riot API URL 템플릿. 예: "https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}"
+
+    // 라이엇 api 주소 ENum으로 관리
     private static final String RIOT_API_URL = RiotUrlApi.MATCH.getUrl();
 
-    /**
-     * 클라이언트로부터 전달받은 JSON 문자열(예: {"matchId": "KR_7565284912"})을
-     * MatchDTO 객체로 매핑하고 saveGame()을 호출하는 헬퍼 메서드.
-     */
+
+    // json 문자열을 받아서 matchdto로 파싱후 저장 처리
     public void saveGameFromJson(String matchJson) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
@@ -60,248 +61,188 @@ public class SaveGameServiceImpl implements SaveGameService {
         }
     }
 
-    /**
-     * SaveGameService 인터페이스 구현 메서드.
-     * 전달받은 MatchDTO(주로 matchId)와 팀, 플레이어 정보(빈 리스트)를 이용하여
-     * Riot API에서 매치 데이터를 조회하고, 응답 JSON을 파싱하여 DTO로 변환한 후,
-     * 엔티티로 변환해서 DB에 저장합니다.
-     */
+
     @Override
-    @Transactional  // 트랜잭션 범위 내에서 실행하여 데이터 일관성을 보장
+    @Transactional
     public void saveGame(MatchDTO matchDTO, List<TeamDTO> teamDTOs, List<PlayerDTO> playerDTOs) {
-        // 1. 전달받은 MatchDTO에서 matchId 추출
+
+        // 1. 로그인한 사용자 정보 조회
+        // 시큐리티에서 현재 로그인된 사용자의 인증 젖ㅇ보를 가져옴
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = auth.getName(); //jwt에서 userEmail을 getname으로 꺼냄
+        //  db에서  email로 사용자정보 조회함
+        UserEntity loginUser = userRepository.findByEmail(userEmail).orElseThrow(()-> new RuntimeException("로그인한 사용자정보를 찾을수 없음"));
+
+        // 2. 사용자와 연동된 롤 계정 조회
+        //로그인한 사용자와 연결된 Account entity 조회
+        List<AccountEntity> linkedAccounts = accountRepository.findByUserEntity(loginUser);
+        // 계정목록에서 gamename만 뺴서 리스트로 변환  .stream = entity를 하나씩 순회할수 있게 해줌, .map() = entity에서 롤닉만 호출
+        List<String>myGamenames = linkedAccounts.stream().map(AccountEntity::getGameName)
+                .toList();
+        System.out.println("로그인한 사용자의 롤 닉: " + myGamenames);
+
+
+        // 3. 저장하려는 match id 
         String matchId = matchDTO.matchId();
 
-        // 2. UriComponentsBuilder를 사용해 URL 템플릿에서 {matchId} 치환 및 API 키 쿼리파라미터 추가
-        String url = UriComponentsBuilder
-                .fromHttpUrl(RIOT_API_URL)
+        // 4. UriComponentsBuilder를 사용해 URL 템플릿에서 {matchId} 치환 및 API 키 쿼리파라미터 추가해서 api키 완성시키기
+        String url = UriComponentsBuilder.fromHttpUrl(RIOT_API_URL)
                 .queryParam("api_key", apiKey)
                 .buildAndExpand(matchId)
                 .toUriString();
 
-        System.out.println("Constructed URL: " + url);
+        System.out.println("완성된 URL: " + url);
 
-        // 3. RestTemplate으로 Riot API에 GET 요청을 보내고 응답 문자열을 받음
+        // 5. RestTemplate으로 Riot API에 GET 요청을 보내고 응답 문자열을 받음
         String response = restTemplate.getForObject(url, String.class);
-        System.out.println("API Response: " + response);
+
+        System.out.println("응답 받은 API: " + response);
 
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             // 응답 문자열을 JsonNode 트리 구조로 변환
             JsonNode root = objectMapper.readTree(response);
-
-            // ** MatchDTO 추출 **
-            JsonNode metadata = root.get("metadata");
             JsonNode info = root.get("info");
+            JsonNode metadata = root.get("metadata");
+
+            // 전적 기본 정보 추출하기
             String extractedMatchId = metadata.get("matchId").asText();
             int gameDuration = info.get("gameDuration").asInt();
             String gamemode = info.get("gameMode").asText();
             // "gameCreation" 필드는 값이 클 수 있으므로 long으로 처리하고, 없으면 0L로 처리
             long gameCreation = info.has("gameCreation") ? info.get("gameCreation").asLong() : 0L;
 
-            // MatchDTO는 이제 gameCreation이 long 타입이어야 합니다.
-            MatchDTO extractedMatchDto = new MatchDTO(extractedMatchId, (long) gameDuration, gamemode, gameCreation);
-            System.out.println("Extracted MatchDTO: " + extractedMatchDto);
 
-            // ** PlayerDTO 추출 **
+            // 새로운 match dto 생성
+            MatchDTO extractedMatchDto = new MatchDTO(extractedMatchId, (long) gameDuration, gamemode, gameCreation);
+            System.out.println("추출된 MatchDTO: " + extractedMatchDto);
+
+            // 참가자 정보 추출 + 사용자와 연동된 게임이름 포함여부 확인
             List<PlayerDTO> extractedPlayerList = new ArrayList<>();
             JsonNode participantsNode = info.get("participants");
+            boolean isMatchFound = false
+                    ;
+
+            // 참가자 목록을 돌리면서 로그인한 유저의 게임아이디가있는지 확인
             if (participantsNode != null && participantsNode.isArray()) {
                 for (JsonNode participant : participantsNode) {
                     String riotIdGameName = participant.get("riotIdGameName").asText("");
-                    String championId = participant.get("championId").asText();
-                    int damageDealtToBuildings = participant.get("damageDealtToBuildings").asInt(0);
-                    int goldEarned = participant.get("goldEarned").asInt(0);
-                    String individualPosition = participant.get("individualPosition").asText("");
-                    String item0 = participant.get("item0").asText("");
-                    String item1 = participant.get("item1").asText("");
-                    String item2 = participant.get("item2").asText("");
-                    String item3 = participant.get("item3").asText("");
-                    String item4 = participant.get("item4").asText("");
-                    String item5 = participant.get("item5").asText("");
-                    String item6 = participant.get("item6").asText("");
-                    int kills = participant.get("kills").asInt(0);
-                    int deaths = participant.get("deaths").asInt(0);
-                    int assists = participant.get("assists").asInt(0);
-                    //단순하게 kda로 접근하면 자꾸 null값이 반환되서 challenges노드를 가져온후 그안에서 kda값 추춘ㄹ해봄
-                    JsonNode challengesNode = participant.get("challenges");
-                    float kda = (float) ((challengesNode != null && challengesNode.get("kda") != null)
-                            ? challengesNode.get("kda").asDouble(0.0)
-                            : 0.0);
 
-                    String riotIdTagline = participant.get("riotIdTagline").asText("");
-                    String summoner1Id = participant.get("summoner1Id").asText("");
-                    String summoner2Id = participant.get("summoner2Id").asText("");
-                    String teamPosition = participant.get("teamPosition").asText("");
-                    int totalDamageDealtToChampions = participant.get("totalDamageDealtToChampions").asInt(0);
-                    int totalDamageTaken = participant.get("totalDamageTaken").asInt(0);
-                    int totalHealsOnTeammates = participant.get("totalHealsOnTeammates").asInt(0);
-                    int totalMinionsKilled = participant.get("totalMinionsKilled").asInt(0);
-                    int visionScore = participant.get("visionScore").asInt(0);
-                    int visionWardsBoughtInGame = participant.get("visionWardsBoughtInGame").asInt(0);
-                    int wardsPlaced = participant.get("wardsPlaced").asInt(0);
-                    int wardsKilled = participant.get("wardsKilled").asInt(0);
-                    boolean win = participant.get("win").asBoolean(false);
-
-                    // 팀 타입 결정: teamId가 100이면 "blue", 200이면 "red"
-                    int teamId = participant.get("teamId").asInt(100);
-                    String teamType = (teamId == 100) ? "blue" : "red";
-
+                    // 닉이 일치하면 저장 조건넣기
+                    if (myGamenames.contains(riotIdGameName)) {
+                        isMatchFound = true;
+                    }
+// 플레이어디티오 변환ㄴ
                     PlayerDTO playerDto = new PlayerDTO(
                             extractedMatchId,
-                            teamType,
+                            (participant.get("teamId").asInt(100) == 100) ? "blue" : "red",
                             riotIdGameName,
-                            championId,
-                            damageDealtToBuildings,
-                            goldEarned,
-                            individualPosition,
-                            item0, item1, item2, item3, item4, item5, item6,
-                            kills,
-                            deaths,
-                            assists,
-                            kda,
-                            riotIdTagline,
-                            summoner1Id,
-                            summoner2Id,
-                            teamPosition,
-                            totalDamageDealtToChampions,
-                            totalDamageTaken,
-                            totalHealsOnTeammates,
-                            totalMinionsKilled,
-                            visionScore,
-                            visionWardsBoughtInGame,
-                            wardsPlaced,
-                            wardsKilled,
-                            win
+                            participant.get("championId").asText(),
+                            participant.get("damageDealtToBuildings").asInt(0),
+                            participant.get("goldEarned").asInt(0),
+                            participant.get("individualPosition").asText("")
+                            , participant.get("item0").asText(""), participant.get("item1").asText(""),
+                            participant.get("item2").asText(""), participant.get("item3").asText(""),
+                            participant.get("item4").asText(""), participant.get("item5").asText(""),
+                            participant.get("item6").asText(""),
+                            participant.get("kills").asInt(0),
+                            participant.get("deaths").asInt(0),
+                            participant.get("assists").asInt(0),
+                            (float) ((participant.has("challenges") && participant.get("challenges").get("kda") != null)
+                                    ? participant.get("challenges").get("kda").asDouble(0.0) : 0.0),
+                            participant.get("riotIdTagline").asText(""),
+                            participant.get("summoner1Id").asText(""),
+                            participant.get("summoner2Id").asText(""),
+                            participant.get("teamPosition").asText(""),
+                            participant.get("totalDamageDealtToChampions").asInt(0),
+                            participant.get("totalDamageTaken").asInt(0),
+                            participant.get("totalHealsOnTeammates").asInt(0),
+                            participant.get("totalMinionsKilled").asInt(0),
+                            participant.get("visionScore").asInt(0),
+                            participant.get("visionWardsBoughtInGame").asInt(0),
+                            participant.get("wardsPlaced").asInt(0),
+                            participant.get("wardsKilled").asInt(0),
+                            participant.get("win").asBoolean(false)
                     );
                     extractedPlayerList.add(playerDto);
                 }
-            } else {
-                System.err.println("Participants node가 존재하지 않거나 배열이 아닙니다.");
             }
-            System.out.println("Extracted PlayerDTOs: " + extractedPlayerList);
+            // 본인전적아니면 오류메세지
+            if (!isMatchFound) {
+                System.out.println("본인의 전적이 아닌경우 등록이 불가합니다.");
+                throw new IllegalArgumentException("본인의 전적이 아니므로 저장할 수 없습니다.");
+            }
 
-            // ** TeamDTO 추출 **
+            // 팀 정보 DTO로 추출
             List<TeamDTO> extractedTeamList = new ArrayList<>();
             JsonNode teamsNode = info.get("teams");
             if (teamsNode != null && teamsNode.isArray()) {
                 for (JsonNode team : teamsNode) {
-                    int tId = team.get("teamId").asInt();
-                    // teamId 값에 따라 blue(100) 또는 red(200)로 결정
-                    String teamType = (tId == 100) ? "blue" : "red";
-                    boolean teamWin = team.get("win").asBoolean(false);
-                    // bans 배열을 JSON 문자열로 저장
-                    String bans = team.get("bans").toString();
-
-                    JsonNode objectives = team.get("objectives");
-                    int baronKills = objectives.get("baron").get("kills").asInt(0);
-                    int championKills = objectives.get("champion").get("kills").asInt(0);
-                    int dragonKills = objectives.get("dragon").get("kills").asInt(0);
-                    int hordeKills = objectives.has("horde") ? objectives.get("horde").get("kills").asInt(0) : 0;
-                    int inhibitorKills = objectives.get("inhibitor").get("kills").asInt(0);
-                    int riftHeraldKills = objectives.has("riftHerald") ? objectives.get("riftHerald").get("kills").asInt(0) : 0;
-                    int towerKills = objectives.get("tower").get("kills").asInt(0);
-
+                    String teamType = team.get("teamId").asInt() == 100 ? "blue" : "red";
                     TeamDTO teamDto = new TeamDTO(
                             extractedMatchId,
                             teamType,
-                            tId,
-                            teamWin,
-                            bans,
-                            baronKills,
-                            championKills,
-                            dragonKills,
-                            hordeKills,
-                            inhibitorKills,
-                            riftHeraldKills,
-                            towerKills
+                            team.get("teamId").asInt(),
+                            team.get("win").asBoolean(false),
+                            team.get("bans").toString(),
+                            team.get("objectives").get("baron").get("kills").asInt(0),
+                            team.get("objectives").get("champion").get("kills").asInt(0),
+                            team.get("objectives").get("dragon").get("kills").asInt(0),
+                            team.get("objectives").has("horde") ? team.get("objectives").get("horde").get("kills").asInt(0) : 0,
+                            team.get("objectives").get("inhibitor").get("kills").asInt(0),
+                            team.get("objectives").has("riftHerald") ? team.get("objectives").get("riftHerald").get("kills").asInt(0) : 0,
+                            team.get("objectives").get("tower").get("kills").asInt(0)
                     );
                     extractedTeamList.add(teamDto);
                 }
-            } else {
-                System.err.println("Teams node가 존재하지 않거나 배열이 아닙니다.");
             }
-            System.out.println("Extracted TeamDTOs: " + extractedTeamList);
 
-            // --- 엔티티로 변환 후 DB에 저장 ---
-
-            // 1. MatchEntity 변환 및 저장
+            //  DB 저장 처리(Match entity를 직접 생성후 저장)
             MatchEntity matchEntity = new MatchEntity(
                     extractedMatchDto.matchId(),
                     extractedMatchDto.gameDuration(),
                     extractedMatchDto.gamemode(),
-                    extractedMatchDto.gameCreation()  // 이제 gameCreation은 long 타입이어야 함
+                    extractedMatchDto.gameCreation()
             );
             matchRepository.save(matchEntity);
-            System.out.println("Saved MatchEntity: " + matchEntity);
-
-            // 2. TeamEntity 변환 및 저장
-            // TeamEntity의 생성자는 (matchId, teamType, win, bans, baronKills, championKills, dragonKills, hordeKills, inhibitorKills, riftHeraldKills, towerKills, MatchEntity) 를 받습니다.
-            List<TeamEntity> teamEntities = new ArrayList<>();
-            for (TeamDTO teamDTO : extractedTeamList) {
-                TeamEntity teamEntity = new TeamEntity(
-                        teamDTO.matchId(),
-                        teamDTO.teamType(),   // 이미 "blue" 또는 "red"로 결정됨
-                        teamDTO.win(),
-                        teamDTO.bans(),
-                        teamDTO.baronKills(),
-                        teamDTO.championKills(),
-                        teamDTO.dragonKills(),
-                        teamDTO.hordeKills(),
-                        teamDTO.inhibitorKills(),
-                        teamDTO.riftHeraldKills(),
-                        teamDTO.towerKills(),
-                        matchEntity
-                );
-                teamEntities.add(teamEntity);
-            }
+            //  DB 저장 처리(Team map으로 리스트생성후 한번에 저장)
+            List<TeamEntity> teamEntities = extractedTeamList.stream().map(dto ->
+                    new TeamEntity(
+                            dto.matchId(), dto.teamType(), dto.win(), dto.bans(),
+                            dto.baronKills(), dto.championKills(), dto.dragonKills(), dto.hordeKills(),
+                            dto.inhibitorKills(), dto.riftHeraldKills(), dto.towerKills(),
+                            matchEntity
+                    )
+            ).toList();
             teamRepository.saveAll(teamEntities);
-            System.out.println("Saved TeamEntities: " + teamEntities);
-
-            // 3. PlayerEntity 변환 및 저장
-            List<PlayerEntity> playerEntities = new ArrayList<>();
-            for (PlayerDTO playerDTO : extractedPlayerList) {
-                PlayerEntity playerEntity = new PlayerEntity(
-                        playerDTO.matchId(),
-                        playerDTO.teamType(),
-                        playerDTO.riotIdGameName(),
-                        playerDTO.championId(),
-                        playerDTO.damageDealtToBuildings(),
-                        playerDTO.goldEarned(),
-                        playerDTO.individualPosition(),
-                        playerDTO.item0(),
-                        playerDTO.item1(),
-                        playerDTO.item2(),
-                        playerDTO.item3(),
-                        playerDTO.item4(),
-                        playerDTO.item5(),
-                        playerDTO.item6(),
-                        playerDTO.kills(),
-                        playerDTO.deaths(),
-                        playerDTO.assists(),
-                        playerDTO.kda(),
-                        playerDTO.riotIdTagline(),
-                        playerDTO.summoner1Id(),
-                        playerDTO.summoner2Id(),
-                        playerDTO.teamPosition(),
-                        playerDTO.totalDamageDealtToChampions(),
-                        playerDTO.totalDamageTaken(),
-                        playerDTO.totalHealsOnTeammates(),
-                        playerDTO.totalMinionsKilled(),
-                        playerDTO.visionScore(),
-                        playerDTO.visionWardsBoughtInGame(),
-                        playerDTO.wardsPlaced(),
-                        playerDTO.wardsKilled(),
-                        playerDTO.win(),
-                        matchEntity   // 연관된 MatchEntity 설정
-                );
-                playerEntities.add(playerEntity);
-            }
+//  DB 저장 처리(Player map으로 리스트생성후 한번에 저장)
+            List<PlayerEntity> playerEntities = extractedPlayerList.stream().map(dto ->
+                    new PlayerEntity(
+                            dto.matchId(), dto.teamType(), dto.riotIdGameName(), dto.championId(),
+                            dto.damageDealtToBuildings(), dto.goldEarned(), dto.individualPosition(),
+                            dto.item0(), dto.item1(), dto.item2(), dto.item3(), dto.item4(), dto.item5(), dto.item6(),
+                            dto.kills(), dto.deaths(), dto.assists(), dto.kda(), dto.riotIdTagline(),
+                            dto.summoner1Id(), dto.summoner2Id(), dto.teamPosition(), dto.totalDamageDealtToChampions(),
+                            dto.totalDamageTaken(), dto.totalHealsOnTeammates(), dto.totalMinionsKilled(),
+                            dto.visionScore(), dto.visionWardsBoughtInGame(), dto.wardsPlaced(), dto.wardsKilled(),
+                            dto.win(), matchEntity
+                    )
+            ).toList();
             playerRepository.saveAll(playerEntities);
-            System.out.println("Saved PlayerEntities: " + playerEntities);
+
+
+
+            System.out.println(" 경기 저장 완료");
+
         } catch (Exception e) {
-            System.err.println("API 응답 파싱 에러: " + e.getMessage());
-            e.printStackTrace();
+
+            System.err.println(" Riot API 응답 파싱 에러: " + e.getMessage());
+            // 클라이언트한테 반환되는 에러 메시지
+            throw new IllegalArgumentException("본인의 전적이 아니므로 저장할 수 없습니다.");
+
+
         }
     }
 }
+
+

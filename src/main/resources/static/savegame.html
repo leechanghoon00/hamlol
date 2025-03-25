@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>게임코드 등록</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" defer></script>
     <style>
         body {
             margin: 0;
@@ -119,18 +119,23 @@
         $.ajax({
             url: '/api/game/save',
             type: 'POST',
-            data: JSON.stringify(gameData), // 🔥 여기 정확히 수정
+            data: JSON.stringify(gameData),
             contentType: 'application/json',
             headers: {
                 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') // JWT 헤더 포함 필수
             },
             success: function(response) {
-                alert('성공적으로 저장되었습니다!');
-                loadPageWithJWT('/main.html', '/main.html'); // 등록 성공 후 메인으로 이동
+                alert(response);
+                loadPageWithJWT('/main.html', '/main.html');
             },
+
             error: function(xhr) {
-                alert('저장 실패: ' + xhr.status);
+                alert(xhr.responseText);
+
             }
+
+
+
         });
     });
 </script>

@@ -97,7 +97,9 @@
         </form>
         <div class="hr"></div>
         <div class="foot-lnk">
-            <a href="/main" style="color:#fff;">메인 페이지로 돌아가기</a>
+
+            <a href="#" onclick="loadPageWithJWT('/main.html', '/main.html'); return false;">메인 페이지로 돌아가기</a>
+
         </div>
     </div>
 </div>
@@ -133,7 +135,9 @@
             },
             data: JSON.stringify(lolname),
             success: function(response) {
-                alert("계정 연동 성공: " + response);
+                alert("계정 연동 성공" );
+                // 성공후 main.html로 연결
+                window.location.href = "/main.html";
             },
             error: function(xhr) {
                 const message = xhr.responseText || "계정 연동에 실패했습니다.";

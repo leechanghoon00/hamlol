@@ -5,7 +5,6 @@ import org.example.hamlol.dto.PlayerDTO;
 import org.example.hamlol.dto.TeamDTO;
 
 import java.util.List;
-import java.util.Map;
 
 public interface SaveGameService {
     void saveGame(MatchDTO matchDTO, List<TeamDTO> teamDTOs, List<PlayerDTO> playerDTOs);

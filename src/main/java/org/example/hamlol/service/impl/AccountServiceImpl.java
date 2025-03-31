@@ -32,23 +32,26 @@ public class AccountServiceImpl implements AccountService {
     private UserRepository userRepository;
     @Autowired
     private RestTemplate restTemplate;// HTTP 요청을 외부 API에 보낼떄 사용하는 객체
+    @Autowired
+    private final ApiKeyProvider apiKeyProvider;
+
 
     // 라이엇 api에 요청하는 값
 //    private static final String RIOT_API_URL = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}";
     private  static final String RIOT_API_URL = RiotUrlApi.FIND_BY_PUUID.getUrl();
 
-    @Autowired
-    private ApiKeyRepository apiKeyRepository;
-    @Autowired
-    private ApiKeyProvider singletone;
 
     // 생성자 주입을 통해 명시적으로 의존성을 주입받음 (테스트와 유지보수에 유리)
-    public AccountServiceImpl(AccountRepository accountRepository, RestTemplate restTemplate) {
-        this.accountRepository = accountRepository; //전달받은 accountRepository를 인스턴스를 클래스의 필드로 할등
+    @Autowired
+    public AccountServiceImpl(AccountRepository accountRepository,
+                              UserRepository userRepository,
+                              RestTemplate restTemplate,
+                              ApiKeyProvider apiKeyProvider) {
+        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
         this.restTemplate = restTemplate;
-
+        this.apiKeyProvider = apiKeyProvider;
     }
-
 
     @Override
     // AccountRequestDto를 받아 Riotapi로부터 계정정보 조회후 저장하고  AccountResponseDTO 형태로 반환
@@ -56,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
 // throws Exception : 메소드 실행 도중 발생할 수 있는 예외를 전달함
 
         // api키 가져오기
-        String apiKey = ApiKeyProvider.getApiKey();
+        String apiKey = apiKeyProvider.getApiKey();
 
         // URI 빌더를 사용하여 Riot API 요청 URL 생성 (경로 변수 적용)
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.

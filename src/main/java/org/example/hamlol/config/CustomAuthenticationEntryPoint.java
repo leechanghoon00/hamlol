@@ -1,4 +1,4 @@
-package org.example.hamlol.security;
+package org.example.hamlol.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;

@@ -26,8 +26,8 @@ public class SecurityConfig {
 
     private final UserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
-private final org.example.hamlol.security.CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
-    public SecurityConfig(@Lazy UserService userService, JwtTokenProvider jwtTokenProvider, org.example.hamlol.security.CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
+private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    public SecurityConfig(@Lazy UserService userService, JwtTokenProvider jwtTokenProvider, org.example.hamlol.config.CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.userDetailsService = userService;
         this.jwtTokenProvider = jwtTokenProvider;
         this.customAuthenticationEntryPoint = customAuthenticationEntryPoint;

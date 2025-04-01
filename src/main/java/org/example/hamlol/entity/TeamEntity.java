@@ -12,9 +12,13 @@ import java.util.List;
 public class TeamEntity {
 
 
-
-
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "team_id")
+    private Long teamId;
+
+
+
     @Column(name = "team_type", nullable = false)
     private String teamType;  // 'blue' 또는 'red'
 

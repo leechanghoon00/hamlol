@@ -117,6 +117,7 @@ public class PlayerEntity {
     private TeamEntity team;
 
 
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id", insertable = false, updatable = false)
     private MatchEntity match;
@@ -168,5 +169,8 @@ public class PlayerEntity {
 
     public PlayerEntity() {
 
+    }
+
+    public void setTeam(TeamEntity team) {
     }
 }

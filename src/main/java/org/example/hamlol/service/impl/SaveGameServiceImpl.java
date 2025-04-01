@@ -244,5 +244,3 @@ public class SaveGameServiceImpl implements SaveGameService {
         }
     }
 }
-
-

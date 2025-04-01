@@ -27,7 +27,7 @@ public class TeamEntity {
 
     // 'blue' 또는 'red'
     @Column(name = "win")
-    private Boolean win;
+    private String win;
 
     @Column(name = "bans")
     private String bans; // JSON 문자열
@@ -63,7 +63,7 @@ public class TeamEntity {
     @OneToMany(mappedBy = "team")
     private List<PlayerEntity> players;
 
-    public TeamEntity(String matchId, String teamType, Boolean win, String bans,
+    public TeamEntity(String matchId, String teamType, String win, String bans,
                       Integer baronKills, Integer championKills, Integer dragonKills,
                       Integer hordeKills, Integer inhibitorKills, Integer riftHeraldKills,
                       Integer towerKills, MatchEntity match) {

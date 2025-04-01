@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -105,17 +108,41 @@ public class SaveGameServiceImpl implements SaveGameService {
             JsonNode info = root.get("info");
             JsonNode metadata = root.get("metadata");
 
-            // 전적 기본 정보 추출하기
+// 전적 기본 정보 추출하기
             String extractedMatchId = metadata.get("matchId").asText();
-            int gameDuration = info.get("gameDuration").asInt();
-            String gamemode = info.get("gameMode").asText();
-            // "gameCreation" 필드는 값이 클 수 있으므로 long으로 처리하고, 없으면 0L로 처리
-            long gameCreation = info.has("gameCreation") ? info.get("gameCreation").asLong() : 0L;
+            int gameDurationSeconds = info.get("gameDuration").asInt();
+            String gamemode = info.get("gameMode").asText();  // 여기서 변수 선언
+            long gameCreationEpochMillis = info.has("gameCreation") ? info.get("gameCreation").asLong() : 0L;
+
+            // gamemode 변환
+            String changegamemode;
+            if (gamemode.equalsIgnoreCase("CLASSIC")) {
+                changegamemode = "소환사 협곡";
+            } else if (gamemode.equalsIgnoreCase("ARAM")) {
+                changegamemode = "칼바람나락";
+            } else {
+                changegamemode = gamemode; // 다른 값은 그대로 사용
+            }
+
+// gameCreation: 밀리초 값을 KST(LocalDateTime)로 변환
+            LocalDateTime gameCreationKST = Instant.ofEpochMilli(gameCreationEpochMillis)
+                    .atZone(ZoneId.of("Asia/Seoul"))
+                    .toLocalDateTime();
+
+// gameDuration: 초 단위를 분과 초로 분리하여 포맷된 문자열 생성
+            int minutes = gameDurationSeconds / 60;
+            int seconds = gameDurationSeconds % 60;
+            String formattedDuration = String.format("%d분 %d초", minutes, seconds);
+
+
+
+
+
+
 
 
             // 새로운 match dto 생성
-            MatchDTO extractedMatchDto = new MatchDTO(extractedMatchId, (long) gameDuration, gamemode, gameCreation);
-            System.out.println("추출된 MatchDTO: " + extractedMatchDto);
+            MatchDTO extractedMatchDto = new MatchDTO(extractedMatchId, (long) gameDurationSeconds, changegamemode, gameCreationKST);
 
             // 참가자 정보 추출 + 사용자와 연동된 게임이름 포함여부 확인
             List<PlayerDTO> extractedPlayerList = new ArrayList<>();
@@ -179,11 +206,13 @@ public class SaveGameServiceImpl implements SaveGameService {
             if (teamsNode != null && teamsNode.isArray()) {
                 for (JsonNode team : teamsNode) {
                     String teamType = team.get("teamId").asInt() == 100 ? "blue" : "red";
+                    boolean winBoolean = team.get("win").asBoolean(false);
+                    String winResult = winBoolean ? "승리" : "패배";
                     TeamDTO teamDto = new TeamDTO(
                             extractedMatchId,
                             teamType,
                             team.get("teamId").asInt(),
-                            team.get("win").asBoolean(false),
+                            winResult,
                             team.get("bans").toString(),
                             team.get("objectives").get("baron").get("kills").asInt(0),
                             team.get("objectives").get("champion").get("kills").asInt(0),
@@ -199,10 +228,10 @@ public class SaveGameServiceImpl implements SaveGameService {
 
             //  DB 저장 처리(Match entity를 직접 생성후 저장)
             MatchEntity matchEntity = new MatchEntity(
-                    extractedMatchDto.matchId(),
-                    extractedMatchDto.gameDuration(),
-                    extractedMatchDto.gamemode(),
-                    extractedMatchDto.gameCreation()
+                    extractedMatchId,
+                    formattedDuration,
+                    changegamemode,
+                    gameCreationKST
             );
             matchRepository.save(matchEntity);
             //  DB 저장 처리(Team map으로 리스트생성후 한번에 저장)

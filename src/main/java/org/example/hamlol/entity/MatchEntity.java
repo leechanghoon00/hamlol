@@ -3,7 +3,6 @@ package org.example.hamlol.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,13 +14,13 @@ public class MatchEntity {
     private String matchId;
 
     @Column(name = "gameDuration")
-    private String gameDuration;
+    private Long gameDuration;
 
     @Column(name = "gamemode")
     private String gamemode;
 
     @Column(name = "gameCreation")
-    private LocalDateTime gameCreation;
+    private Long gameCreation;
 
     @OneToMany(mappedBy = "match")
     private List<TeamEntity> teams;
@@ -29,7 +28,7 @@ public class MatchEntity {
     @OneToMany(mappedBy = "match")
     private List<PlayerEntity> players;
 
-    public MatchEntity(String matchId, String gameDuration, String gamemode, LocalDateTime gameCreation) {
+    public MatchEntity(String matchId, Long gameDuration, String gamemode, Long gameCreation) {
         this.matchId = matchId;
         this.gameDuration = gameDuration;
         this.gamemode = gamemode;

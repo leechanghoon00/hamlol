@@ -128,6 +128,40 @@ public class SaveGameServiceImpl implements SaveGameService {
                 for (JsonNode participant : participantsNode) {
                     String riotIdGameName = participant.get("riotIdGameName").asText("");
 
+
+                    //JSON에서  "perk" 필드를 추출함
+                    JsonNode perksNode = participant.get("perks");
+                    // 주룬과 보조룬에 해당하는 perk값을 null로 초기화해서 비워둠
+                    String primaryStyle1 = null, primaryStyle2 = null, primaryStyle3 = null, primaryStyle4 = null;
+                    String subStyle1 = null, subStyle2 = null;
+                    // 만약 null이 아니라면 실행ㅎ함
+                    if (perksNode != null) {
+                        // styles 필드 추출
+                        JsonNode stylesNode = perksNode.get("styles");
+                        // null이 아니며 배열 타입인지 확인
+                        if (stylesNode != null && stylesNode.isArray()) {
+                            //style 배열을 순회함
+                            for (JsonNode styleNode : stylesNode) {
+                                //      description필드를 읽어 주룬 배열인지 부룬 배열인지 확인함
+                                String description = styleNode.get("description").asText();
+                                // selections 필드를 가져옴 이 필드안에는 룬 정보(perk 항목)들이 있음
+                                JsonNode selections = styleNode.get("selections");
+                                // 만약 description가 primaryStyle이고 크기가 4이상이면 실행
+                                if ("primaryStyle".equals(description) && selections != null && selections.isArray() && selections.size() >= 4) {
+                                    // 배열 첫번쨰 값부터 변수에 저장
+                                    primaryStyle1 = selections.get(0).get("perk").asText();
+                                    primaryStyle2 = selections.get(1).get("perk").asText();
+                                    primaryStyle3 = selections.get(2).get("perk").asText();
+                                    primaryStyle4 = selections.get(3).get("perk").asText();
+                                    // 그리고 만약 description가 subStyle이고 크기가 2 이상이면 실행
+                                } else if ("subStyle".equals(description) && selections != null && selections.isArray() && selections.size() >= 2) {
+                                    // 배열 첫번쨰 값부터 변수에 저장
+                                    subStyle1 = selections.get(0).get("perk").asText();
+                                    subStyle2 = selections.get(1).get("perk").asText();
+                                }
+                            }
+                        }
+                    }
                     // 닉이 일치하면 저장 조건넣기
                     if (myGamenames.contains(riotIdGameName)) {
                         isMatchFound = true;
@@ -137,7 +171,7 @@ public class SaveGameServiceImpl implements SaveGameService {
                             extractedMatchId,
                             (participant.get("teamId").asInt(100) == 100) ? "blue" : "red",
                             riotIdGameName,
-                            participant.get("championId").asText(),
+                            participant.get("championName").asText(),
                             participant.get("damageDealtToBuildings").asInt(0),
                             participant.get("goldEarned").asInt(0),
                             participant.get("individualPosition").asText("")
@@ -162,7 +196,13 @@ public class SaveGameServiceImpl implements SaveGameService {
                             participant.get("visionWardsBoughtInGame").asInt(0),
                             participant.get("wardsPlaced").asInt(0),
                             participant.get("wardsKilled").asInt(0),
-                            participant.get("win").asBoolean(false)
+                            participant.get("win").asBoolean(false),
+                            primaryStyle1,
+                            primaryStyle2,
+                            primaryStyle3,
+                            primaryStyle4,
+                            subStyle1,
+                            subStyle2
                     );
                     extractedPlayerList.add(playerDto);
                 }
@@ -218,14 +258,15 @@ public class SaveGameServiceImpl implements SaveGameService {
 //  DB 저장 처리(Player map으로 리스트생성후 한번에 저장)
             List<PlayerEntity> playerEntities = extractedPlayerList.stream().map(dto ->
                     new PlayerEntity(
-                            dto.matchId(), dto.teamType(), dto.riotIdGameName(), dto.championId(),
+                            dto.matchId(), dto.teamType(), dto.riotIdGameName(), dto.championName(),
                             dto.damageDealtToBuildings(), dto.goldEarned(), dto.individualPosition(),
                             dto.item0(), dto.item1(), dto.item2(), dto.item3(), dto.item4(), dto.item5(), dto.item6(),
                             dto.kills(), dto.deaths(), dto.assists(), dto.kda(), dto.riotIdTagline(),
                             dto.summoner1Id(), dto.summoner2Id(), dto.teamPosition(), dto.totalDamageDealtToChampions(),
                             dto.totalDamageTaken(), dto.totalHealsOnTeammates(), dto.totalMinionsKilled(),
                             dto.visionScore(), dto.visionWardsBoughtInGame(), dto.wardsPlaced(), dto.wardsKilled(),
-                            dto.win(), matchEntity
+                            dto.win(),dto.primaryStyle1(),dto.primaryStyle2(), dto.primaryStyle3(), dto.primaryStyle4(),
+                            dto.subStyle1(), dto.subStyle2(), matchEntity
                     )
             ).toList();
             playerRepository.saveAll(playerEntities);

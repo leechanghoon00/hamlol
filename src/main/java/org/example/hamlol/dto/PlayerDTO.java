@@ -4,7 +4,7 @@ public record PlayerDTO(
         String matchId,                           // 매치 ID (외래키)
         String teamType,                          // 팀 타입 ('blue' 또는 'red')
         String riotIdGameName,                    // 참가자 롤 닉네임 (PK)
-        String championId,                        // 플레이한 챔피언의 ID
+        String championName,                        // 플레이한 챔피언의 ID
         Integer damageDealtToBuildings,           // 타워 딜량
         Integer goldEarned,                       // 획득 골드
         String individualPosition,                // 개별 포지션
@@ -31,5 +31,11 @@ public record PlayerDTO(
         Integer visionWardsBoughtInGame,          // 구매한 제어 와드 수
         Integer wardsPlaced,                      // 설치한 와드 수
         Integer wardsKilled,                      // 파괴한 와드 수
-        Boolean win                               // 승리 여부
+        Boolean win   ,                            // 승리 여부
+        String primaryStyle1,//주룬 1
+        String primaryStyle2,//주룬 2
+        String primaryStyle3,//주룬 3
+        String primaryStyle4,//주룬 4
+        String subStyle1, //부룬1
+        String subStyle2 //부룬 2
 ) {}

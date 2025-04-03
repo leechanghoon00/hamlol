@@ -26,8 +26,8 @@ public class PlayerEntity {
     private String teamType;
 
 
-    @Column(name = "champion_id")
-    private String championId;
+    @Column(name = "champion_name")
+    private String championName;
 
     @Column(name = "damage_dealt_to_buildings")
     private Integer damageDealtToBuildings;
@@ -109,7 +109,23 @@ public class PlayerEntity {
 
     @Column(name = "win")
     private Boolean win;
+    @Column(name = "primary_style1")
+    private String primaryStyle1;
 
+    @Column(name = "primary_style2")
+    private String primaryStyle2;
+
+    @Column(name = "primary_style3")
+    private String primaryStyle3;
+
+    @Column(name = "primary_style4")
+    private String primaryStyle4;
+
+    @Column(name = "sub_style1")
+    private String subStyle1;
+
+    @Column(name = "sub_style2")
+    private String subStyle2;
 
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -124,7 +140,7 @@ public class PlayerEntity {
 
 
 
-    public PlayerEntity(String matchId, String teamType, String riotIdGameName, String championId,
+    public PlayerEntity(String matchId, String teamType, String riotIdGameName, String championName,
                         Integer damageDealtToBuildings, Integer goldEarned, String individualPosition,
                         String item0, String item1, String item2, String item3, String item4,
                         String item5, String item6, Integer kills, Integer deaths, Integer assists,
@@ -132,11 +148,13 @@ public class PlayerEntity {
                         String teamPosition, Integer totalDamageDealtToChampions, Integer totalDamageTaken,
                         Integer totalHealsOnTeammates, Integer totalMinionsKilled, Integer visionScore,
                         Integer visionWardsBoughtInGame, Integer wardsPlaced, Integer wardsKilled,
-                        Boolean win, MatchEntity match) {
+                        Boolean win, String primaryStyle1, String primaryStyle2, String primaryStyle3,
+                        String primaryStyle4, String subStyle1, String subStyle2,
+                        MatchEntity match) {
         this.matchId = matchId;
         this.teamType = teamType;
         this.riotIdGameName = riotIdGameName;
-        this.championId = championId;
+        this.championName = championName;
         this.damageDealtToBuildings = damageDealtToBuildings;
         this.goldEarned = goldEarned;
         this.individualPosition = individualPosition;
@@ -164,6 +182,12 @@ public class PlayerEntity {
         this.wardsPlaced = wardsPlaced;
         this.wardsKilled = wardsKilled;
         this.win = win;
+        this.primaryStyle1 = primaryStyle1;
+        this.primaryStyle2 = primaryStyle2;
+        this.primaryStyle3 = primaryStyle3;
+        this.primaryStyle4 = primaryStyle4;
+        this.subStyle1 = subStyle1;
+        this.subStyle2 = subStyle2;
         this.match = match;
     }
 

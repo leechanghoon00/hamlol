@@ -138,108 +138,130 @@ public class SaveGameServiceImpl implements SaveGameService {
                     String riotIdGameName = participant.get("riotIdGameName").asText("");
 
 
-                    //JSON에서  "perk" 필드를 추출함
-                    JsonNode perksNode = participant.get("perks");
-                    // 주룬과 보조룬에 해당하는 perk값을 null로 초기화해서 비워둠
-                    String primaryStyle1 = null, primaryStyle2 = null, primaryStyle3 = null, primaryStyle4 = null;
-                    String subStyle1 = null, subStyle2 = null;
-                    // 만약 null이 아니라면 실행ㅎ함
-                    if (perksNode != null) {
-                        // styles 필드 추출
-                        JsonNode stylesNode = perksNode.get("styles");
-                        // null이 아니며 배열 타입인지 확인
-                        if (stylesNode != null && stylesNode.isArray()) {
-                            //style 배열을 순회함
-                            for (JsonNode styleNode : stylesNode) {
-                                //      description필드를 읽어 주룬 배열인지 부룬 배열인지 확인함
-                                String description = styleNode.get("description").asText();
-                                // selections 필드를 가져옴 이 필드안에는 룬 정보(perk 항목)들이 있음
-                                JsonNode selections = styleNode.get("selections");
 
 
-                                // 만약 description가 primaryStyle이고 크기가 4이상이면 실행
-                                if ("primaryStyle".equals(description) && selections != null && selections.isArray() && selections.size() >= 4) {
-                                                                        // 배열 첫번쨰 값부터 변수에 저장
-                                    primaryStyle1 = selections.get(0).get("perk").asText();
-                                    primaryStyle2 = selections.get(1).get("perk").asText();
-                                    primaryStyle3 = selections.get(2).get("perk").asText();
-                                    primaryStyle4 = selections.get(3).get("perk").asText();
-                                    //runData라는 변수를 선언하고 JSON데이터를 저장하기위한 용도임
-                                    JsonNode runesData = null;
-                                    try{
-                                        System.out.println("1: " + primaryStyle1
-                                                + ", 2: " + primaryStyle2
-                                                + ", 3: " + primaryStyle3
-                                                + ", 4: " + primaryStyle4);
-                                        URL runsurl = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
-                                        ObjectMapper mapper = new ObjectMapper();
-                                        // 저장할변수 선언
-                                        String icon1 = null, icon2 = null, icon3 = null, icon4 = null;
-                                        JsonNode runsData = mapper.readTree(runsurl);
-                                        System.out.println(runsData);
-                                        //runsData가 배열인지 확인
-                                        if(runsData.isArray()) {
-                                            // 배열인지 확인됬으니까 룬트리로 나타냄
-                                            for (JsonNode runTree : runsData) {
-                                                // 룬정보 들어오나 확인 = 들어옴
-                                                System.out.println("1: " + primaryStyle1
-                                                        + ", 2: " + primaryStyle2
-                                                        + ", 3: " + primaryStyle3
-                                                        + ", 4: " + primaryStyle4);
-                                                //slots로 필드 나눔
-                                                JsonNode slots = runTree.get("slots");
-                                                if (slots != null && slots.isArray()) {
-                                                    // 각 슬롯을 순회합니다.
-                                                    for (JsonNode slot : slots) {
-                                                        // 슬롯 안의 "runes" 배열을 추출합니다.
-                                                        JsonNode runes = slot.get("runes");
-                                                        // runes가 null값인지확인
-                                                        if (runes != null && runes.isArray()) {
-                                                            // 각 룬을 순회하면서 id와 icon 정보를 추출합니다.
-                                                            for (JsonNode rune : runes) {
-                                                                String id = rune.get("id").asText();
-                                                                String icon = rune.get("icon").asText();
-                                                                // primaryStyle 와 비교해서 값이 같으면 icon저장
-                                                                if (primaryStyle1 != null && primaryStyle1.equals(id)) {
-                                                                    icon1 = icon;
-                                                                }
-                                                                if (primaryStyle2 != null && primaryStyle2.equals(id)) {
-                                                                    icon2 = icon;
-                                                                }
-                                                                if (primaryStyle3 != null && primaryStyle3.equals(id)) {
-                                                                    icon3 = icon;
-                                                                }
-                                                                if (primaryStyle4 != null && primaryStyle4.equals(id)) {
-                                                                    icon4 = icon;
-                                                                }
-                                                            }
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                            primaryStyle1 = icon1;
-                                            primaryStyle2 = icon2;
-                                            primaryStyle3 = icon3;
-                                            primaryStyle4 = icon4;
-                                        }
-
-                                        System.out.println("icon 1"+primaryStyle1+"icon2"+primaryStyle2+"icon3"+primaryStyle3+"icon4"+primaryStyle4);
 
 
-                                    } catch (IOException e) {
-                                        throw new RuntimeException(e);
-                                    }
 
 
-                                    // 그리고 만약 description가 subStyle이고 크기가 2 이상이면 실행
-                                } else if ("subStyle".equals(description) && selections != null && selections.isArray() && selections.size() >= 2) {
-                                    // 배열 첫번쨰 값부터 변수에 저장
-                                    subStyle1 = selections.get(0).get("perk").asText();
-                                    subStyle2 = selections.get(1).get("perk").asText();
-                                }
-                            }
-                        }
-                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//                    //JSON에서  "perk" 필드를 추출함
+//                    JsonNode perksNode = participant.get("perks");
+//                    // 주룬과 보조룬에 해당하는 perk값을 null로 초기화해서 비워둠
+//                    String primaryStyle1 = null, primaryStyle2 = null, primaryStyle3 = null, primaryStyle4 = null;
+//                    String subStyle1 = null, subStyle2 = null;
+//                    // 만약 null이 아니라면 실행ㅎ함
+//                    if (perksNode != null) {
+//                        // styles 필드 추출
+//                        JsonNode stylesNode = perksNode.get("styles");
+//                        // null이 아니며 배열 타입인지 확인
+//                        if (stylesNode != null && stylesNode.isArray()) {
+//                            //style 배열을 순회함
+//                            for (JsonNode styleNode : stylesNode) {
+//                                //      description필드를 읽어 주룬 배열인지 부룬 배열인지 확인함
+//                                String description = styleNode.get("description").asText();
+//                                // selections 필드를 가져옴 이 필드안에는 룬 정보(perk 항목)들이 있음
+//                                JsonNode selections = styleNode.get("selections");
+//
+//
+//                                // 만약 description가 primaryStyle이고 크기가 4이상이면 실행
+//                                if ("primaryStyle".equals(description) && selections != null && selections.isArray() && selections.size() >= 4) {
+//                                                                        // 배열 첫번쨰 값부터 변수에 저장
+//                                    primaryStyle1 = selections.get(0).get("perk").asText();
+//                                    primaryStyle2 = selections.get(1).get("perk").asText();
+//                                    primaryStyle3 = selections.get(2).get("perk").asText();
+//                                    primaryStyle4 = selections.get(3).get("perk").asText();
+//                                    //runData라는 변수를 선언하고 JSON데이터를 저장하기위한 용도임
+//                                    JsonNode runesData = null;
+//                                    try{
+//                                        System.out.println("1: " + primaryStyle1
+//                                                + ", 2: " + primaryStyle2
+//                                                + ", 3: " + primaryStyle3
+//                                                + ", 4: " + primaryStyle4);
+//                                        URL runsurl = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
+//                                        ObjectMapper mapper = new ObjectMapper();
+//                                        // 저장할변수 선언
+//                                        String icon1 = null, icon2 = null, icon3 = null, icon4 = null;
+//                                        JsonNode runsData = mapper.readTree(runsurl);
+//                                        System.out.println(runsData);
+//                                        //runsData가 배열인지 확인
+//                                        if(runsData.isArray()) {
+//                                            // 배열인지 확인됬으니까 룬트리로 나타냄
+//                                            for (JsonNode runTree : runsData) {
+//                                                // 룬정보 들어오나 확인 = 들어옴
+//                                                System.out.println("1: " + primaryStyle1
+//                                                        + ", 2: " + primaryStyle2
+//                                                        + ", 3: " + primaryStyle3
+//                                                        + ", 4: " + primaryStyle4);
+//                                                //slots로 필드 나눔
+//                                                JsonNode slots = runTree.get("slots");
+//                                                if (slots != null && slots.isArray()) {
+//                                                    // 각 슬롯을 순회합니다.
+//                                                    for (JsonNode slot : slots) {
+//                                                        // 슬롯 안의 "runes" 배열을 추출합니다.
+//                                                        JsonNode runes = slot.get("runes");
+//                                                        // runes가 null값인지확인
+//                                                        if (runes != null && runes.isArray()) {
+//                                                            // 각 룬을 순회하면서 id와 icon 정보를 추출합니다.
+//                                                            for (JsonNode rune : runes) {
+//                                                                String id = rune.get("id").asText();
+//                                                                String icon = rune.get("icon").asText();
+//                                                                // primaryStyle 와 비교해서 값이 같으면 icon저장
+//                                                                if (primaryStyle1 != null && primaryStyle1.equals(id)) {
+//                                                                    icon1 = icon;
+//                                                                }
+//                                                                if (primaryStyle2 != null && primaryStyle2.equals(id)) {
+//                                                                    icon2 = icon;
+//                                                                }
+//                                                                if (primaryStyle3 != null && primaryStyle3.equals(id)) {
+//                                                                    icon3 = icon;
+//                                                                }
+//                                                                if (primaryStyle4 != null && primaryStyle4.equals(id)) {
+//                                                                    icon4 = icon;
+//                                                                }
+//                                                            }
+//                                                        }
+//                                                    }
+//                                                }
+//                                            }
+//                                            primaryStyle1 = icon1;
+//                                            primaryStyle2 = icon2;
+//                                            primaryStyle3 = icon3;
+//                                            primaryStyle4 = icon4;
+//                                        }
+//
+//                                        System.out.println("icon 1"+primaryStyle1+"icon2"+primaryStyle2+"icon3"+primaryStyle3+"icon4"+primaryStyle4);
+//
+//
+//                                    } catch (IOException e) {
+//                                        throw new RuntimeException(e);
+//                                    }
+//
+//
+//                                    // 그리고 만약 description가 subStyle이고 크기가 2 이상이면 실행
+//                                } else if ("subStyle".equals(description) && selections != null && selections.isArray() && selections.size() >= 2) {
+//                                    // 배열 첫번쨰 값부터 변수에 저장
+//                                    subStyle1 = selections.get(0).get("perk").asText();
+//                                    subStyle2 = selections.get(1).get("perk").asText();
+//                                }
+//                            }
+//                        }
+//                    }
                     // 닉이 일치하면 저장 조건넣기
                     if (myGamenames.contains(riotIdGameName)) {
                         isMatchFound = true;
@@ -275,12 +297,12 @@ public class SaveGameServiceImpl implements SaveGameService {
                             participant.get("wardsPlaced").asInt(0),
                             participant.get("wardsKilled").asInt(0),
                             participant.get("win").asBoolean(false),
-                            primaryStyle1,
-                            primaryStyle2,
-                            primaryStyle3,
-                            primaryStyle4,
-                            subStyle1,
-                            subStyle2
+//                            primaryStyle1,
+//                            primaryStyle2,
+//                            primaryStyle3,
+//                            primaryStyle4,
+//                            subStyle1,
+//                            subStyle2
                     );
                     extractedPlayerList.add(playerDto);
                 }

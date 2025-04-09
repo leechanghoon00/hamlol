@@ -202,90 +202,120 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     primaryStyle3 = selections.get(2).get("perk").asText();
                                     primaryStyle4 = selections.get(3).get("perk").asText();
                                     // 룬 사진주소 넣기
-                                    // runData라는 변수를 선언하고 JSON데이터를 저장하기 위한 용도임
-//                                    JsonNode runesData = null;
-
                                     try{
-                                        // URL 생성
-                                        URL runsurl = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
-                                        //ObjectMapper(jav객체를 ->Json으로 or Json-> Java객체로 바꿔줌) 를이용해서 URL로받은 정보를
+                                        URL runURL = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
                                         ObjectMapper mapper = new ObjectMapper();
-                                        // 저장할변수 선언
-                                        String icon1 = null, icon2 = null, icon3 = null, icon4 = null;
+                                        JsonNode runData = mapper.readTree(runURL);
+                                        String icon1 = null,icon2 = null, icon3 = null, icon4 = null;
 
-                                        JsonNode runsData = mapper.readTree(runsurl);
-                                        System.out.println(runsData);
-                                        //runsData가 배열인지 확인
-                                        if(runsData.isArray()) {
-                                            // 배열인지 확인됬으니까 룬트리로 나타냄 runTree(룬URL JSON)
-                                            for (JsonNode runTree : runsData) {
-                                                // 룬정보 들어오나 확인 = 들어옴
-                                                System.out.println("룬 1: " + primaryStyle1
-                                                        + ", 룬 2: " + primaryStyle2
-                                                        + ", 룬 3: " + primaryStyle3
-                                                        + ", 룬 4: " + primaryStyle4);
+                                        for (JsonNode runTree : runData){
+                                            JsonNode slots = runTree.get("slots");
+                                            for (JsonNode slot : slots){
+                                                JsonNode runes = runTree.get("runes");
+                                                for (JsonNode rune : runes){
+                                                    String id = rune.get("id").asText();
+                                                    String icon = rune.get("id").asText();
 
-
-
-                                                //slots로 필드 나눔
-                                                JsonNode slots = runTree.get("slots");
-
-
-
-                                                if (slots != null && slots.isArray()) {
-                                                    // 각 슬롯을 순회합니다.
-                                                    for (JsonNode slot : slots) {
-                                                        // 슬롯 안의 "runes" 배열을 추출합니다.
-                                                        JsonNode runes = slot.get("runes");
-                                                        if (runes != null && runes.isArray()) {
-                                                            // 각 룬을 순회하면서 id와 icon 정보를 추출합니다.
-                                                            for (JsonNode rune : runes) {
-                                                                System.out.println("룬 1: " + primaryStyle1
-                                                                        + ", 룬 2: " + primaryStyle2
-                                                                        + ", 룬 3: " + primaryStyle3
-                                                                        + ", 룬 4: " + primaryStyle4);
-
-                                                                String id = rune.get("id").asText();
-                                                                String icon = rune.get("icon").asText();
-
-                                                                // primaryStyle 와 비교해서 값이 같으면 icon저장
-                                                                if (primaryStyle1 != null && primaryStyle1.equals(id)) {
-                                                                    icon1 = icon;
-                                                                }
-                                                                if (primaryStyle2 != null && primaryStyle2.equals(id)) {
-                                                                    icon2 = icon;
-                                                                }
-                                                                if (primaryStyle3 != null && primaryStyle3.equals(id)) {
-                                                                    icon3 = icon;
-                                                                }
-                                                                if (primaryStyle4 != null && primaryStyle4.equals(id)) {
-                                                                    icon4 = icon;
-                                                                }
-
-                                                            }
-                                                            }
-
+                                                    if (primaryStyle1.equals(id)){
+                                                        icon1 = icon;
+                                                    }
+                                                    if (primaryStyle2.equals(id)){
+                                                        icon2 = icon;
+                                                    }if (primaryStyle3.equals(id)){
+                                                        icon3 = icon;
+                                                    }if (primaryStyle4.equals(id)){
+                                                        icon4 = icon;
                                                     }
                                                 }
                                             }
-                                            System.out.println("넣기 전 룬주소 1: " + icon1
-                                                    + ", 넣기 전 룬주소 2: " + icon2
-                                                    + ", 넣기 전 룬주소 3: " + icon3
-                                                    + ", 넣기 전 룬주소 4: " + icon4);
-                                            primaryStyle1 = icon1;
-                                            primaryStyle2 = icon2;
-                                            primaryStyle3 = icon3;
-                                            primaryStyle4 = icon4;
-                                            System.out.println("룬주소 1: " + primaryStyle1
-                                                    + ", 룬주소 2: " + primaryStyle2
-                                                    + ", 룬주소 3: " + primaryStyle3
-                                                    + ", 룬주소 4: " + primaryStyle4);
                                         }
-
-
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
+
+
+                                    // runData라는 변수를 선언하고 JSON데이터를 저장하기 위한 용도임
+//                                    JsonNode runesData = null;
+
+//                                    try{
+//                                        // URL 생성
+//                                        URL runsurl = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
+//                                        //ObjectMapper(jav객체를 ->Json으로 or Json-> Java객체로 바꿔줌) 를이용해서 URL로받은 정보를
+//                                        ObjectMapper mapper = new ObjectMapper();
+//                                        // 저장할변수 선언
+//                                        String icon1 = null, icon2 = null, icon3 = null, icon4 = null;
+//
+//                                        JsonNode runsData = mapper.readTree(runsurl);
+//                                        System.out.println(runsData);
+//                                        //runsData가 배열인지 확인
+//                                        if(runsData.isArray()) {
+//                                            // 배열인지 확인됬으니까 룬트리로 나타냄 runTree(룬URL JSON)
+//                                            for (JsonNode runTree : runsData) {
+//                                                // 룬정보 들어오나 확인 = 들어옴
+//                                                System.out.println("룬 1: " + primaryStyle1
+//                                                        + ", 룬 2: " + primaryStyle2
+//                                                        + ", 룬 3: " + primaryStyle3
+//                                                        + ", 룬 4: " + primaryStyle4);
+//
+//
+//
+//                                                //slots로 필드 나눔
+//                                                JsonNode slots = runTree.get("slots");
+//
+//
+//
+//                                                if (slots != null && slots.isArray()) {
+//                                                    // 각 슬롯을 순회합니다.
+//                                                    for (JsonNode slot : slots) {
+//                                                        // 슬롯 안의 "runes" 배열을 추출합니다.
+//                                                        JsonNode runes = slot.get("runes");
+//                                                        if (runes != null && runes.isArray()) {
+//                                                            // 각 룬을 순회하면서 id와 icon 정보를 추출합니다.
+//                                                            for (JsonNode rune : runes) {
+//                                                                System.out.println("룬 1: " + primaryStyle1
+//                                                                        + ", 룬 2: " + primaryStyle2
+//                                                                        + ", 룬 3: " + primaryStyle3
+//                                                                        + ", 룬 4: " + primaryStyle4);
+//
+//                                                                String id = rune.get("id").asText();
+//                                                                String icon = rune.get("icon").asText();
+//
+//                                                                // primaryStyle 와 비교해서 값이 같으면 icon저장
+//                                                                if (primaryStyle1 != null && primaryStyle1.equals(id)) {
+//                                                                    icon1 = icon;
+//                                                                }
+//                                                                if (primaryStyle2 != null && primaryStyle2.equals(id)) {
+//                                                                    icon2 = icon;
+//                                                                }
+//                                                                if (primaryStyle3 != null && primaryStyle3.equals(id)) {
+//                                                                    icon3 = icon;
+//                                                                }
+//                                                                if (primaryStyle4 != null && primaryStyle4.equals(id)) {
+//                                                                    icon4 = icon;
+//                                                                }
+//
+//                                                            }
+//                                                            }
+//
+//                                                    }
+//                                                }
+//                                            }
+//                                            System.out.println("넣기 전 룬주소 1: " + icon1
+//                                                    + ", 넣기 전 룬주소 2: " + icon2
+//                                                    + ", 넣기 전 룬주소 3: " + icon3
+//                                                    + ", 넣기 전 룬주소 4: " + icon4);
+//                                            primaryStyle1 = icon1;
+//                                            primaryStyle2 = icon2;
+//                                            primaryStyle3 = icon3;
+//                                            primaryStyle4 = icon4;
+//                                            System.out.println("룬주소 1: " + primaryStyle1
+//                                                    + ", 룬주소 2: " + primaryStyle2
+//                                                    + ", 룬주소 3: " + primaryStyle3
+//                                                    + ", 룬주소 4: " + primaryStyle4);
+//                                        }
+
+
+
 
 
                                     // 그리고 만약 description가 subStyle이고 크기가 2 이상이면 실행
@@ -306,14 +336,12 @@ public class SaveGameServiceImpl implements SaveGameService {
                                                 for(JsonNode rune : runes){
                                                     String id = rune.get("id").asText();
                                                     String icon = rune.get("icon").asText();
-                                                    System.out.println(subStyle1);
-                                                    System.out.println(id);
+
 
                                                     if (subStyle1.equals(id)){
                                                         icon1 = icon;
                                                     }
-                                                    System.out.println(icon1);
-                                                    System.out.println(subStyle2+"="+id);
+
 
                                                     if (subStyle2.equals(id)){
                                                         icon2=icon;

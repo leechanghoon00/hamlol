@@ -29,7 +29,7 @@ public class JwtTokenProvider {
 
     private final Key key;
     // Access Token 유효기간: 30분, Refresh Token 유효기간: 1주 (밀리초 단위)
-    private final long THIRTY_MINUTES = 1000 * 60 * 30;
+    private final long THIRTY_MINUTES = 1000 * 60 * 180;
     private final long ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
 
     // application.properties 또는 application.yml에 등록된 jwt.secret 값을 주입받아 Key 객체를 생성합니다.

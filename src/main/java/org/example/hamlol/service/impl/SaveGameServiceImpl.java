@@ -211,10 +211,10 @@ public class SaveGameServiceImpl implements SaveGameService {
                                         for (JsonNode runTree : runData){
                                             JsonNode slots = runTree.get("slots");
                                             for (JsonNode slot : slots){
-                                                JsonNode runes = runTree.get("runes");
+                                                JsonNode runes = slot.get("runes");
                                                 for (JsonNode rune : runes){
                                                     String id = rune.get("id").asText();
-                                                    String icon = rune.get("id").asText();
+                                                    String icon = rune.get("icon").asText();
 
                                                     if (primaryStyle1.equals(id)){
                                                         icon1 = icon;
@@ -229,6 +229,11 @@ public class SaveGameServiceImpl implements SaveGameService {
                                                 }
                                             }
                                         }
+                                        primaryStyle1 =icon1;
+                                        primaryStyle2 = icon2;
+                                        primaryStyle3 = icon3;
+                                        primaryStyle4 = icon4;
+
                                     } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -360,7 +365,6 @@ public class SaveGameServiceImpl implements SaveGameService {
 
 
 
-                                    System.out.println(subStyle1+subStyle2);
                                 } catch (IOException e) {
                                         throw new RuntimeException(e);
                                     }

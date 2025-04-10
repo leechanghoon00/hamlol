@@ -10,7 +10,7 @@ public enum RiotUrlApi {
     // 스펠 검색 api
     FIND_BY_SPELL("https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json"),
     // 룬 검색 api
-    FIND_BY_RUNS("https://ddragon.leagueoflegends.com/cdn/10.6.1/data/ko_KR/runesReforged.json"),
+    FIND_BY_RUNES("https://ddragon.leagueoflegends.com/cdn/15.7.1/data/ko_KR/runesReforged.json"),
     // 룬만들때 앞에 붙임
     MAKE_RUN("https://ddragon.leagueoflegends.com/cdn/img/");
     private final String url;

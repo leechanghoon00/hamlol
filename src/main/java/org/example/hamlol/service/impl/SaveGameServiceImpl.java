@@ -11,6 +11,8 @@ import org.example.hamlol.repository.*;
 import org.example.hamlol.service.ApiKeyProvider;
 import org.example.hamlol.service.SaveGameService;
 import org.example.hamlol.urlenum.RiotUrlApi;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.core.Authentication;
@@ -25,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 @Service  // 이 클래스가 Spring의 서비스 컴포넌트임을 선언
 public class SaveGameServiceImpl implements SaveGameService {
 
@@ -35,6 +38,7 @@ public class SaveGameServiceImpl implements SaveGameService {
 
     // API 키를 설정파일이나 다른 소스에서 가져옵니다.
     private final String apiKey = ApiKeyProvider.getApiKey();
+    private static final Logger logger = LoggerFactory.getLogger(SaveGameServiceImpl.class);
 
     @Autowired
     private MatchRepository matchRepository;
@@ -51,7 +55,7 @@ public class SaveGameServiceImpl implements SaveGameService {
     // 라이엇 api 주소 ENum으로 관리
     private static final String RIOT_API_URL = RiotUrlApi.MATCH.getUrl();
     private static final String FIND_BY_SPELL = RiotUrlApi.FIND_BY_SPELL.getUrl();
-    private static final String FIND_BY_RUNS = RiotUrlApi.FIND_BY_RUNS.getUrl();
+    private static final String FIND_BY_RUNS = RiotUrlApi.FIND_BY_RUNES.getUrl();
     @Autowired
     private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
@@ -203,7 +207,7 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     primaryStyle4 = selections.get(3).get("perk").asText();
                                     // 룬 사진주소 넣기
                                     try{
-                                        URL runURL = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
+                                        URL runURL = new URL(RiotUrlApi.FIND_BY_RUNES.getUrl());
                                         ObjectMapper mapper = new ObjectMapper();
                                         JsonNode runData = mapper.readTree(runURL);
                                         String icon1 = null,icon2 = null, icon3 = null, icon4 = null;
@@ -239,87 +243,6 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     }
 
 
-                                    // runData라는 변수를 선언하고 JSON데이터를 저장하기 위한 용도임
-//                                    JsonNode runesData = null;
-
-//                                    try{
-//                                        // URL 생성
-//                                        URL runsurl = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
-//                                        //ObjectMapper(jav객체를 ->Json으로 or Json-> Java객체로 바꿔줌) 를이용해서 URL로받은 정보를
-//                                        ObjectMapper mapper = new ObjectMapper();
-//                                        // 저장할변수 선언
-//                                        String icon1 = null, icon2 = null, icon3 = null, icon4 = null;
-//
-//                                        JsonNode runsData = mapper.readTree(runsurl);
-//                                        System.out.println(runsData);
-//                                        //runsData가 배열인지 확인
-//                                        if(runsData.isArray()) {
-//                                            // 배열인지 확인됬으니까 룬트리로 나타냄 runTree(룬URL JSON)
-//                                            for (JsonNode runTree : runsData) {
-//                                                // 룬정보 들어오나 확인 = 들어옴
-//                                                System.out.println("룬 1: " + primaryStyle1
-//                                                        + ", 룬 2: " + primaryStyle2
-//                                                        + ", 룬 3: " + primaryStyle3
-//                                                        + ", 룬 4: " + primaryStyle4);
-//
-//
-//
-//                                                //slots로 필드 나눔
-//                                                JsonNode slots = runTree.get("slots");
-//
-//
-//
-//                                                if (slots != null && slots.isArray()) {
-//                                                    // 각 슬롯을 순회합니다.
-//                                                    for (JsonNode slot : slots) {
-//                                                        // 슬롯 안의 "runes" 배열을 추출합니다.
-//                                                        JsonNode runes = slot.get("runes");
-//                                                        if (runes != null && runes.isArray()) {
-//                                                            // 각 룬을 순회하면서 id와 icon 정보를 추출합니다.
-//                                                            for (JsonNode rune : runes) {
-//                                                                System.out.println("룬 1: " + primaryStyle1
-//                                                                        + ", 룬 2: " + primaryStyle2
-//                                                                        + ", 룬 3: " + primaryStyle3
-//                                                                        + ", 룬 4: " + primaryStyle4);
-//
-//                                                                String id = rune.get("id").asText();
-//                                                                String icon = rune.get("icon").asText();
-//
-//                                                                // primaryStyle 와 비교해서 값이 같으면 icon저장
-//                                                                if (primaryStyle1 != null && primaryStyle1.equals(id)) {
-//                                                                    icon1 = icon;
-//                                                                }
-//                                                                if (primaryStyle2 != null && primaryStyle2.equals(id)) {
-//                                                                    icon2 = icon;
-//                                                                }
-//                                                                if (primaryStyle3 != null && primaryStyle3.equals(id)) {
-//                                                                    icon3 = icon;
-//                                                                }
-//                                                                if (primaryStyle4 != null && primaryStyle4.equals(id)) {
-//                                                                    icon4 = icon;
-//                                                                }
-//
-//                                                            }
-//                                                            }
-//
-//                                                    }
-//                                                }
-//                                            }
-//                                            System.out.println("넣기 전 룬주소 1: " + icon1
-//                                                    + ", 넣기 전 룬주소 2: " + icon2
-//                                                    + ", 넣기 전 룬주소 3: " + icon3
-//                                                    + ", 넣기 전 룬주소 4: " + icon4);
-//                                            primaryStyle1 = icon1;
-//                                            primaryStyle2 = icon2;
-//                                            primaryStyle3 = icon3;
-//                                            primaryStyle4 = icon4;
-//                                            System.out.println("룬주소 1: " + primaryStyle1
-//                                                    + ", 룬주소 2: " + primaryStyle2
-//                                                    + ", 룬주소 3: " + primaryStyle3
-//                                                    + ", 룬주소 4: " + primaryStyle4);
-//                                        }
-
-
 
 
 
@@ -329,7 +252,7 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     subStyle1 = selections.get(0).get("perk").asText();
                                     subStyle2 = selections.get(1).get("perk").asText();
                                     try{
-                                        URL runURl = new URL(RiotUrlApi.FIND_BY_RUNS.getUrl());
+                                        URL runURl = new URL(RiotUrlApi.FIND_BY_RUNES.getUrl());
                                         ObjectMapper mapper = new ObjectMapper();
                                         JsonNode runsData = mapper.readTree(runURl);
                                         String icon1 = null, icon2 = null;
@@ -370,16 +293,6 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     }
                                 }
 }
-
-
-
-
-
-
-
-
-
-
 
 
 

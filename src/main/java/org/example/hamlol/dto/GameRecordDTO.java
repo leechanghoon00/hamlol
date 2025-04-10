@@ -1,6 +1,6 @@
     package org.example.hamlol.dto;
 
-    public record GameResponseDTO(
+    public record GameRecordDTO(
         // match DTO
         Long gameDuration,   // 게임 시간 (게임 진행 시간)
         String gamemode,        // 게임 모드

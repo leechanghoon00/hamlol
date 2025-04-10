@@ -2,6 +2,8 @@ plugins {
     java
     id("org.springframework.boot") version "3.4.3"
     id("io.spring.dependency-management") version "1.1.7"
+    //queryDSL
+    id("com.ewerk.gradle.plugins.querydsl") version "1.0.10"
 }
 
 group = "org.example"
@@ -54,8 +56,22 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    // SLF4J
+    implementation("org.springframework:spring-context")
+
+    // QueryDSL
+    implementation ("com.querydsl:querydsl-jpa:5.0.0:jakarta")
+    annotationProcessor ("com.querydsl:querydsl-apt:5.0.0:jakarta")
+    annotationProcessor ("jakarta.annotation:jakarta.annotation-api")
+    annotationProcessor ("jakarta.persistence:jakarta.persistence-api")
+
+
 }
+
 
 tasks.withType<Test> {
     useJUnitPlatform()
 }
+
+

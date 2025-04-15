@@ -1,13 +1,13 @@
 package org.example.hamlol.service;
 
+import org.example.hamlol.dto.GameRecordDTO;
+import org.example.hamlol.dto.SimpleGameDTO;
 
-import org.example.hamlol.dto.MatchDTO;
-import org.example.hamlol.dto.PlayerDTO;
-import org.example.hamlol.dto.TeamDTO;
+import java.util.List;
 
 public interface GameRecordService {
 
-    void watchGame(MatchDTO matchDTO, PlayerDTO playerDTO, TeamDTO teamDTO);
-
+List<GameRecordDTO> gameRecordByMatchId(String matchId);
+List<SimpleGameDTO> gameRecordByGameId(String riotIdGameName, String riotIdTagLine);
 
 }

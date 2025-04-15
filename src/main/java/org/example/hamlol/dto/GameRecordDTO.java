@@ -1,17 +1,16 @@
-    package org.example.hamlol.dto;
+package org.example.hamlol.dto;
 
-    public record GameRecordDTO(
-        // match DTO
-        Long gameDuration,   // 게임 시간 (게임 진행 시간)
-        String gamemode,        // 게임 모드
-        Long gameCreation,    // 게임 시작 시간 (밀리초-> KST로 변환 필요)
-            //player dto
+public record GameRecordDTO(
+        // Match DTO
+        Long gameDuration,            // 게임 시간 (게임 진행 시간)
+        String gamemode,              // 게임 모드
+        Long gameCreation,            // 게임 시작 시간 (밀리초 -> KST로 변환 필요)
+        // Player DTO (35개)
         String teamType,                          // 팀 타입 ('blue' 또는 'red')
         String riotIdGameName,                    // 참가자 롤 닉네임 (PK)
-        String championName,                        // 플레이한 챔피언의 ID
+        String championName,                      // 플레이한 챔피언의 ID
         Integer damageDealtToBuildings,           // 타워 딜량
         Integer goldEarned,                       // 획득 골드
-        String individualPosition,                // 개별 포지션
         String item0,                             // 아이템 슬롯 0
         String item1,                             // 아이템 슬롯 1
         String item2,                             // 아이템 슬롯 2
@@ -35,23 +34,22 @@
         Integer visionWardsBoughtInGame,          // 구매한 제어 와드 수
         Integer wardsPlaced,                      // 설치한 와드 수
         Integer wardsKilled,                      // 파괴한 와드 수
-        Boolean win   ,                            // 승리 여부
-        String primaryStyle1,//주룬 1
-        String primaryStyle2,//주룬 2
-        String primaryStyle3,//주룬 3
-        String primaryStyle4,//주룬 4
-        String subStyle1, //부룬1
-        String subStyle2,//부룬 2
+        Boolean win,                              // 승리 여부
+        String primaryStyle1,                     // 주룬 1
+        String primaryStyle2,                     // 주룬 2
+        String primaryStyle3,                     // 주룬 3
+        String primaryStyle4,                     // 주룬 4
+        String subStyle1,                         // 부룬 1
+        String subStyle2,                         // 부룬 2
+        // Team DTO (8개)
+        String bans,                              // 밴 정보 (JSON 형식의 문자열)
+        Integer baronKills,                       // 바론 처치 횟수
+        Integer championKills,                    // 챔피언 처치 횟수
+        Integer dragonKills,                      // 드래곤 처치 횟수
+        Integer hordeKills,                       // 유충 처치 횟수
+        Integer inhibitorKills,                   // 억제기 파괴 횟수
+        Integer riftHeraldKills,                  // 전령 처치 횟수
+        Integer towerKills                        // 타워 파괴 횟수
+) {
 
-            //Team dto
-        String bans,            // 밴 정보 (JSON 형식의 문자열)
-        Integer baronKills,     // 바론 처치 횟수
-        Integer championKills,  // 챔피언 처치 횟수
-        Integer dragonKills,    // 드래곤 처치 횟수
-        Integer hordeKills,     // 유충 처치 횟수
-        Integer inhibitorKills, // 억제기 파괴 횟수
-        Integer riftHeraldKills,// 전령 처치 횟수
-        Integer towerKills      // 타워 파괴 횟수
-
-    ) {
-    }
+}

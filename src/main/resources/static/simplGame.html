@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <title>롤 전적 리스트</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        #matches {
+            width: 100%;
+            max-width: 960px;
+        }
+
+        .match-card {
+            background-color: #ebf4ff;
+            border-left: 6px solid #60a5fa;
+            color: #1e1e1e;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .match-card.lose {
+            background-color: #ffe4e6;
+            border-left: 6px solid #f87171;
+        }
+
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .champion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 12px;
+        }
+
+        .champion img {
+            width: 60px;
+            height: 60px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-right: 20px;
+            min-width: 180px;
+        }
+
+        .items {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .item-box {
+            width: 48px;
+            height: 48px;
+            border-radius: 6px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .item-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .kda {
+            font-weight: bold;
+        }
+
+        .cs {
+            font-size: 12px;
+            color: #4b5563;
+        }
+
+        .summoner-spells {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .summoner-spells img {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        .toggle-btn {
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            transform: rotate(0deg);
+            transition: transform 0.2s ease;
+        }
+
+        .toggle-btn.open {
+            transform: rotate(90deg);
+        }
+
+        .match-detail {
+            margin-top: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div id="matches">로딩 중...</div>
+<script>
+    const version = '15.7.1';
+    const summonerSpellURL = `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/summoner.json`;
+    const summonerSpellMap = {};
+    const data = [
+        {
+            "gameDuration": 1722,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743343840095,
+            "teamPosition": "JUNGLE",
+            "win": false,
+            "championName": "LeeSin",
+            "summoner1Id": "4",
+            "summoner2Id": "11",
+            "kills": 1,
+            "deaths": 5,
+            "assists": 3,
+            "kda": 0.8,
+            "item0": "1029",
+            "item1": "1036",
+            "item2": "2055",
+            "item3": "3071",
+            "item4": "3047",
+            "item5": "6610",
+            "item6": "3340",
+            "totalMinionsKilled": 8,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 1763,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743346167502,
+            "teamPosition": "JUNGLE",
+            "win": true,
+            "championName": "Pantheon",
+            "summoner1Id": "4",
+            "summoner2Id": "11",
+            "kills": 8,
+            "deaths": 3,
+            "assists": 15,
+            "kda": 7.6666665,
+            "item0": "3071",
+            "item1": "3173",
+            "item2": "2055",
+            "item3": "6695",
+            "item4": "6610",
+            "item5": "1033",
+            "item6": "3364",
+            "totalMinionsKilled": 19,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 2338,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743340902719,
+            "teamPosition": "JUNGLE",
+            "win": false,
+            "championName": "Skarner",
+            "summoner1Id": "4",
+            "summoner2Id": "11",
+            "kills": 3,
+            "deaths": 7,
+            "assists": 7,
+            "kda": 1.4285715,
+            "item0": "3084",
+            "item1": "3111",
+            "item2": "2055",
+            "item3": "3065",
+            "item4": "1028",
+            "item5": "2502",
+            "item6": "3364",
+            "totalMinionsKilled": 14,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 1844,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743266861030,
+            "teamPosition": "TOP",
+            "win": true,
+            "championName": "Jayce",
+            "summoner1Id": "4",
+            "summoner2Id": "12",
+            "kills": 7,
+            "deaths": 7,
+            "assists": 8,
+            "kda": 2.142857,
+            "item0": "3814",
+            "item1": "3133",
+            "item2": "3142",
+            "item3": "0",
+            "item4": "3111",
+            "item5": "3042",
+            "item6": "3364",
+            "totalMinionsKilled": 196,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 3214,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743260090395,
+            "teamPosition": "JUNGLE",
+            "win": true,
+            "championName": "RekSai",
+            "summoner1Id": "4",
+            "summoner2Id": "11",
+            "kills": 5,
+            "deaths": 16,
+            "assists": 21,
+            "kda": 1.625,
+            "item0": "3075",
+            "item1": "3143",
+            "item2": "3142",
+            "item3": "3065",
+            "item4": "3742",
+            "item5": "3111",
+            "item6": "3364",
+            "totalMinionsKilled": 27,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 2138,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743257216246,
+            "teamPosition": "JUNGLE",
+            "win": false,
+            "championName": "LeeSin",
+            "summoner1Id": "4",
+            "summoner2Id": "11",
+            "kills": 3,
+            "deaths": 6,
+            "assists": 12,
+            "kda": 2.5,
+            "item0": "3053",
+            "item1": "1036",
+            "item2": "2055",
+            "item3": "3071",
+            "item4": "3111",
+            "item5": "6610",
+            "item6": "3340",
+            "totalMinionsKilled": 11,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 1621,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743254631658,
+            "teamPosition": "MIDDLE",
+            "win": false,
+            "championName": "Viktor",
+            "summoner1Id": "4",
+            "summoner2Id": "12",
+            "kills": 5,
+            "deaths": 5,
+            "assists": 1,
+            "kda": 1.2,
+            "item0": "1058",
+            "item1": "1058",
+            "item2": "2503",
+            "item3": "6653",
+            "item4": "3020",
+            "item5": "1082",
+            "item6": "3364",
+            "totalMinionsKilled": 207,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        },
+        {
+            "gameDuration": 1855,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743183636702,
+            "teamPosition": "JUNGLE",
+            "win": true,
+            "championName": "Viego",
+            "summoner1Id": "4",
+            "summoner2Id": "11",
+            "kills": 13,
+            "deaths": 1,
+            "assists": 18,
+            "kda": 31.0,
+            "item0": "6676",
+            "item1": "3078",
+            "item2": "0",
+            "item3": "3173",
+            "item4": "6673",
+            "item5": "0",
+            "item6": "3364",
+            "totalMinionsKilled": 21,
+            "riotIdGameName": "류천이",
+            "riotIdTagline": "KR1"
+        }
+    ]; // 여기에 당신의 JSON 전적 배열 삽입
+
+    const formatTime = (sec) => `${Math.floor(sec / 60)}분 ${sec % 60}초`;
+    const timeAgo = (timestamp) => {
+        const diff = Date.now() - timestamp;
+        const mins = Math.floor(diff / 60000);
+        const hrs = Math.floor(mins / 60);
+        const days = Math.floor(hrs / 24);
+        if (days > 0) return `${days}일 전`;
+        if (hrs > 0) return `${hrs}시간 전`;
+        if (mins > 0) return `${mins}분 전`;
+        return '방금 전';
+    };
+
+    fetch(summonerSpellURL)
+        .then(res => res.json())
+        .then(spellData => {
+            for (let key in spellData.data) {
+                summonerSpellMap[spellData.data[key].key] = spellData.data[key].id;
+            }
+            renderMatches();
+        });
+
+    function renderMatches() {
+        const container = document.getElementById('matches');
+        container.innerHTML = '';
+
+        data.forEach((match, index) => {
+            const spell1 = summonerSpellMap[match.summoner1Id];
+            const spell2 = summonerSpellMap[match.summoner2Id];
+            const detailId = `detail-${index}`;
+
+            const card = document.createElement('div');
+            card.className = `match-card ${match.win ? '' : 'lose'}`;
+            card.innerHTML = `
+          <div class="match-header">
+            <div style="display:flex; gap:12px; flex-wrap:wrap;">
+              <div class="champion">
+                <img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${match.championName}.png" alt="${match.championName}">
+                <div>${match.championName}</div>
+                <div class="summoner-spells">
+                  <img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/${spell1}.png" alt="spell1">
+                  <img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/${spell2}.png" alt="spell2">
+                </div>
+              </div>
+              <div class="info">
+                <div><strong>${match.riotIdGameName}</strong></div>
+                <div>포지션: ${match.teamPosition}</div>
+                <div class="kda">${match.kills} / ${match.deaths} / ${match.assists} (KDA: ${match.kda.toFixed(2)})</div>
+                <div class="cs">CS: ${match.totalMinionsKilled} | 시간: ${formatTime(match.gameDuration)}<br>시작: ${timeAgo(match.gameCreation)}</div>
+              </div>
+              <div class="items">
+                ${[match.item0, match.item1, match.item2, match.item3, match.item4, match.item5, match.item6].map(id =>
+                id === "0" || id === 0 ? `<div class="item-box"></div>` : `<div class="item-box"><img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${id}.png" alt="item"></div>`
+            ).join('')}
+              </div>
+            </div>
+            <button class="toggle-btn" data-target="${detailId}">▶</button>
+          </div>
+          <div class="match-detail" id="${detailId}">전적 상세 정보 영역입니다.</div>
+        `;
+            container.appendChild(card);
+        });
+
+        document.querySelectorAll('.toggle-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const detail = document.getElementById(btn.dataset.target);
+                const isOpen = detail.style.display === 'block';
+                detail.style.display = isOpen ? 'none' : 'block';
+                btn.textContent = isOpen ? '▶' : '▼';
+                btn.classList.toggle('open', !isOpen);
+            });
+        });
+    }
+</script>
+</body>
+</html>

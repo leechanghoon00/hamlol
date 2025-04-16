@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.example.hamlol.dto.GameRecordDTO;
+
 import static org.example.hamlol.entity.QMatchEntity.matchEntity;
 import static org.example.hamlol.entity.QPlayerEntity.playerEntity;
 import static org.example.hamlol.entity.QTeamEntity.teamEntity;
@@ -13,56 +14,59 @@ import org.example.hamlol.dto.SimpleGameDTO;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 
-public class GameRecordRepositoryImpl implements GameRecordRepository{
+public class GameRecordRepositoryImpl implements GameRecordRepository {
     @PersistenceContext
     private EntityManager entityManager;
     private final JPAQueryFactory jpaQueryFactory;
 
-    public GameRecordRepositoryImpl(EntityManager entityManager){
+    public GameRecordRepositoryImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
         this.jpaQueryFactory = new JPAQueryFactory(entityManager);
     }
-@Override
-public List<SimpleGameDTO> findGameByGameId(String riot_id_game_name, String riot_id_tagline){
 
-    return jpaQueryFactory
-            .select(Projections.constructor(
-                    SimpleGameDTO.class,
-                    // Match
-                    matchEntity.gameDuration,
-                    matchEntity.gamemode,
-                    matchEntity.gameCreation,
-                    // Player
-                    playerEntity.teamPosition,
-                    playerEntity.win,
-                    playerEntity.championName,
-                    playerEntity.summoner1Id,
-                    playerEntity.summoner2Id,
-                    playerEntity.kills,
-                    playerEntity.deaths,
-                    playerEntity.assists,
-                    playerEntity.kda,
-                    playerEntity.item0,
-                    playerEntity.item1,
-                    playerEntity.item2,
-                    playerEntity.item3,
-                    playerEntity.item4,
-                    playerEntity.item5,
-                    playerEntity.item6,
-                    playerEntity.totalMinionsKilled,
-                    playerEntity.riotIdGameName,
-                    playerEntity.riotIdTagline
-            ))
-            .from(matchEntity)
-            .join(playerEntity).on(matchEntity.matchId.eq(playerEntity.matchId))
-            .where(
-                    playerEntity.riotIdGameName.eq(riot_id_game_name)
-                            .and(playerEntity.riotIdTagline.eq(riot_id_tagline))
-            )
-            .fetch();
-}
+    @Override
+    public List<SimpleGameDTO> findGameByGameId(String riot_id_game_name, String riot_id_tagline) {
+
+        return jpaQueryFactory
+                .select(Projections.constructor(
+                        SimpleGameDTO.class,
+                        // Match
+                        matchEntity.matchId,
+                        matchEntity.gameDuration,
+                        matchEntity.gamemode,
+                        matchEntity.gameCreation,
+                        // Player
+                        playerEntity.teamPosition,
+                        playerEntity.win,
+                        playerEntity.championName,
+                        playerEntity.summoner1Id,
+                        playerEntity.summoner2Id,
+                        playerEntity.kills,
+                        playerEntity.deaths,
+                        playerEntity.assists,
+                        playerEntity.kda,
+                        playerEntity.item0,
+                        playerEntity.item1,
+                        playerEntity.item2,
+                        playerEntity.item3,
+                        playerEntity.item4,
+                        playerEntity.item5,
+                        playerEntity.item6,
+                        playerEntity.totalMinionsKilled,
+                        playerEntity.riotIdGameName,
+                        playerEntity.riotIdTagline
+                ))
+                .from(matchEntity)
+                .join(playerEntity).on(matchEntity.matchId.eq(playerEntity.matchId))
+                .where(
+                        playerEntity.riotIdGameName.eq(riot_id_game_name)
+                                .and(playerEntity.riotIdTagline.eq(riot_id_tagline))
+                )
+                .fetch();
+    }
 
 
     @Override
@@ -72,6 +76,7 @@ public List<SimpleGameDTO> findGameByGameId(String riot_id_game_name, String rio
         return jpaQueryFactory.select(Projections.constructor(
                         GameRecordDTO.class,
                         // Match
+                        matchEntity.matchId,
                         matchEntity.gameDuration,
                         matchEntity.gamemode,
                         matchEntity.gameCreation,

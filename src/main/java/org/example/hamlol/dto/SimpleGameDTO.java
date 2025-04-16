@@ -1,11 +1,11 @@
 package org.example.hamlol.dto;
 
 public record SimpleGameDTO(
-        Long gameDuration,
+        String matchId,
+        Long gameDuration,  // 게임 진행 시간
         String gamemode,
-        Long gameCreation,
-
-        String teamPosition,
+        Long gameCreation , //게임 시작 시간
+        String teamPosition, // 팀내 포지션
         Boolean win,
         String championName,
         String summoner1Id,
@@ -21,7 +21,7 @@ public record SimpleGameDTO(
         String item4,                             // 아이템 슬롯 4
         String item5,                             // 아이템 슬롯 5
         String item6,                             // 아이템 슬롯 6
-        Integer totalMinionsKilled,
+        Integer totalMinionsKilled, //총 CS
         String riotIdGameName,
         String riotIdTagline
 ) {}

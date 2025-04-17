@@ -136,6 +136,7 @@
     const summonerSpellMap = {};
     const data = [
         {
+            "matchId": "KR_7579356708",
             "gameDuration": 1722,
             "gamemode": "CLASSIC",
             "gameCreation": 1743343840095,
@@ -160,6 +161,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7579420561",
             "gameDuration": 1763,
             "gamemode": "CLASSIC",
             "gameCreation": 1743346167502,
@@ -184,6 +186,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7579242814",
             "gameDuration": 2338,
             "gamemode": "CLASSIC",
             "gameCreation": 1743340902719,
@@ -208,6 +211,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7578159419",
             "gameDuration": 1844,
             "gamemode": "CLASSIC",
             "gameCreation": 1743266861030,
@@ -232,6 +236,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7577973910",
             "gameDuration": 3214,
             "gamemode": "CLASSIC",
             "gameCreation": 1743260090395,
@@ -256,6 +261,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7577873679",
             "gameDuration": 2138,
             "gamemode": "CLASSIC",
             "gameCreation": 1743257216246,
@@ -280,6 +286,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7577785339",
             "gameDuration": 1621,
             "gamemode": "CLASSIC",
             "gameCreation": 1743254631658,
@@ -304,6 +311,7 @@
             "riotIdTagline": "KR1"
         },
         {
+            "matchId": "KR_7576783943",
             "gameDuration": 1855,
             "gamemode": "CLASSIC",
             "gameCreation": 1743183636702,
@@ -377,6 +385,8 @@
                 <div>포지션: ${match.teamPosition}</div>
                 <div class="kda">${match.kills} / ${match.deaths} / ${match.assists} (KDA: ${match.kda.toFixed(2)})</div>
                 <div class="cs">CS: ${match.totalMinionsKilled} | 시간: ${formatTime(match.gameDuration)}<br>시작: ${timeAgo(match.gameCreation)}</div>
+                                            <div><strong>Match ID:</strong> ${match.matchId}</div>
+
               </div>
               <div class="items">
                 ${[match.item0, match.item1, match.item2, match.item3, match.item4, match.item5, match.item6].map(id =>

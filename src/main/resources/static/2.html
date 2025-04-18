@@ -7,8 +7,7 @@
     <style>
         body {
             font-family: Arial;
-            margin: 0;
-            padding: 20px;
+            margin: 0; padding: 20px;
             background: #f4f4f9;
         }
         table {
@@ -27,56 +26,36 @@
         tr:nth-child(even) { background: #f9f9f9; }
         tr:hover           { background: #e0f2f1; }
 
-        /* 공통 스타일 */
-        .champion-image,
-        .spell-container img,
-        .rune-row img,
-        .item-row img {
-            width: 20px; height: 20px; margin: 1px;
-        }
-        .champion-image { width: 32px; height: 32px; }
-        .kda-ratio { font-weight: bold; color: #007bff; }
-        .kda-stats { font-size: 11px; color: #333; }
-        td:nth-child(3),
-        td:nth-child(4),
-        td:nth-child(5) {
-            border-left: none;
-            border-right: none;
-        }
-
-        /* 그래프 스타일 */
-        .bar-number {
-            display: block;
-            font-size: 12px;
-            color: #333;
-            font-weight: bold;
-        }
-        .bar-container {
-            background: #e0e0e0;
-            height: 12px;
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 4px auto 0;
-            width: 100%;
-        }
-        .bar {
-            height: 100%;
-            background: #4CAF50;
-        }
-
         /* 팀별 배경 */
         .red-row td  { background: rgba(183,28,28,0.1); }
         .blue-row td { background: rgba(13,71,161,0.1); }
 
-        /* 레이블 행 */
+        /* 레이블 행: 간격 좁게, nowrap */
         .label-row td {
             background: transparent;
             border: none;
             text-align: left;
-            padding-left: 1em;
+            padding: 2px 4px;
             font-weight: bold;
             font-size: 14px;
+            white-space: nowrap;
         }
+
+        /* 기타 스타일 생략… (챔프, 룬, 아이템, 그래프 등 동일) */
+        .champion-image,
+        .spell-container img,
+        .rune-row img,
+        .item-row img { width: 20px; height: 20px; margin: 1px; }
+        .champion-image { width: 32px; height: 32px; }
+        .kda-ratio { font-weight: bold; color: #007bff; }
+        .kda-stats { font-size: 11px; color: #333; }
+        .bar-number { display: block; font-size: 12px; color: #333; font-weight: bold; }
+        .bar-container {
+            background: #e0e0e0; height: 12px;
+            border-radius: 3px; overflow: hidden;
+            margin: 4px auto 0; width: 100%;
+        }
+        .bar { height: 100%; background: #4CAF50; }
     </style>
 </head>
 <body>
@@ -579,20 +558,19 @@
         }
     ];
 
-    // 1) 승리팀·패배팀 KDA 합산
-    const winStats  = { kills: 0, deaths: 0, assists: 0 };
-    const loseStats = { kills: 0, deaths: 0, assists: 0 };
+    // 1) 승/패 KDA 합산
+    const winStats  = { kills:0, deaths:0, assists:0 };
+    const loseStats = { kills:0, deaths:0, assists:0 };
     jsonData.forEach(p => {
-        if (p.win) {
-            winStats.kills   += p.kills;
-            winStats.deaths  += p.deaths;
-            winStats.assists += p.assists;
-        } else {
-            loseStats.kills   += p.kills;
-            loseStats.deaths  += p.deaths;
-            loseStats.assists += p.assists;
-        }
+        const t = p.win ? winStats : loseStats;
+        t.kills   += p.kills;
+        t.deaths  += p.deaths;
+        t.assists += p.assists;
     });
+
+    // 2) 대표 플레이어
+    const winPlayer  = jsonData.find(p => p.win);
+    const losePlayer = jsonData.find(p => !p.win);
 
     document.addEventListener('DOMContentLoaded', async () => {
         const res       = await fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json');
@@ -608,122 +586,127 @@
         const order = ['TOP','JUNGLE','MIDDLE','BOTTOM','UTILITY'];
         const tbody = document.querySelector('#combined-team tbody');
         tbody.innerHTML = '';
-
         let prevTeam = null;
-        jsonData
-            .sort((a,b) => {
-                if (a.teamType !== b.teamType) return a.teamType === 'red' ? -1 : 1;
-                return order.indexOf(a.teamPosition) - order.indexOf(b.teamPosition);
-            })
-            .forEach(p => {
-                if (prevTeam && p.teamType !== prevTeam) {
-                    // 승리팀
-                    let row  = tbody.insertRow();
-                    row.className = 'label-row';
-                    let cell = row.insertCell();
-                    cell.colSpan  = 13;
-                    cell.innerHTML =
-                        '승리팀' +
-                        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                        `${winStats.kills} / ${winStats.deaths} / ${winStats.assists}`;
 
-                    // 패배팀
-                    row  = tbody.insertRow();
+        jsonData
+            .sort((a,b) =>
+                a.teamType !== b.teamType
+                    ? (a.teamType==='red' ? -1 : 1)
+                    : order.indexOf(a.teamPosition) - order.indexOf(b.teamPosition)
+            )
+            .forEach(p => {
+                // 팀 전환 지점에서 레이블 삽입
+                if (prevTeam && p.teamType !== prevTeam) {
+                    // — 승리팀
+                    let row = tbody.insertRow();
+                    row.className = 'label-row';
+                    // KDA 셀 (6칸 차지)
+                    let cell = row.insertCell();
+                    cell.colSpan = 6;
+                    cell.textContent = `승리팀  ${winStats.kills} / ${winStats.deaths} / ${winStats.assists}`;
+
+                    // 벤 셀 (바로 다음)
+                    const banTd = row.insertCell();
+                    banTd.textContent = '벤 : ';
+                    banTd.title       = '밴한 챔피언';
+
+                    // 오브젝트 6개
+                    [
+                        ['타워','towerKills','파괴한 타워 수'],
+                        ['억제기','inhibitorKills','파괴한 억제기 수'],
+                        ['용','dragonKills','처치한 용 수'],
+                        ['유충','hordeKills','처치한 유충 수'],
+                        ['전령','riftHeraldKills','처치한 전령 수'],
+                        ['바론','baronKills','처치한 바론 수']
+                    ].forEach(([label,key,tip]) => {
+                        const td = row.insertCell();
+                        td.textContent = `${label} : ${winPlayer[key]}`;
+                        td.title       = tip;
+                    });
+
+                    // — 패배팀
+                    row = tbody.insertRow();
                     row.className = 'label-row';
                     cell = row.insertCell();
-                    cell.colSpan  = 13;
-                    cell.innerHTML =
-                        '패배팀' +
-                        '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
-                        `${loseStats.kills} / ${loseStats.deaths} / ${loseStats.assists}`;
+                    cell.colSpan = 6;
+                    cell.textContent = `패배팀  ${loseStats.kills} / ${loseStats.deaths} / ${loseStats.assists}`;
+
+                    const banTd2 = row.insertCell();
+                    banTd2.textContent = '벤 : ';
+                    banTd2.title       = '밴한 챔피언';
+
+                    [
+                        ['타워','towerKills','파괴한 타워 수'],
+                        ['억제기','inhibitorKills','파괴한 억제기 수'],
+                        ['용','dragonKills','처치한 용 수'],
+                        ['유충','hordeKills','처치한 유충 수'],
+                        ['전령','riftHeraldKills','처치한 전령 수'],
+                        ['바론','baronKills','처치한 바론 수']
+                    ].forEach(([label,key,tip]) => {
+                        const td = row.insertCell();
+                        td.textContent = `${label} : ${losePlayer[key]}`;
+                        td.title       = tip;
+                    });
                 }
                 prevTeam = p.teamType;
 
+                // ── 선수 정보 행 ──
                 const tr = tbody.insertRow();
-                tr.className = p.teamType === 'red' ? 'red-row' : 'blue-row';
-
-                // 챔피언
+                tr.className = p.teamType==='red'?'red-row':'blue-row';
+                // (여기부터 아래 코드는 기존과 동일)
                 tr.insertCell().innerHTML =
                     `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png"
-                          class="champion-image" alt="${p.championName}">`;
-
-                // 닉네임
+                class="champion-image" alt="">`;
                 tr.insertCell().textContent = `${p.riotIdGameName}#${p.riotIdTagline}`;
-
-                // 스펠
-                const spells = tr.insertCell();
-                spells.className = 'spell-container';
-                [p.summoner1Id, p.summoner2Id].forEach(k => {
-                    const id = keyToId[k];
-                    if (id) spells.innerHTML +=
-                        `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${id}.png" alt="spell">`;
+                const spells = tr.insertCell(); spells.className='spell-container';
+                [p.summoner1Id,p.summoner2Id].forEach(k=>{
+                    const id=keyToId[k];
+                    if(id) spells.innerHTML+=
+                        `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${id}.png">`;
                 });
-
-                // 룬
-                const runeCell = tr.insertCell();
-                runeCell.className = 'rune-container';
-                const prim = document.createElement('div'); prim.className = 'rune-row';
-                [p.primaryStyle1,p.primaryStyle2,p.primaryStyle3].forEach(u =>
-                    prim.innerHTML += `<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}" alt="perk">`
-                );
-                const sub = document.createElement('div'); sub.className = 'rune-row';
-                [p.subStyle1,p.subStyle2].forEach(u =>
-                    sub.innerHTML += `<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}" alt="perk">`
-                );
+                const runeCell = tr.insertCell(); runeCell.className='rune-container';
+                const prim = document.createElement('div'); prim.className='rune-row';
+                [p.primaryStyle1,p.primaryStyle2,p.primaryStyle3]
+                    .forEach(u=>prim.innerHTML+=`<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`);
+                const sub = document.createElement('div'); sub.className='rune-row';
+                [p.subStyle1,p.subStyle2]
+                    .forEach(u=>sub.innerHTML+=`<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`);
                 runeCell.append(prim, sub);
-
-                // K/D/A
-                const kda = tr.insertCell();
-                kda.className = 'kd-cell';
+                const kda = tr.insertCell(); kda.className='kd-cell';
                 kda.innerHTML =
                     `<div class="kda-ratio">${p.kda.toFixed(2)}</div>
-                     <div class="kda-stats">${p.kills}/${p.deaths}/${p.assists}</div>`;
-
-                // 포지션
+           <div class="kda-stats">${p.kills}/${p.deaths}/${p.assists}</div>`;
                 tr.insertCell().textContent = p.teamPosition;
-
-                // 아이템
-                const items = tr.insertCell();
-                items.className = 'item-container';
-                const topRow = document.createElement('div'); topRow.className = 'item-row';
-                ['item0','item1','item2'].forEach(key => {
-                    const code = p[key];
-                    const src  = code && code !== '0'
-                        ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
-                        : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
-                    topRow.innerHTML += `<img src="${src}" alt="item">`;
+                const items = tr.insertCell(); items.className='item-container';
+                const topRow = document.createElement('div'); topRow.className='item-row';
+                ['item0','item1','item2'].forEach(key=>{
+                    const code=p[key],
+                        src=code&&code!=='0'
+                            ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
+                            : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
+                    topRow.innerHTML+=`<img src="${src}">`;
                 });
-                const botRow = document.createElement('div'); botRow.className = 'item-row';
-                ['item3','item4','item5','item6'].forEach(key => {
-                    const code = p[key];
-                    const src  = code && code !== '0'
-                        ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
-                        : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
-                    botRow.innerHTML += `<img src="${src}" alt="item">`;
+                const botRow = document.createElement('div'); botRow.className='item-row';
+                ['item3','item4','item5','item6'].forEach(key=>{
+                    const code=p[key],
+                        src=code&&code!=='0'
+                            ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
+                            : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
+                    botRow.innerHTML+=`<img src="${src}">`;
                 });
                 items.append(topRow, botRow);
-
-                // CS / 골드
                 tr.insertCell().innerHTML = `CS ${p.totalMinionsKilled}<br>골드 ${p.goldEarned}`;
-
-                // 9~12) 그래프 데이터 + 툴팁
-                ['totalDamageDealtToChampions','totalDamageTaken','totalHealsOnTeammates','damageDealtToBuildings']
-                    .forEach(key => {
-                        const cell = tr.insertCell();
-                        cell.className    = 'graph';
-                        cell.dataset.value = p[key];
-
-                        let titleText = '';
-                        switch (key) {
-                            case 'damageDealtToBuildings':           titleText = '타워에게 가한 피해';      break;
-                            case 'totalDamageDealtToChampions':     titleText = '챔피언에게 가한 피해';    break;
-                            case 'totalDamageTaken':                titleText = '챔피언에게 받은 피해';    break;
-                            case 'totalHealsOnTeammates':           titleText = '총 힐량';        break;
-                        }
-                        cell.title = titleText;
-                    });
-
-                // 와드
+                [
+                    ['totalDamageDealtToChampions','챔피언에게 가한 피해'],
+                    ['totalDamageTaken','챔피언에게 받은 피해'],
+                    ['totalHealsOnTeammates','총 힐량'],
+                    ['damageDealtToBuildings','타워에게 가한 피해']
+                ].forEach(([key,title])=>{
+                    const cell = tr.insertCell();
+                    cell.className     = 'graph';
+                    cell.dataset.value = p[key];
+                    cell.title         = title;
+                });
                 const wardCell = tr.insertCell();
                 wardCell.title = '시야점수 / 구매한 핑와\n와드 설치 / 파괴';
                 wardCell.innerHTML =
@@ -733,17 +716,14 @@
     }
 
     function renderGraphs() {
-        const cells = document.querySelectorAll('td.graph');
-        const vals  = Array.from(cells).map(td => +td.dataset.value);
-        const max   = Math.max(...vals, 1);
-        cells.forEach(td => {
-            const v   = +td.dataset.value;
-            const pct = Math.round((v / max) * 100);
-            td.innerHTML = `
-                <div class="bar-number">${v}</div>
-                <div class="bar-container">
-                  <div class="bar" style="width:${pct}%"></div>
-                </div>`;
+        document.querySelectorAll('td.graph').forEach(td=>{
+            const v   = +td.dataset.value,
+                pct = Math.round(v/Math.max(...Array.from(document.querySelectorAll('td.graph')).map(t=>+t.dataset.value),1)*100);
+            td.innerHTML =
+                `<div class="bar-number">${v}</div>
+         <div class="bar-container">
+           <div class="bar" style="width:${pct}%"></div>
+         </div>`;
         });
     }
 </script>

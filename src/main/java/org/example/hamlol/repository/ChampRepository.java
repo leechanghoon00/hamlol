@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface ChampRepository extends JpaRepository<ChampEntity, String> {
-
+ChampEntity findByKey(String key);
 }

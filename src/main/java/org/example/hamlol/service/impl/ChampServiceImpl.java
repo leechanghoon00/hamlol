@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import org.example.hamlol.dto.ChampDTO;
+import org.example.hamlol.dto.GameRecordDTO;
 import org.example.hamlol.entity.ChampEntity;
 import org.example.hamlol.repository.ChampRepository;
+import org.example.hamlol.repository.GameRecordRepository;
 import org.example.hamlol.service.ChampService;
 import org.example.hamlol.urlenum.RiotUrlApi;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,19 @@ import java.util.List;
 public class ChampServiceImpl implements ChampService {
     @Autowired
     private final ChampRepository champRepository;
+    private GameRecordDTO gameRecordDTO;
+
+
     @Autowired
     private RestTemplate restTemplate;
     @Autowired
     private ObjectMapper objectMapper; // JSON 파싱용
 
-    public ChampServiceImpl(ChampRepository champRepository) {
+
+private final GameRecordRepository gameRecordRepository;
+    public ChampServiceImpl(ChampRepository champRepository, GameRecordRepository gameRecordRepository) {
         this.champRepository = champRepository;
+        this.gameRecordRepository = gameRecordRepository;
     }
 
 
@@ -71,4 +79,18 @@ public class ChampServiceImpl implements ChampService {
 
 
     }
+
+    @Override
+    public List<ChampDTO> getChamp() {
+        return champRepository.findAll().stream()
+                .map(e -> new ChampDTO(e.getId(), e.getKey(), e.getName()))
+                .toList();
+    }
+
+
+
+
+
+
+
 }

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8"/>
+    <title>롤 전적 리스트</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+        }
+        .back-btn {
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background: #60a5fa;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #matches {
+            width: 100%;
+            max-width: 960px;
+        }
+        .match-card {
+            background-color: #ebf4ff;
+            border-left: 6px solid #60a5fa;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .match-card.lose {
+            background-color: #ffe4e6;
+            border-left: 6px solid #f87171;
+        }
+        .match-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .champion {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-right: 12px;
+        }
+        .champion img {
+            width: 60px; height: 60px;
+            border-radius: 6px;
+            margin-bottom: 6px;
+        }
+        .info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            margin-right: 20px;
+            min-width: 180px;
+        }
+        .items {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .item-box {
+            width: 48px; height: 48px;
+            border-radius: 6px;
+            background-color: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .item-box img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+        .kda {
+            font-weight: bold;
+        }
+        .cs {
+            font-size: 12px;
+            color: #4b5563;
+        }
+        .summoner-spells {
+            display: flex;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .summoner-spells img {
+            width: 24px; height: 24px;
+            border-radius: 4px;
+        }
+        .toggle-btn {
+            font-size: 20px;
+            background: none;
+            border: none;
+            color: #6b7280;
+            cursor: pointer;
+            transform: rotate(0deg);
+            transition: transform 0.2s ease;
+        }
+        .toggle-btn.open {
+            transform: rotate(90deg);
+        }
+        .match-detail {
+            margin-top: 10px;
+            background: rgba(0,0,0,0.05);
+            padding: 10px;
+            border-radius: 6px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<button class="back-btn"
+        onclick="loadPageWithJWT('/main.html','/main.html')">
+    ← 메인으로 돌아가기
+</button>
+
+<div id="matches">로딩 중…</div>
+
+<script>
+    // JWT를 헤더에 담아 페이지를 fetch 한 뒤 전체 교체
+    function loadPageWithJWT(url, fallbackUrl) {
+        fetch(url, {
+            headers: { 'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') },
+            cache: 'no-store'
+        })
+            .then(res => {
+                if (!res.ok) throw new Error('페이지 로드 실패 ' + res.status);
+                return res.text();
+            })
+            .then(html => {
+                document.open();
+                document.write(html);
+                document.close();
+            })
+            .catch(err => {
+                console.error(err);
+                window.location.href = fallbackUrl;
+            });
+    }
+
+    const version = '15.7.1';
+    const summonerSpellURL = `https://ddragon.leagueoflegends.com/cdn/${version}/data/en_US/summoner.json`;
+    const summonerSpellMap = {};
+    let data = [];
+
+    const formatTime = sec => `${Math.floor(sec/60)}분 ${sec%60}초`;
+    const timeAgo = ts => {
+        const diff = Date.now() - ts;
+        const mins = Math.floor(diff/60000),
+            hrs  = Math.floor(mins/60),
+            days = Math.floor(hrs/24);
+        if (days>0) return `${days}일 전`;
+        if (hrs>0)  return `${hrs}시간 전`;
+        if (mins>0) return `${mins}분 전`;
+        return '방금 전';
+    };
+
+    function renderMatches() {
+        const container = document.getElementById('matches');
+        container.innerHTML = '';
+        data.forEach((m,i) => {
+            const s1 = summonerSpellMap[m.summoner1Id],
+                s2 = summonerSpellMap[m.summoner2Id],
+                detailId = `detail-${i}`;
+            const card = document.createElement('div');
+            card.className = `match-card ${m.win?'':'lose'}`;
+            card.innerHTML = `
+          <div class="match-header">
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <div class="champion">
+                <img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/champion/${m.championName}.png" alt="">
+                <div>${m.championName}</div>
+                <div class="summoner-spells">
+                  <img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/${s1}.png">
+                  <img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/spell/${s2}.png">
+                </div>
+              </div>
+              <div class="info">
+                <div><strong>${m.riotIdGameName}</strong></div>
+                <div>포지션: ${m.teamPosition}</div>
+                <div class="kda">${m.kills}/${m.deaths}/${m.assists} (KDA: ${m.kda.toFixed(2)})</div>
+                <div class="cs">CS:${m.totalMinionsKilled} | ${formatTime(m.gameDuration)}<br>시작:${timeAgo(m.gameCreation)}</div>
+                <div><strong>Match ID:</strong> ${m.matchId}</div>
+              </div>
+              <div class="items">
+                ${[m.item0,m.item1,m.item2,m.item3,m.item4,m.item5,m.item6]
+                .map(id => id==='0'
+                    ? `<div class="item-box"></div>`
+                    : `<div class="item-box"><img src="https://ddragon.leagueoflegends.com/cdn/${version}/img/item/${id}.png"></div>`
+                ).join('')}
+              </div>
+            </div>
+            <button class="toggle-btn" data-target="${detailId}">▶</button>
+          </div>
+          <div class="match-detail" id="${detailId}">전적 상세 정보 영역입니다.</div>
+        `;
+            container.appendChild(card);
+        });
+        document.querySelectorAll('.toggle-btn').forEach(b => {
+            b.addEventListener('click', () => {
+                const d = document.getElementById(b.dataset.target),
+                    open = d.style.display==='block';
+                d.style.display = open?'none':'block';
+                b.textContent = open?'▶':'▼';
+            });
+        });
+    }
+
+    function fetchAndRender() {
+        document.getElementById('matches').textContent = '로딩 중…';
+        fetch(summonerSpellURL,{cache:'no-store'})
+            .then(r=>r.json())
+            .then(sp=> {
+                Object.values(sp.data).forEach(s=> summonerSpellMap[s.key]=s.id);
+                const params = new URLSearchParams({
+                    riotIdGameName:'류천이',
+                    riotidtagline:'KR1'
+                });
+                return fetch(`/api/bygameid?${params}`, {
+                    cache:'no-store',
+                    headers:{ 'Authorization':'Bearer '+localStorage.getItem('jwtToken') }
+                });
+            })
+            .then(r=> r.ok? r.json(): Promise.reject(r.status))
+            .then(json => {
+                data = json.sort((a,b)=> b.gameCreation - a.gameCreation);
+                renderMatches();
+            })
+            .catch(e=> {
+                console.error(e);
+                document.getElementById('matches').textContent = '전적을 불러올 수 없습니다.';
+            });
+    }
+
+    window.addEventListener('DOMContentLoaded', fetchAndRender);
+    window.addEventListener('pageshow',     fetchAndRender);
+    window.addEventListener('popstate',     fetchAndRender);
+</script>
+
+</body>
+</html>

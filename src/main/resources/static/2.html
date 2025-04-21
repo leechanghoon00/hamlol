@@ -30,7 +30,6 @@
         .red-row td  { background: rgba(183,28,28,0.1); }
         .blue-row td { background: rgba(13,71,161,0.1); }
 
-        /* 레이블 행: 간격 좁게, nowrap */
         .label-row td {
             background: transparent;
             border: none;
@@ -40,6 +39,12 @@
             font-size: 14px;
             white-space: nowrap;
         }
+
+        .ban-container {
+            padding-left:4px;
+            vertical-align: center; }
+
+        .label-row > td > span { vertical-align: middle; }
 
         /* 기타 스타일 생략… (챔프, 룬, 아이템, 그래프 등 동일) */
         .champion-image,
@@ -56,526 +61,544 @@
             margin: 4px auto 0; width: 100%;
         }
         .bar { height: 100%; background: #4CAF50; }
+
+        .ban-img {
+            width: 24px !important; /* 우선순위 높이기 */
+            height: 24px !important;
+            object-fit: contain; /* 이미지 비율을 유지하면서 잘리지 않게 표시 */
+        }
+
+        img { vertical-align: top }
+
+        .info-cell {
+            word-break: break-word;
+        }
     </style>
 </head>
 <body>
-
 <table id="combined-team">
+    <thead>
+    <tr>
+        <th>챔피언</th>
+        <th>닉네임</th>
+        <th>스펠</th>
+        <th>룬</th>
+        <th>KDA</th>
+        <th>라인</th>
+        <th>아이템</th>
+        <th>CS</th>
+        <th>챔피언에게 가한 피해</th>
+        <th>챔피언에게 받은 피해</th>
+        <th>힐량</th>
+        <th>타워에 가한 피해</th>
+        <th>시야 점수</th>
+    </tr>
+    </thead>
     <tbody></tbody>
 </table>
 
 <script>
     const jsonData = [
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
             "teamType": "blue",
-            "riotIdGameName": "돌풍시비르",
-            "championName": "Tristana",
-            "damageDealtToBuildings": 13642,
-            "goldEarned": 12378,
-            "item0": "6675",
-            "item1": "1055",
-            "item2": "0",
-            "item3": "3031",
-            "item4": "3032",
-            "item5": "3006",
-            "item6": "3363",
-            "kills": 8,
-            "deaths": 1,
-            "assists": 6,
-            "kda": 14.0,
+            "riotIdGameName": "사나이고길동",
+            "championName": "Orianna",
+            "damageDealtToBuildings": 10177,
+            "goldEarned": 13233,
+            "item0": "6653",
+            "item1": "1056",
+            "item2": "3040",
+            "item3": "6655",
+            "item4": "3158",
+            "item5": "1058",
+            "item6": "3340",
+            "kills": 7,
+            "deaths": 4,
+            "assists": 13,
+            "kda": 5.0,
             "riotIdTagline": "KR1",
-            "summoner1Id": "1",
+            "summoner1Id": "12",
             "summoner2Id": "4",
-            "teamPosition": "BOTTOM",
-            "totalDamageDealtToChampions": 28293,
-            "totalDamageTaken": 17565,
+            "teamPosition": "MIDDLE",
+            "totalDamageDealtToChampions": 29874,
+            "totalDamageTaken": 18913,
             "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 208,
-            "visionScore": 28,
-            "visionWardsBoughtInGame": 4,
-            "wardsPlaced": 13,
-            "wardsKilled": 9,
+            "totalMinionsKilled": 222,
+            "visionScore": 19,
+            "visionWardsBoughtInGame": 0,
+            "wardsPlaced": 8,
+            "wardsKilled": 3,
             "win": true,
-            "primaryStyle1": "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
-            "primaryStyle2": "perk-images/Styles/Precision/Triumph.png",
-            "primaryStyle3": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
-            "primaryStyle4": "perk-images/Styles/Precision/CutDown/CutDown.png",
-            "subStyle1": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
-            "subStyle2": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
-            "bans": "[{\"championId\":\"Zeri\",\"pickTurn\":1},{\"championId\":\"Zed\",\"pickTurn\":3},{\"championId\":\"Lucian\",\"pickTurn\":5},{\"championId\":\"Gangplank\",\"pickTurn\":2},{\"championId\":\"Akali\",\"pickTurn\":4}]",
-            "baronKills": 1,
-            "championKills": 29,
-            "dragonKills": 1,
+            "primaryStyle1": "perk-images/Styles/Sorcery/PhaseRush/PhaseRush.png",
+            "primaryStyle2": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
+            "primaryStyle3": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
+            "primaryStyle4": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
+            "subStyle1": "perk-images/Styles/Precision/CutDown/CutDown.png",
+            "subStyle2": "perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
+            "bans": "[{\"championId\":\"Yuumi\",\"pickTurn\":1},{\"championId\":\"Lulu\",\"pickTurn\":3},{\"championId\":\"MonkeyKing\",\"pickTurn\":5},{\"championId\":\"Viktor\",\"pickTurn\":2},{\"championId\":\"Gwen\",\"pickTurn\":4}]",
+            "baronKills": 0,
+            "championKills": 24,
+            "dragonKills": 3,
             "hordeKills": 6,
             "inhibitorKills": 2,
             "riftHeraldKills": 1,
             "towerKills": 10
         },
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
             "teamType": "blue",
-            "riotIdGameName": "몽구베어",
-            "championName": "Yuumi",
-            "damageDealtToBuildings": 874,
-            "goldEarned": 7712,
-            "item0": "3870",
-            "item1": "2055",
-            "item2": "3504",
-            "item3": "6617",
-            "item4": "3114",
-            "item5": "3067",
+            "riotIdGameName": "롤졸못",
+            "championName": "Milio",
+            "damageDealtToBuildings": 2579,
+            "goldEarned": 7945,
+            "item0": "3171",
+            "item1": "3870",
+            "item2": "3107",
+            "item3": "2055",
+            "item4": "6617",
+            "item5": "0",
             "item6": "3364",
-            "kills": 2,
-            "deaths": 0,
-            "assists": 15,
-            "kda": 17.0,
+            "kills": 0,
+            "deaths": 1,
+            "assists": 18,
+            "kda": 18.0,
             "riotIdTagline": "KR1",
-            "summoner1Id": "3",
-            "summoner2Id": "7",
+            "summoner1Id": "7",
+            "summoner2Id": "4",
             "teamPosition": "UTILITY",
-            "totalDamageDealtToChampions": 8931,
-            "totalDamageTaken": 1323,
-            "totalHealsOnTeammates": 6911,
-            "totalMinionsKilled": 8,
-            "visionScore": 41,
-            "visionWardsBoughtInGame": 5,
-            "wardsPlaced": 23,
-            "wardsKilled": 0,
+            "totalDamageDealtToChampions": 6847,
+            "totalDamageTaken": 8326,
+            "totalHealsOnTeammates": 5130,
+            "totalMinionsKilled": 27,
+            "visionScore": 58,
+            "visionWardsBoughtInGame": 6,
+            "wardsPlaced": 26,
+            "wardsKilled": 7,
             "win": true,
             "primaryStyle1": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png",
             "primaryStyle2": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
             "primaryStyle3": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
             "primaryStyle4": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
-            "subStyle1": "perk-images/Styles/Resolve/FontOfLife/FontOfLife.png",
-            "subStyle2": "perk-images/Styles/Resolve/Revitalize/Revitalize.png",
-            "bans": "[{\"championId\":\"Zeri\",\"pickTurn\":1},{\"championId\":\"Zed\",\"pickTurn\":3},{\"championId\":\"Lucian\",\"pickTurn\":5},{\"championId\":\"Gangplank\",\"pickTurn\":2},{\"championId\":\"Akali\",\"pickTurn\":4}]",
-            "baronKills": 1,
-            "championKills": 29,
-            "dragonKills": 1,
+            "subStyle1": "perk-images/Styles/Resolve/BonePlating/BonePlating.png",
+            "subStyle2": "perk-images/Styles/Resolve/Overgrowth/Overgrowth.png",
+            "bans": "[{\"championId\":\"Yuumi\",\"pickTurn\":1},{\"championId\":\"Lulu\",\"pickTurn\":3},{\"championId\":\"MonkeyKing\",\"pickTurn\":5},{\"championId\":\"Viktor\",\"pickTurn\":2},{\"championId\":\"Gwen\",\"pickTurn\":4}]",
+            "baronKills": 0,
+            "championKills": 24,
+            "dragonKills": 3,
             "hordeKills": 6,
             "inhibitorKills": 2,
             "riftHeraldKills": 1,
             "towerKills": 10
         },
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
             "teamType": "blue",
-            "riotIdGameName": "현정권에대한도전",
-            "championName": "Mordekaiser",
-            "damageDealtToBuildings": 8844,
-            "goldEarned": 13898,
-            "item0": "4633",
-            "item1": "6653",
-            "item2": "3116",
-            "item3": "3111",
-            "item4": "3211",
-            "item5": "3067",
-            "item6": "3340",
-            "kills": 9,
-            "deaths": 2,
-            "assists": 5,
-            "kda": 7.0,
+            "riotIdGameName": "LeGom",
+            "championName": "Kayn",
+            "damageDealtToBuildings": 1167,
+            "goldEarned": 9976,
+            "item0": "1055",
+            "item1": "6692",
+            "item2": "3047",
+            "item3": "1028",
+            "item4": "3071",
+            "item5": "1036",
+            "item6": "3364",
+            "kills": 7,
+            "deaths": 3,
+            "assists": 2,
+            "kda": 3.0,
             "riotIdTagline": "KR1",
             "summoner1Id": "4",
             "summoner2Id": "12",
             "teamPosition": "TOP",
-            "totalDamageDealtToChampions": 22175,
-            "totalDamageTaken": 26881,
+            "totalDamageDealtToChampions": 17365,
+            "totalDamageTaken": 24222,
             "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 214,
-            "visionScore": 7,
+            "totalMinionsKilled": 173,
+            "visionScore": 15,
             "visionWardsBoughtInGame": 0,
-            "wardsPlaced": 4,
-            "wardsKilled": 2,
+            "wardsPlaced": 8,
+            "wardsKilled": 0,
             "win": true,
             "primaryStyle1": "perk-images/Styles/Precision/Conqueror/Conqueror.png",
-            "primaryStyle2": "perk-images/Styles/Precision/Triumph.png",
-            "primaryStyle3": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
+            "primaryStyle2": "perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
+            "primaryStyle3": "perk-images/Styles/Precision/LegendHaste/LegendHaste.png",
             "primaryStyle4": "perk-images/Styles/Sorcery/LastStand/LastStand.png",
-            "subStyle1": "perk-images/Styles/Resolve/BonePlating/BonePlating.png",
-            "subStyle2": "perk-images/Styles/Resolve/Revitalize/Revitalize.png",
-            "bans": "[{\"championId\":\"Zeri\",\"pickTurn\":1},{\"championId\":\"Zed\",\"pickTurn\":3},{\"championId\":\"Lucian\",\"pickTurn\":5},{\"championId\":\"Gangplank\",\"pickTurn\":2},{\"championId\":\"Akali\",\"pickTurn\":4}]",
-            "baronKills": 1,
-            "championKills": 29,
-            "dragonKills": 1,
+            "subStyle1": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
+            "subStyle2": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
+            "bans": "[{\"championId\":\"Yuumi\",\"pickTurn\":1},{\"championId\":\"Lulu\",\"pickTurn\":3},{\"championId\":\"MonkeyKing\",\"pickTurn\":5},{\"championId\":\"Viktor\",\"pickTurn\":2},{\"championId\":\"Gwen\",\"pickTurn\":4}]",
+            "baronKills": 0,
+            "championKills": 24,
+            "dragonKills": 3,
             "hordeKills": 6,
             "inhibitorKills": 2,
             "riftHeraldKills": 1,
             "towerKills": 10
         },
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
             "teamType": "blue",
-            "riotIdGameName": "롤졸못",
-            "championName": "Xerath",
-            "damageDealtToBuildings": 842,
-            "goldEarned": 9882,
-            "item0": "1056",
-            "item1": "6655",
-            "item2": "3020",
-            "item3": "0",
-            "item4": "4645",
-            "item5": "0",
-            "item6": "3363",
-            "kills": 4,
-            "deaths": 2,
-            "assists": 7,
-            "kda": 5.5,
-            "riotIdTagline": "KR1",
-            "summoner1Id": "12",
-            "summoner2Id": "4",
-            "teamPosition": "MIDDLE",
-            "totalDamageDealtToChampions": 21006,
-            "totalDamageTaken": 11930,
-            "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 168,
-            "visionScore": 19,
-            "visionWardsBoughtInGame": 3,
-            "wardsPlaced": 11,
-            "wardsKilled": 5,
-            "win": true,
-            "primaryStyle1": "perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png",
-            "primaryStyle2": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
-            "primaryStyle3": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
-            "primaryStyle4": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
-            "subStyle1": "perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
-            "subStyle2": "perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
-            "bans": "[{\"championId\":\"Zeri\",\"pickTurn\":1},{\"championId\":\"Zed\",\"pickTurn\":3},{\"championId\":\"Lucian\",\"pickTurn\":5},{\"championId\":\"Gangplank\",\"pickTurn\":2},{\"championId\":\"Akali\",\"pickTurn\":4}]",
-            "baronKills": 1,
-            "championKills": 29,
-            "dragonKills": 1,
-            "hordeKills": 6,
-            "inhibitorKills": 2,
-            "riftHeraldKills": 1,
-            "towerKills": 10
-        },
-        {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
-            "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
-            "teamType": "blue",
-            "riotIdGameName": "상일대표",
-            "championName": "MonkeyKing",
-            "damageDealtToBuildings": 3264,
-            "goldEarned": 11105,
-            "item0": "6610",
+            "riotIdGameName": "실리카겔검정치마",
+            "championName": "Yorick",
+            "damageDealtToBuildings": 4498,
+            "goldEarned": 11576,
+            "item0": "3161",
             "item1": "3078",
-            "item2": "2055",
-            "item3": "3067",
-            "item4": "3047",
-            "item5": "3044",
+            "item2": "1031",
+            "item3": "3066",
+            "item4": "3170",
+            "item5": "1028",
             "item6": "3364",
             "kills": 6,
             "deaths": 2,
             "assists": 9,
             "kda": 7.5,
-            "riotIdTagline": "KR1",
+            "riotIdTagline": "잔나비",
             "summoner1Id": "11",
             "summoner2Id": "4",
             "teamPosition": "JUNGLE",
-            "totalDamageDealtToChampions": 11491,
-            "totalDamageTaken": 24808,
+            "totalDamageDealtToChampions": 21560,
+            "totalDamageTaken": 27043,
             "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 9,
-            "visionScore": 15,
-            "visionWardsBoughtInGame": 3,
-            "wardsPlaced": 4,
-            "wardsKilled": 2,
+            "totalMinionsKilled": 43,
+            "visionScore": 32,
+            "visionWardsBoughtInGame": 4,
+            "wardsPlaced": 6,
+            "wardsKilled": 9,
             "win": true,
             "primaryStyle1": "perk-images/Styles/Precision/Conqueror/Conqueror.png",
             "primaryStyle2": "perk-images/Styles/Precision/Triumph.png",
             "primaryStyle3": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
-            "primaryStyle4": "perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
-            "subStyle1": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
-            "subStyle2": "perk-images/Styles/Inspiration/CosmicInsight/CosmicInsight.png",
-            "bans": "[{\"championId\":\"Zeri\",\"pickTurn\":1},{\"championId\":\"Zed\",\"pickTurn\":3},{\"championId\":\"Lucian\",\"pickTurn\":5},{\"championId\":\"Gangplank\",\"pickTurn\":2},{\"championId\":\"Akali\",\"pickTurn\":4}]",
-            "baronKills": 1,
-            "championKills": 29,
-            "dragonKills": 1,
+            "primaryStyle4": "perk-images/Styles/Sorcery/LastStand/LastStand.png",
+            "subStyle1": "perk-images/Styles/Resolve/ApproachVelocity/ApproachVelocity.png",
+            "subStyle2": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+            "bans": "[{\"championId\":\"Yuumi\",\"pickTurn\":1},{\"championId\":\"Lulu\",\"pickTurn\":3},{\"championId\":\"MonkeyKing\",\"pickTurn\":5},{\"championId\":\"Viktor\",\"pickTurn\":2},{\"championId\":\"Gwen\",\"pickTurn\":4}]",
+            "baronKills": 0,
+            "championKills": 24,
+            "dragonKills": 3,
             "hordeKills": 6,
             "inhibitorKills": 2,
             "riftHeraldKills": 1,
             "towerKills": 10
         },
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
+            "teamType": "blue",
+            "riotIdGameName": "돌풍시비르",
+            "championName": "Lucian",
+            "damageDealtToBuildings": 6725,
+            "goldEarned": 12401,
+            "item0": "0",
+            "item1": "3086",
+            "item2": "3153",
+            "item3": "3508",
+            "item4": "3033",
+            "item5": "2422",
+            "item6": "3363",
+            "kills": 4,
+            "deaths": 1,
+            "assists": 7,
+            "kda": 11.0,
+            "riotIdTagline": "KR1",
+            "summoner1Id": "21",
+            "summoner2Id": "4",
+            "teamPosition": "BOTTOM",
+            "totalDamageDealtToChampions": 22790,
+            "totalDamageTaken": 13457,
+            "totalHealsOnTeammates": 0,
+            "totalMinionsKilled": 250,
+            "visionScore": 24,
+            "visionWardsBoughtInGame": 1,
+            "wardsPlaced": 9,
+            "wardsKilled": 4,
+            "win": true,
+            "primaryStyle1": "perk-images/Styles/Precision/PressTheAttack/PressTheAttack.png",
+            "primaryStyle2": "perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
+            "primaryStyle3": "perk-images/Styles/Precision/LegendBloodline/LegendBloodline.png",
+            "primaryStyle4": "perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
+            "subStyle1": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+            "subStyle2": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
+            "bans": "[{\"championId\":\"Yuumi\",\"pickTurn\":1},{\"championId\":\"Lulu\",\"pickTurn\":3},{\"championId\":\"MonkeyKing\",\"pickTurn\":5},{\"championId\":\"Viktor\",\"pickTurn\":2},{\"championId\":\"Gwen\",\"pickTurn\":4}]",
+            "baronKills": 0,
+            "championKills": 24,
+            "dragonKills": 3,
+            "hordeKills": 6,
+            "inhibitorKills": 2,
+            "riftHeraldKills": 1,
+            "towerKills": 10
+        },
+        {
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743861463306,
             "teamType": "red",
-            "riotIdGameName": "유충타고상급자코스돌다교통사고",
-            "championName": "Poppy",
-            "damageDealtToBuildings": 0,
-            "goldEarned": 7241,
-            "item0": "3076",
-            "item1": "3111",
-            "item2": "1028",
-            "item3": "6610",
-            "item4": "1029",
-            "item5": "0",
+            "riotIdGameName": "상일대표",
+            "championName": "DrMundo",
+            "damageDealtToBuildings": 1969,
+            "goldEarned": 9517,
+            "item0": "3047",
+            "item1": "3084",
+            "item2": "3076",
+            "item3": "3067",
+            "item4": "0",
+            "item5": "3742",
+            "item6": "3364",
+            "kills": 2,
+            "deaths": 4,
+            "assists": 6,
+            "kda": 2.0,
+            "riotIdTagline": "KR1",
+            "summoner1Id": "11",
+            "summoner2Id": "6",
+            "teamPosition": "JUNGLE",
+            "totalDamageDealtToChampions": 11503,
+            "totalDamageTaken": 44904,
+            "totalHealsOnTeammates": 0,
+            "totalMinionsKilled": 42,
+            "visionScore": 13,
+            "visionWardsBoughtInGame": 2,
+            "wardsPlaced": 3,
+            "wardsKilled": 2,
+            "win": false,
+            "primaryStyle1": "perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png",
+            "primaryStyle2": "perk-images/Styles/Precision/Triumph.png",
+            "primaryStyle3": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
+            "primaryStyle4": "perk-images/Styles/Precision/CutDown/CutDown.png",
+            "subStyle1": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
+            "subStyle2": "perk-images/Styles/Resolve/ApproachVelocity/ApproachVelocity.png",
+            "bans": "[{\"championId\":\"Smolder\",\"pickTurn\":2},{\"championId\":\"RekSai\",\"pickTurn\":4},{\"championId\":\"Belveth\",\"pickTurn\":6},{\"championId\":\"Nami\",\"pickTurn\":1},{\"championId\":\"Aurora\",\"pickTurn\":3}]",
+            "baronKills": 0,
+            "championKills": 11,
+            "dragonKills": 1,
+            "hordeKills": 0,
+            "inhibitorKills": 0,
+            "riftHeraldKills": 0,
+            "towerKills": 2
+        },
+        {
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743861463306,
+            "teamType": "red",
+            "riotIdGameName": "몽구베어",
+            "championName": "Seraphine",
+            "damageDealtToBuildings": 964,
+            "goldEarned": 6294,
+            "item0": "3870",
+            "item1": "2055",
+            "item2": "3158",
+            "item3": "3114",
+            "item4": "6617",
+            "item5": "3067",
             "item6": "3364",
             "kills": 1,
-            "deaths": 7,
-            "assists": 3,
-            "kda": 0.5714286,
-            "riotIdTagline": "이게닿네",
+            "deaths": 4,
+            "assists": 4,
+            "kda": 1.25,
+            "riotIdTagline": "KR1",
             "summoner1Id": "4",
-            "summoner2Id": "11",
-            "teamPosition": "JUNGLE",
-            "totalDamageDealtToChampions": 9085,
-            "totalDamageTaken": 32960,
-            "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 11,
-            "visionScore": 34,
-            "visionWardsBoughtInGame": 4,
-            "wardsPlaced": 8,
-            "wardsKilled": 7,
-            "win": false,
-            "primaryStyle1": "perk-images/Styles/Domination/DarkHarvest/DarkHarvest.png",
-            "primaryStyle2": "perk-images/Styles/Domination/CheapShot/CheapShot.png",
-            "primaryStyle3": "perk-images/Styles/Domination/GrislyMementos/GrislyMementos.png",
-            "primaryStyle4": "perk-images/Styles/Domination/RelentlessHunter/RelentlessHunter.png",
-            "subStyle1": "perk-images/Styles/Sorcery/Celerity/CelerityTemp.png",
-            "subStyle2": "perk-images/Styles/Sorcery/Waterwalking/Waterwalking.png",
-            "bans": "[{\"championId\":\"Naafiri\",\"pickTurn\":2},{\"championId\":\"Ahri\",\"pickTurn\":4},{\"championId\":\"Lissandra\",\"pickTurn\":6},{\"championId\":\"Vex\",\"pickTurn\":1},{\"championId\":\"Galio\",\"pickTurn\":3}]",
-            "baronKills": 0,
-            "championKills": 7,
-            "dragonKills": 2,
-            "hordeKills": 0,
-            "inhibitorKills": 0,
-            "riftHeraldKills": 0,
-            "towerKills": 1
-        },
-        {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
-            "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
-            "teamType": "red",
-            "riotIdGameName": "앵무새",
-            "championName": "Lulu",
-            "damageDealtToBuildings": 138,
-            "goldEarned": 5512,
-            "item0": "3916",
-            "item1": "3870",
-            "item2": "2055",
-            "item3": "6617",
-            "item4": "3158",
-            "item5": "0",
-            "item6": "3364",
-            "kills": 0,
-            "deaths": 3,
-            "assists": 3,
-            "kda": 1.0,
-            "riotIdTagline": "6589",
-            "summoner1Id": "3",
-            "summoner2Id": "4",
+            "summoner2Id": "7",
             "teamPosition": "UTILITY",
-            "totalDamageDealtToChampions": 5034,
-            "totalDamageTaken": 15104,
-            "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 18,
-            "visionScore": 47,
-            "visionWardsBoughtInGame": 7,
-            "wardsPlaced": 23,
+            "totalDamageDealtToChampions": 10849,
+            "totalDamageTaken": 14779,
+            "totalHealsOnTeammates": 1931,
+            "totalMinionsKilled": 28,
+            "visionScore": 49,
+            "visionWardsBoughtInGame": 6,
+            "wardsPlaced": 22,
             "wardsKilled": 7,
             "win": false,
             "primaryStyle1": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png",
             "primaryStyle2": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
             "primaryStyle3": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
-            "primaryStyle4": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
-            "subStyle1": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
-            "subStyle2": "perk-images/Styles/Inspiration/CosmicInsight/CosmicInsight.png",
-            "bans": "[{\"championId\":\"Naafiri\",\"pickTurn\":2},{\"championId\":\"Ahri\",\"pickTurn\":4},{\"championId\":\"Lissandra\",\"pickTurn\":6},{\"championId\":\"Vex\",\"pickTurn\":1},{\"championId\":\"Galio\",\"pickTurn\":3}]",
+            "primaryStyle4": "perk-images/Styles/Sorcery/GatheringStorm/GatheringStorm.png",
+            "subStyle1": "perk-images/Styles/Resolve/Revitalize/Revitalize.png",
+            "subStyle2": "perk-images/Styles/Resolve/FontOfLife/FontOfLife.png",
+            "bans": "[{\"championId\":\"Smolder\",\"pickTurn\":2},{\"championId\":\"RekSai\",\"pickTurn\":4},{\"championId\":\"Belveth\",\"pickTurn\":6},{\"championId\":\"Nami\",\"pickTurn\":1},{\"championId\":\"Aurora\",\"pickTurn\":3}]",
             "baronKills": 0,
-            "championKills": 7,
-            "dragonKills": 2,
+            "championKills": 11,
+            "dragonKills": 1,
             "hordeKills": 0,
             "inhibitorKills": 0,
             "riftHeraldKills": 0,
-            "towerKills": 1
+            "towerKills": 2
         },
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
             "teamType": "red",
-            "riotIdGameName": "류천이",
-            "championName": "Viktor",
-            "damageDealtToBuildings": 1554,
-            "goldEarned": 11110,
-            "item0": "1058",
-            "item1": "1058",
-            "item2": "2503",
-            "item3": "6653",
-            "item4": "3020",
-            "item5": "1082",
-            "item6": "3364",
-            "kills": 5,
-            "deaths": 5,
-            "assists": 1,
-            "kda": 1.2,
-            "riotIdTagline": "KR1",
-            "summoner1Id": "4",
-            "summoner2Id": "12",
-            "teamPosition": "MIDDLE",
-            "totalDamageDealtToChampions": 21568,
-            "totalDamageTaken": 19305,
-            "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 207,
-            "visionScore": 22,
-            "visionWardsBoughtInGame": 1,
-            "wardsPlaced": 5,
-            "wardsKilled": 4,
-            "win": false,
-            "primaryStyle1": "perk-images/Styles/Sorcery/SummonAery/SummonAery.png",
-            "primaryStyle2": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
-            "primaryStyle3": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
-            "primaryStyle4": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
-            "subStyle1": "perk-images/Styles/Resolve/BonePlating/BonePlating.png",
-            "subStyle2": "perk-images/Styles/Resolve/MirrorShell/MirrorShell.png",
-            "bans": "[{\"championId\":\"Naafiri\",\"pickTurn\":2},{\"championId\":\"Ahri\",\"pickTurn\":4},{\"championId\":\"Lissandra\",\"pickTurn\":6},{\"championId\":\"Vex\",\"pickTurn\":1},{\"championId\":\"Galio\",\"pickTurn\":3}]",
-            "baronKills": 0,
-            "championKills": 7,
-            "dragonKills": 2,
-            "hordeKills": 0,
-            "inhibitorKills": 0,
-            "riftHeraldKills": 0,
-            "towerKills": 1
-        },
-        {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
-            "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
-            "teamType": "red",
-            "riotIdGameName": "LeGom",
-            "championName": "Xayah",
-            "damageDealtToBuildings": 181,
-            "goldEarned": 9193,
+            "riotIdGameName": "준원2",
+            "championName": "Jinx",
+            "damageDealtToBuildings": 494,
+            "goldEarned": 10046,
             "item0": "1055",
-            "item1": "3032",
-            "item2": "3047",
-            "item3": "6675",
-            "item4": "1018",
-            "item5": "1038",
-            "item6": "3340",
-            "kills": 0,
+            "item1": "1018",
+            "item2": "3031",
+            "item3": "3032",
+            "item4": "3006",
+            "item5": "3144",
+            "item6": "3363",
+            "kills": 2,
             "deaths": 6,
-            "assists": 1,
-            "kda": 0.16666667,
+            "assists": 3,
+            "kda": 0.8333333,
             "riotIdTagline": "KR1",
-            "summoner1Id": "4",
-            "summoner2Id": "21",
+            "summoner1Id": "21",
+            "summoner2Id": "4",
             "teamPosition": "BOTTOM",
-            "totalDamageDealtToChampions": 7738,
-            "totalDamageTaken": 18727,
+            "totalDamageDealtToChampions": 11909,
+            "totalDamageTaken": 20138,
             "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 237,
-            "visionScore": 17,
-            "visionWardsBoughtInGame": 0,
-            "wardsPlaced": 9,
-            "wardsKilled": 3,
+            "totalMinionsKilled": 231,
+            "visionScore": 16,
+            "visionWardsBoughtInGame": 1,
+            "wardsPlaced": 6,
+            "wardsKilled": 1,
             "win": false,
             "primaryStyle1": "perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png",
             "primaryStyle2": "perk-images/Styles/Precision/PresenceOfMind/PresenceOfMind.png",
             "primaryStyle3": "perk-images/Styles/Precision/LegendBloodline/LegendBloodline.png",
             "primaryStyle4": "perk-images/Styles/Precision/CoupDeGrace/CoupDeGrace.png",
-            "subStyle1": "perk-images/Styles/Inspiration/BiscuitDelivery/BiscuitDelivery.png",
-            "subStyle2": "perk-images/Styles/Inspiration/MagicalFootwear/MagicalFootwear.png",
-            "bans": "[{\"championId\":\"Naafiri\",\"pickTurn\":2},{\"championId\":\"Ahri\",\"pickTurn\":4},{\"championId\":\"Lissandra\",\"pickTurn\":6},{\"championId\":\"Vex\",\"pickTurn\":1},{\"championId\":\"Galio\",\"pickTurn\":3}]",
+            "subStyle1": "perk-images/Styles/Sorcery/AbsoluteFocus/AbsoluteFocus.png",
+            "subStyle2": "perk-images/Styles/Sorcery/GatheringStorm/GatheringStorm.png",
+            "bans": "[{\"championId\":\"Smolder\",\"pickTurn\":2},{\"championId\":\"RekSai\",\"pickTurn\":4},{\"championId\":\"Belveth\",\"pickTurn\":6},{\"championId\":\"Nami\",\"pickTurn\":1},{\"championId\":\"Aurora\",\"pickTurn\":3}]",
             "baronKills": 0,
-            "championKills": 7,
-            "dragonKills": 2,
+            "championKills": 11,
+            "dragonKills": 1,
             "hordeKills": 0,
             "inhibitorKills": 0,
             "riftHeraldKills": 0,
-            "towerKills": 1
+            "towerKills": 2
         },
         {
-            "matchId": "KR_7577785339",
-            "gameDuration": 1621,
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
             "gamemode": "CLASSIC",
-            "gameCreation": 1743254631658,
+            "gameCreation": 1743861463306,
             "teamType": "red",
-            "riotIdGameName": "사자 베기",
-            "championName": "Sett",
-            "damageDealtToBuildings": 3833,
-            "goldEarned": 7909,
-            "item0": "3111",
-            "item1": "6631",
-            "item2": "1037",
-            "item3": "1028",
-            "item4": "1054",
-            "item5": "2021",
+            "riotIdGameName": "요옹요옹이",
+            "championName": "Poppy",
+            "damageDealtToBuildings": 1818,
+            "goldEarned": 9382,
+            "item0": "6662",
+            "item1": "3068",
+            "item2": "3047",
+            "item3": "1057",
+            "item4": "1028",
+            "item5": "3076",
             "item6": "3340",
-            "kills": 1,
-            "deaths": 8,
+            "kills": 3,
+            "deaths": 3,
             "assists": 1,
-            "kda": 0.25,
-            "riotIdTagline": "KR2",
+            "kda": 1.3333334,
+            "riotIdTagline": "KR1",
             "summoner1Id": "12",
             "summoner2Id": "4",
             "teamPosition": "TOP",
-            "totalDamageDealtToChampions": 11109,
-            "totalDamageTaken": 27458,
+            "totalDamageDealtToChampions": 17190,
+            "totalDamageTaken": 22353,
             "totalHealsOnTeammates": 0,
-            "totalMinionsKilled": 153,
-            "visionScore": 34,
-            "visionWardsBoughtInGame": 4,
-            "wardsPlaced": 13,
-            "wardsKilled": 2,
+            "totalMinionsKilled": 184,
+            "visionScore": 14,
+            "visionWardsBoughtInGame": 0,
+            "wardsPlaced": 8,
+            "wardsKilled": 0,
             "win": false,
-            "primaryStyle1": "perk-images/Styles/Precision/Conqueror/Conqueror.png",
-            "primaryStyle2": "perk-images/Styles/Precision/Triumph.png",
-            "primaryStyle3": "perk-images/Styles/Precision/LegendAlacrity/LegendAlacrity.png",
-            "primaryStyle4": "perk-images/Styles/Sorcery/LastStand/LastStand.png",
-            "subStyle1": "perk-images/Styles/Resolve/Demolish/Demolish.png",
-            "subStyle2": "perk-images/Styles/Resolve/SecondWind/SecondWind.png",
-            "bans": "[{\"championId\":\"Naafiri\",\"pickTurn\":2},{\"championId\":\"Ahri\",\"pickTurn\":4},{\"championId\":\"Lissandra\",\"pickTurn\":6},{\"championId\":\"Vex\",\"pickTurn\":1},{\"championId\":\"Galio\",\"pickTurn\":3}]",
+            "primaryStyle1": "perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png",
+            "primaryStyle2": "perk-images/Styles/Resolve/MirrorShell/MirrorShell.png",
+            "primaryStyle3": "perk-images/Styles/Resolve/BonePlating/BonePlating.png",
+            "primaryStyle4": "perk-images/Styles/Resolve/Revitalize/Revitalize.png",
+            "subStyle1": "perk-images/Styles/Sorcery/ManaflowBand/ManaflowBand.png",
+            "subStyle2": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
+            "bans": "[{\"championId\":\"Smolder\",\"pickTurn\":2},{\"championId\":\"RekSai\",\"pickTurn\":4},{\"championId\":\"Belveth\",\"pickTurn\":6},{\"championId\":\"Nami\",\"pickTurn\":1},{\"championId\":\"Aurora\",\"pickTurn\":3}]",
             "baronKills": 0,
-            "championKills": 7,
-            "dragonKills": 2,
+            "championKills": 11,
+            "dragonKills": 1,
             "hordeKills": 0,
             "inhibitorKills": 0,
             "riftHeraldKills": 0,
-            "towerKills": 1
+            "towerKills": 2
+        },
+        {
+            "matchId": "KR_7587025517",
+            "gameDuration": 1627,
+            "gamemode": "CLASSIC",
+            "gameCreation": 1743861463306,
+            "teamType": "red",
+            "riotIdGameName": "류천이",
+            "championName": "Zed",
+            "damageDealtToBuildings": 0,
+            "goldEarned": 8199,
+            "item0": "2031",
+            "item1": "6695",
+            "item2": "1029",
+            "item3": "1001",
+            "item4": "6692",
+            "item5": "0",
+            "item6": "3364",
+            "kills": 3,
+            "deaths": 7,
+            "assists": 3,
+            "kda": 0.85714287,
+            "riotIdTagline": "KR1",
+            "summoner1Id": "4",
+            "summoner2Id": "14",
+            "teamPosition": "MIDDLE",
+            "totalDamageDealtToChampions": 13458,
+            "totalDamageTaken": 20175,
+            "totalHealsOnTeammates": 0,
+            "totalMinionsKilled": 142,
+            "visionScore": 21,
+            "visionWardsBoughtInGame": 4,
+            "wardsPlaced": 9,
+            "wardsKilled": 4,
+            "win": false,
+            "primaryStyle1": "perk-images/Styles/Domination/Electrocute/Electrocute.png",
+            "primaryStyle2": "perk-images/Styles/Domination/TasteOfBlood/GreenTerror_TasteOfBlood.png",
+            "primaryStyle3": "perk-images/Styles/Domination/GrislyMementos/GrislyMementos.png",
+            "primaryStyle4": "perk-images/Styles/Domination/UltimateHunter/UltimateHunter.png",
+            "subStyle1": "perk-images/Styles/Sorcery/Scorch/Scorch.png",
+            "subStyle2": "perk-images/Styles/Sorcery/Transcendence/Transcendence.png",
+            "bans": "[{\"championId\":\"Smolder\",\"pickTurn\":2},{\"championId\":\"RekSai\",\"pickTurn\":4},{\"championId\":\"Belveth\",\"pickTurn\":6},{\"championId\":\"Nami\",\"pickTurn\":1},{\"championId\":\"Aurora\",\"pickTurn\":3}]",
+            "baronKills": 0,
+            "championKills": 11,
+            "dragonKills": 1,
+            "hordeKills": 0,
+            "inhibitorKills": 0,
+            "riftHeraldKills": 0,
+            "towerKills": 2
         }
-    ];
+    ]
 
-    // 1) 승/패 KDA 합산
-    const winStats  = { kills:0, deaths:0, assists:0 };
-    const loseStats = { kills:0, deaths:0, assists:0 };
-    jsonData.forEach(p => {
-        const t = p.win ? winStats : loseStats;
-        t.kills   += p.kills;
-        t.deaths  += p.deaths;
-        t.assists += p.assists;
-    });
-
-    // 2) 대표 플레이어
-    const winPlayer  = jsonData.find(p => p.win);
-    const losePlayer = jsonData.find(p => !p.win);
+    // 승리팀과 패배팀 구분
+    const winTeam = jsonData.filter(player => player.win);
+    const loseTeam = jsonData.filter(player => !player.win);
 
     document.addEventListener('DOMContentLoaded', async () => {
-        const res       = await fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json');
+        const res = await fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json');
         const spellData = await res.json();
-        const keyToId   = {};
+        const keyToId = {};
         Object.values(spellData.data).forEach(s => keyToId[s.key] = s.id);
 
         populateCombinedTable(keyToId);
@@ -583,142 +606,217 @@
     });
 
     function populateCombinedTable(keyToId) {
-        const order = ['TOP','JUNGLE','MIDDLE','BOTTOM','UTILITY'];
         const tbody = document.querySelector('#combined-team tbody');
         tbody.innerHTML = '';
+
+        // 순서대로 정렬하기 위한 배열 정의
+        const positionOrder = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'];
+
         let prevTeam = null;
 
-        jsonData
-            .sort((a,b) =>
-                a.teamType !== b.teamType
-                    ? (a.teamType==='red' ? -1 : 1)
-                    : order.indexOf(a.teamPosition) - order.indexOf(b.teamPosition)
-            )
-            .forEach(p => {
-                // 팀 전환 지점에서 레이블 삽입
-                if (prevTeam && p.teamType !== prevTeam) {
-                    // — 승리팀
-                    let row = tbody.insertRow();
-                    row.className = 'label-row';
-                    // KDA 셀 (6칸 차지)
-                    let cell = row.insertCell();
-                    cell.colSpan = 6;
-                    cell.textContent = `승리팀  ${winStats.kills} / ${winStats.deaths} / ${winStats.assists}`;
+        // 이긴 팀 먼저 삽입
+        winTeam.sort((a, b) => positionOrder.indexOf(a.teamPosition) - positionOrder.indexOf(b.teamPosition))
+            .forEach(player => insertPlayerRow(player, keyToId, tbody));
 
-                    // 벤 셀 (바로 다음)
-                    const banTd = row.insertCell();
-                    banTd.textContent = '벤 : ';
-                    banTd.title       = '밴한 챔피언';
 
-                    // 오브젝트 6개
-                    [
-                        ['타워','towerKills','파괴한 타워 수'],
-                        ['억제기','inhibitorKills','파괴한 억제기 수'],
-                        ['용','dragonKills','처치한 용 수'],
-                        ['유충','hordeKills','처치한 유충 수'],
-                        ['전령','riftHeraldKills','처치한 전령 수'],
-                        ['바론','baronKills','처치한 바론 수']
-                    ].forEach(([label,key,tip]) => {
-                        const td = row.insertCell();
-                        td.textContent = `${label} : ${winPlayer[key]}`;
-                        td.title       = tip;
-                    });
 
-                    // — 패배팀
-                    row = tbody.insertRow();
-                    row.className = 'label-row';
-                    cell = row.insertCell();
-                    cell.colSpan = 6;
-                    cell.textContent = `패배팀  ${loseStats.kills} / ${loseStats.deaths} / ${loseStats.assists}`;
 
-                    const banTd2 = row.insertCell();
-                    banTd2.textContent = '벤 : ';
-                    banTd2.title       = '밴한 챔피언';
+// 승리팀 레이블 삽입
+        let row = tbody.insertRow();
+        row.className = 'label-row';
+        let cell = row.insertCell();
+        cell.colSpan = 13;
+        cell.style.textAlign = 'center';
+        const winStats = winTeam.reduce((acc, p) => ({
+            kills: acc.kills + p.kills,
+            deaths: acc.deaths + p.deaths,
+            assists: acc.assists + p.assists
+        }), { kills: 0, deaths: 0, assists: 0 });
 
-                    [
-                        ['타워','towerKills','파괴한 타워 수'],
-                        ['억제기','inhibitorKills','파괴한 억제기 수'],
-                        ['용','dragonKills','처치한 용 수'],
-                        ['유충','hordeKills','처치한 유충 수'],
-                        ['전령','riftHeraldKills','처치한 전령 수'],
-                        ['바론','baronKills','처치한 바론 수']
-                    ].forEach(([label,key,tip]) => {
-                        const td = row.insertCell();
-                        td.textContent = `${label} : ${losePlayer[key]}`;
-                        td.title       = tip;
-                    });
-                }
-                prevTeam = p.teamType;
+        const textContent = document.createElement('span');
+        textContent.innerText = `승리팀  ( ${winStats.kills} / ${winStats.deaths} / ${winStats.assists} ) `;
+        textContent.style.fontSize = '18px';  // 글자 크기 증가
+        const banContainer = document.createElement('span');
+        banContainer.innerText = "벤 ";
+        banContainer.style.fontSize = '18px';  // 글자 크기 증가
+        const bans = JSON.parse(winTeam[0].bans);
+        bans.forEach(ban => {
+            const champId = ban.championId;
+            const banImgSrc = `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${champId}.png`;
+            const banImg = document.createElement('img');
+            banImg.src = banImgSrc;
+            banImg.className = 'ban-img';
+            banImg.style.width = '32px';  // 이미지 크기 증가
+            banImg.style.height = '32px';  // 이미지 크기 증가
+            banContainer.appendChild(banImg);
+        });
+        banContainer.style.marginLeft = '10px';
 
-                // ── 선수 정보 행 ──
-                const tr = tbody.insertRow();
-                tr.className = p.teamType==='red'?'red-row':'blue-row';
-                // (여기부터 아래 코드는 기존과 동일)
-                tr.insertCell().innerHTML =
-                    `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png"
-                class="champion-image" alt="">`;
-                tr.insertCell().textContent = `${p.riotIdGameName}#${p.riotIdTagline}`;
-                const spells = tr.insertCell(); spells.className='spell-container';
-                [p.summoner1Id,p.summoner2Id].forEach(k=>{
-                    const id=keyToId[k];
-                    if(id) spells.innerHTML+=
-                        `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${id}.png">`;
-                });
-                const runeCell = tr.insertCell(); runeCell.className='rune-container';
-                const prim = document.createElement('div'); prim.className='rune-row';
-                [p.primaryStyle1,p.primaryStyle2,p.primaryStyle3]
-                    .forEach(u=>prim.innerHTML+=`<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`);
-                const sub = document.createElement('div'); sub.className='rune-row';
-                [p.subStyle1,p.subStyle2]
-                    .forEach(u=>sub.innerHTML+=`<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`);
-                runeCell.append(prim, sub);
-                const kda = tr.insertCell(); kda.className='kd-cell';
-                kda.innerHTML =
-                    `<div class="kda-ratio">${p.kda.toFixed(2)}</div>
-           <div class="kda-stats">${p.kills}/${p.deaths}/${p.assists}</div>`;
-                tr.insertCell().textContent = p.teamPosition;
-                const items = tr.insertCell(); items.className='item-container';
-                const topRow = document.createElement('div'); topRow.className='item-row';
-                ['item0','item1','item2'].forEach(key=>{
-                    const code=p[key],
-                        src=code&&code!=='0'
-                            ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
-                            : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
-                    topRow.innerHTML+=`<img src="${src}">`;
-                });
-                const botRow = document.createElement('div'); botRow.className='item-row';
-                ['item3','item4','item5','item6'].forEach(key=>{
-                    const code=p[key],
-                        src=code&&code!=='0'
-                            ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
-                            : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
-                    botRow.innerHTML+=`<img src="${src}">`;
-                });
-                items.append(topRow, botRow);
-                tr.insertCell().innerHTML = `CS ${p.totalMinionsKilled}<br>골드 ${p.goldEarned}`;
-                [
-                    ['totalDamageDealtToChampions','챔피언에게 가한 피해'],
-                    ['totalDamageTaken','챔피언에게 받은 피해'],
-                    ['totalHealsOnTeammates','총 힐량'],
-                    ['damageDealtToBuildings','타워에게 가한 피해']
-                ].forEach(([key,title])=>{
-                    const cell = tr.insertCell();
-                    cell.className     = 'graph';
-                    cell.dataset.value = p[key];
-                    cell.title         = title;
-                });
-                const wardCell = tr.insertCell();
-                wardCell.title = '시야점수 / 구매한 핑와\n와드 설치 / 파괴';
-                wardCell.innerHTML =
-                    `${p.visionScore} / ${p.visionWardsBoughtInGame}<br>` +
-                    `${p.wardsPlaced} / ${p.wardsKilled}`;
-            });
+// 오브젝트 6개 삽입 (한 줄로)
+        const winStatsData = [
+            ['타워', 'towerKills'],
+            ['억제기', 'inhibitorKills'],
+            ['용', 'dragonKills'],
+            ['유충', 'hordeKills'],
+            ['전령', 'riftHeraldKills'],
+            ['바론', 'baronKills']
+        ];
+
+        const statsContainer = document.createElement('span');
+        statsContainer.innerText = winStatsData.map(([label, key]) => `${label}: ${winTeam[0][key]}`).join(' | ');
+        statsContainer.style.fontSize = '18px';  // 글자 크기 증가
+        statsContainer.style.marginLeft = '10px';
+
+        cell.appendChild(textContent);
+        cell.appendChild(banContainer);
+        cell.appendChild(statsContainer);
+
+// 패배팀
+        row = tbody.insertRow();
+        row.className = 'label-row';
+        cell = row.insertCell();
+        cell.colSpan = 13;
+        cell.style.textAlign = 'center';
+
+        const loseStats = loseTeam.reduce((acc, p) => ({
+            kills: acc.kills + p.kills,
+            deaths: acc.deaths + p.deaths,
+            assists: acc.assists + p.assists
+        }), { kills: 0, deaths: 0, assists: 0 });
+
+        const kdaContainer = document.createElement('span');
+        kdaContainer.innerText = `패배팀  ( ${loseStats.kills} / ${loseStats.deaths} / ${loseStats.assists} ) `;
+        kdaContainer.style.fontSize = '18px';  // 글자 크기 증가
+        const banContainer2 = document.createElement('span');
+        banContainer2.innerText = " 벤  ";
+        banContainer2.style.fontSize = '18px';  // 글자 크기 증가
+        const bans2 = JSON.parse(loseTeam[0].bans);
+        bans2.forEach(ban => {
+            const champId = ban.championId;
+            const banImgSrc = `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${champId}.png`;
+            const banImg = document.createElement('img');
+            banImg.src = banImgSrc;
+            banImg.className = 'ban-img';
+            banImg.style.width = '32px';  // 이미지 크기 증가
+            banImg.style.height = '32px';  // 이미지 크기 증가
+            banContainer2.appendChild(banImg);
+        });
+        banContainer2.style.marginLeft = '10px';
+
+// 오브젝트 6개 삽입 (한 줄로)
+        const loseStatsData = [
+            ['타워', 'towerKills'],
+            ['억제기', 'inhibitorKills'],
+            ['용', 'dragonKills'],
+            ['유충', 'hordeKills'],
+            ['전령', 'riftHeraldKills'],
+            ['바론', 'baronKills']
+        ];
+
+        const loseStatsContainer = document.createElement('span');
+        loseStatsContainer.innerText = loseStatsData.map(([label, key]) => `${label}: ${loseTeam[0][key]}`).join(' | ');
+        loseStatsContainer.style.fontSize = '18px';  // 글자 크기 증가
+        loseStatsContainer.style.marginLeft = '10px';
+
+        cell.appendChild(kdaContainer);
+        cell.appendChild(banContainer2);
+        cell.appendChild(loseStatsContainer);
+
+
+        // 그 후 패배팀 삽입
+        loseTeam.sort((a, b) => positionOrder.indexOf(a.teamPosition) - positionOrder.indexOf(b.teamPosition))
+            .forEach(player => insertPlayerRow(player, keyToId, tbody));
+    }
+
+    function insertPlayerRow(player, keyToId, tbody) {
+        const tr = tbody.insertRow();
+        tr.className = player.teamType === 'red' ? 'red-row' : 'blue-row';
+
+        tr.insertCell().innerHTML = `
+            <img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${player.championName}.png" class="champion-image" alt="">
+        `;
+        tr.insertCell().textContent = `${player.riotIdGameName}#${player.riotIdTagline}`;
+
+        const spells = tr.insertCell();
+        spells.className = 'spell-container';
+        [player.summoner1Id, player.summoner2Id].forEach(k => {
+            const id = keyToId[k];
+            if (id) {
+                spells.innerHTML += `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${id}.png">`;
+            }
+        });
+
+        const runeCell = tr.insertCell();
+        runeCell.className = 'rune-container';
+        const prim = document.createElement('div');
+        prim.className = 'rune-row';
+        [player.primaryStyle1, player.primaryStyle2, player.primaryStyle3].forEach(u => {
+            prim.innerHTML += `<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`;
+        });
+        const sub = document.createElement('div');
+        sub.className = 'rune-row';
+        [player.subStyle1, player.subStyle2].forEach(u => {
+            sub.innerHTML += `<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`;
+        });
+        runeCell.append(prim, sub);
+
+        const kda = tr.insertCell();
+        kda.className = 'kd-cell';
+        kda.innerHTML = `
+            <div class="kda-ratio">${player.kda.toFixed(2)}</div>
+            <div class="kda-stats">${player.kills}/${player.deaths}/${player.assists}</div>
+        `;
+
+        tr.insertCell().textContent = player.teamPosition;
+
+        const items = tr.insertCell();
+        items.className = 'item-container';
+        const topRow = document.createElement('div');
+        topRow.className = 'item-row';
+        ['item0', 'item1', 'item2'].forEach(key => {
+            const code = player[key],
+                src = code && code !== '0'
+                    ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
+                    : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
+            topRow.innerHTML += `<img src="${src}">`;
+        });
+
+        const botRow = document.createElement('div');
+        botRow.className = 'item-row';
+        ['item3', 'item4', 'item5', 'item6'].forEach(key => {
+            const code = player[key],
+                src = code && code !== '0'
+                    ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
+                    : 'https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png';
+            botRow.innerHTML += `<img src="${src}">`;
+        });
+        items.append(topRow, botRow);
+
+        tr.insertCell().innerHTML = `CS ${player.totalMinionsKilled}<br>골드 ${player.goldEarned}`;
+
+        [
+            ['totalDamageDealtToChampions', '챔피언에게 가한 피해'],
+            ['totalDamageTaken', '챔피언에게 받은 피해'],
+            ['totalHealsOnTeammates', '총 힐량'],
+            ['damageDealtToBuildings', '타워에게 가한 피해']
+        ].forEach(([key, title]) => {
+            const cell = tr.insertCell();
+            cell.className = 'graph';
+            cell.dataset.value = player[key];
+            cell.title = title;
+        });
+
+        const wardCell = tr.insertCell();
+        wardCell.title = '시야점수 / 구매한 핑와\n와드 설치 / 파괴';
+        wardCell.innerHTML =
+            `${player.visionScore} / ${player.visionWardsBoughtInGame}<br>` +
+            `${player.wardsPlaced} / ${player.wardsKilled}`;
     }
 
     function renderGraphs() {
-        document.querySelectorAll('td.graph').forEach(td=>{
-            const v   = +td.dataset.value,
-                pct = Math.round(v/Math.max(...Array.from(document.querySelectorAll('td.graph')).map(t=>+t.dataset.value),1)*100);
+        document.querySelectorAll('td.graph').forEach(td => {
+            const v = +td.dataset.value,
+                pct = Math.round(v / Math.max(...Array.from(document.querySelectorAll('td.graph')).map(t => +t.dataset.value), 1) * 100);
             td.innerHTML =
                 `<div class="bar-number">${v}</div>
          <div class="bar-container">

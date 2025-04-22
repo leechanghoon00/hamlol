@@ -2,9 +2,13 @@ package org.example.hamlol.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import org.example.hamlol.dto.GameRecordDTO;
+import org.example.hamlol.dto.GameRecordRequest;
 import org.example.hamlol.dto.SimpleGameDTO;
 import org.example.hamlol.service.GameRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,11 +27,18 @@ public class GameRecordController {
     public List<GameRecordDTO> gameRecordByMatchId(@RequestParam("matchId") String matchId){
     return gameRecordService.gameRecordByMatchId(matchId);
 }
-    @Operation(summary = "전적 불러오기",description = "롤닉과 태그로 전적 불러옴")
 
-@GetMapping("/bygameid")
-    public List<SimpleGameDTO> gameRecordByGameId(@RequestParam("riotIdGameName") String riotIdGameName, @RequestParam("riotidtagline") String riotidtagline){
-    return gameRecordService.gameRecordByGameId(riotIdGameName,riotidtagline);
+
+    @Operation(summary = "전적 불러오기",description = "롤닉과 태그로 전적 불러옴")
+@PostMapping("/bygameid")
+    public Page<SimpleGameDTO> gameRecordByGameId(@RequestBody GameRecordRequest gameRecordRequest,
+            Pageable pageable) {
+
+        return gameRecordService.gameRecordByGameId(gameRecordRequest.getRiotIdGameName(),
+                gameRecordRequest.getRiotIdTagline(), pageable);
+
 }
+
+
 
 }

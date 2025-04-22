@@ -9,6 +9,8 @@ import org.example.hamlol.repository.GameRecordRepository;
 import org.example.hamlol.service.ChampService;
 import org.example.hamlol.service.GameRecordService;
 import org.example.hamlol.urlenum.RiotUrlApi;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -121,10 +123,10 @@ newList.add(updated);
 
     }
 
-
-
     @Override
-    public List<SimpleGameDTO> gameRecordByGameId(String riotIdGameName, String riotidtagline) {
-        return  gameRecordRepository.findGameByGameId(riotIdGameName, riotidtagline);
+    public Page<SimpleGameDTO> gameRecordByGameId(String riotIdGameName, String riotIdTagLine, Pageable pageable) {
+        return  gameRecordRepository.findGameByGameId(riotIdGameName, riotIdTagLine,pageable);
     }
+
+
 }

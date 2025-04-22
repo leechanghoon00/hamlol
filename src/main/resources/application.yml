@@ -25,3 +25,6 @@ spring:
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
 
+server:
+  tomcat:
+    uri-encoding: UTF-8

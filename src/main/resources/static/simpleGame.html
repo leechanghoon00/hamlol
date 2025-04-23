@@ -138,46 +138,66 @@
 <body>
 
 <button class="back-btn" onclick="loadPageWithJWT('/main.html','/main.html')">← 메인으로 돌아가기</button>
-<button id="addBtn" class="more-btn" onclick="moreList();"><span>더보기</span></button>
+
+<button class="btn btn-danger" id="more">더보기</button>
+
 <div id="matches">로딩 중…</div>
 
 
 <script>
     // 제공된 JSON 데이터
     let jsonData = [];
-
+    let currentPage =1;
+    const pageSize = 5;
 
     window.addEventListener('DOMContentLoaded', getJsonData);
+function getList(pageNo){
+    pageNo = pageNo ::0;
 
-function getJsonData(){
-    $.ajax({
-        type :'POST',
-        url : '/api/bygameid',
-        contentType: 'application/json',
-        data: JSON.stringify({
-            riotIdGameName: '류천이',
-            riotIdTagline: 'KR1'
-        }),
-        dataType:'json',
-        success:function (data){
-            console.log("통신성공");
-            jsonData = data.content;
-            renderMatches();
-            console.log(data,jsonData)
-        },
-        error:function (){
-            console.log("통신 에러");
-        }
-})
+    const title = document.querySelector("title").value;
+    const writer = document.querySelector("#writer").value;
 
+    // ✅ 파라미터 전달시에도 추가
+    const data = "?title=" + title + "&writer=" + writer + "&page=" + pageNo;
 
-
+    AJAX.ajaxCall("POST", "/boards", data, afterGetList);
 }
 
+
+
+
+    function getJsonData(){
+        $.ajax({
+            type :'POST',
+            url : '/api/bygameid',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                riotIdGameName: '류천이',
+                riotIdTagline: 'KR1',
+
+            }),
+            dataType:'json',
+            success:function (data){
+                console.log("통신성공");
+                jsonData = data.content
+                renderMatches();
+
+
+            },
+            error:function (){
+                document.getElementById('matches').textContent = '데이터 로딩에 실패했습니다.';
+            }
+        })
+    }
     // 승리팀과 패배팀 구분
     const winTeam = jsonData.filter(player => player.win);
     const loseTeam = jsonData.filter(player => !player.win);
-
+    $('#more').click(function(){
+        $.post('http://localhost:8080/api/bygameid')
+            .done((data)=>{
+                console.log(data)
+            });
+    });
     function formatTime(sec) {
         return `${Math.floor(sec / 60)}분 ${sec % 60}초`;
     }
@@ -186,12 +206,18 @@ function getJsonData(){
     function renderMatches() {
         const container = document.getElementById('matches');
         container.innerHTML = '';
-        // // 최신순
-        const record =
-            jsonData.sort((a, b) => b.gameCreation - a.gameCreation);
 
 
-        jsonData.forEach((m, i) => {
+
+
+        const startIndex = (currentPage - 1) * pageSize;
+        const endIndex   = currentPage * pageSize;
+        const slice = jsonData.slice(startIndex, endIndex);
+
+
+
+
+        slice.forEach((m, i) => {
             const card = document.createElement('div');
             card.className = `match-card ${m.win ? '' : 'lose'}`;
             card.innerHTML = `
@@ -227,6 +253,14 @@ function getJsonData(){
             });
         });
     }
+
+
+
+
+
+
+
+
     function timeAgo(ts) {
         const diff = Date.now() - ts;
         const mins = Math.floor(diff / 60000),
@@ -237,8 +271,7 @@ function getJsonData(){
         if (mins > 0) return `${mins}분 전`;
         return '방금 전';
     }
-    // 페이지 로드 후 데이터 렌더링
-    window.addEventListener('DOMContentLoaded', renderMatches);
+
 </script>
 
 </body>

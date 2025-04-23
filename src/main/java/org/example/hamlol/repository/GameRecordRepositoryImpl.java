@@ -97,6 +97,8 @@ public class GameRecordRepositoryImpl implements GameRecordRepository {
 
     @Override
     public Page<SimpleGameDTO> findGameByGameId(String riot_id_game_name, String riot_id_tagline, org.springframework.data.domain.Pageable pageable) {
+
+
         List<SimpleGameDTO> gameDTOList = jpaQueryFactory
                 .select(Projections.constructor(
                         SimpleGameDTO.class,
@@ -128,6 +130,7 @@ public class GameRecordRepositoryImpl implements GameRecordRepository {
                 .join(playerEntity).on(matchEntity.matchId.eq(playerEntity.matchId))
                 .where(playerEntity.riotIdGameName.eq(riot_id_game_name).and(playerEntity.riotIdTagline.eq(riot_id_tagline))
                 )
+                .orderBy(matchEntity.gameCreation.desc())
                 .offset(pageable.getOffset())// 몇번쨰페이지부터 시작할지
                 .limit(pageable.getPageSize()) //한페이지에서 보여줄 데이터
                 .fetch();

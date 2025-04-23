@@ -10,5 +10,6 @@ public class GameRecordRequest {
     private String riotIdTagline;
 
     private int page =0; // 기본 0부터 페이지 시작
-    private int size = 10; // 한페이지당 10ㄱ
+    private int size = 5; // 한페이지당 5
+
 }

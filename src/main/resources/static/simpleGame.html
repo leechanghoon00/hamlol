@@ -67,6 +67,14 @@
             gap: 6px;
             flex-wrap: wrap;
         }
+        #more {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
         .item-box {
             width: 48px; height: 48px;
             border-radius: 6px;
@@ -149,19 +157,14 @@
     let jsonData = [];
     let currentPage =1;
     const pageSize = 5;
-
+    let isLastPage = false;
     window.addEventListener('DOMContentLoaded', getJsonData);
-function getList(pageNo){
-    pageNo = pageNo ::0;
 
-    const title = document.querySelector("title").value;
-    const writer = document.querySelector("#writer").value;
-
-    // ✅ 파라미터 전달시에도 추가
-    const data = "?title=" + title + "&writer=" + writer + "&page=" + pageNo;
-
-    AJAX.ajaxCall("POST", "/boards", data, afterGetList);
-}
+    $('#more').click(function(){
+        if (!isLastPage) {
+            getJsonData();
+        }
+    });
 
 
 
@@ -174,15 +177,23 @@ function getList(pageNo){
             data: JSON.stringify({
                 riotIdGameName: '류천이',
                 riotIdTagline: 'KR1',
-
+                page: currentPage -1,
+                size: pageSize
             }),
             dataType:'json',
             success:function (data){
                 console.log("통신성공");
                 jsonData = data.content
+
+                isLastPage = data.last;
+
+
                 renderMatches();
 
-
+                currentPage++;
+                if (isLastPage) {
+                    $('#more').hide();
+                }
             },
             error:function (){
                 document.getElementById('matches').textContent = '데이터 로딩에 실패했습니다.';
@@ -192,12 +203,7 @@ function getList(pageNo){
     // 승리팀과 패배팀 구분
     const winTeam = jsonData.filter(player => player.win);
     const loseTeam = jsonData.filter(player => !player.win);
-    $('#more').click(function(){
-        $.post('http://localhost:8080/api/bygameid')
-            .done((data)=>{
-                console.log(data)
-            });
-    });
+
     function formatTime(sec) {
         return `${Math.floor(sec / 60)}분 ${sec % 60}초`;
     }
@@ -205,7 +211,7 @@ function getList(pageNo){
 
     function renderMatches() {
         const container = document.getElementById('matches');
-        container.innerHTML = '';
+        // container.innerHTML = '';
 
 
 

@@ -153,12 +153,18 @@
 
 
 <script>
-    // 제공된 JSON 데이터
+    (function (){
+
+
+
     let jsonData = [];
     let currentPage =1;
     const pageSize = 5;
     let isLastPage = false;
-    window.addEventListener('DOMContentLoaded', getJsonData);
+
+
+
+
 
     $('#more').click(function(){
         if (!isLastPage) {
@@ -166,24 +172,24 @@
         }
     });
 
+        window.addEventListener('DOMContentLoaded', getJsonData);
 
 
 
     function getJsonData(){
         $.ajax({
             type :'POST',
-            url : '/api/bygameid',
+            url: `/api/bygameid?page=${currentPage-1}&size=${pageSize}`,
             contentType: 'application/json',
             data: JSON.stringify({
                 riotIdGameName: '류천이',
                 riotIdTagline: 'KR1',
-                page: currentPage -1,
-                size: pageSize
+
             }),
             dataType:'json',
             success:function (data){
                 console.log("통신성공");
-                jsonData = data.content
+                jsonData = jsonData.concat(data.content);
 
                 isLastPage = data.last;
 
@@ -211,11 +217,6 @@
 
     function renderMatches() {
         const container = document.getElementById('matches');
-        // container.innerHTML = '';
-
-
-
-
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex   = currentPage * pageSize;
         const slice = jsonData.slice(startIndex, endIndex);
@@ -237,7 +238,7 @@
                             <div><strong>${m.riotIdGameName}</strong></div>
                             <div>포지션: ${m.teamPosition}</div>
                             <div class="kda">${m.kills}/${m.deaths}/${m.assists} (KDA: ${m.kda.toFixed(2)})</div>
-                            <div class="cs">CS:${m.totalMinionsKilled} | ${formatTime(m.gameDuration)}<br>시작:${timeAgo(m.gameCreation)}</div>
+                            <div class> ${formatTime(m.gameDuration)}<br>시작:${timeAgo(m.gameCreation)}</div>
                             <div><strong>Match ID:</strong> ${m.matchId}</div>
                         </div>
                     </div>
@@ -277,7 +278,7 @@
         if (mins > 0) return `${mins}분 전`;
         return '방금 전';
     }
-
+    })()
 </script>
 
 </body>

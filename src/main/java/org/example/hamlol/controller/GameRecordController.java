@@ -24,9 +24,9 @@ public class GameRecordController {
 
 
     @Operation(summary = "전적 상세보기",description = "상세 전적 불러옴")
-@GetMapping("/bymatchid")
-    public List<GameRecordDTO> gameRecordByMatchId(@RequestParam("matchId") String matchId){
-    return gameRecordService.gameRecordByMatchId(matchId);
+@PostMapping("/bymatchid")
+    public List<GameRecordDTO> gameRecordByMatchId(@RequestBody GameRecordRequest gameRecordRequest){
+    return gameRecordService.gameRecordByMatchId(gameRecordRequest.getMatchId());
 }
 
 

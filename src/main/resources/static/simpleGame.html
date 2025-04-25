@@ -4,6 +4,50 @@
     <meta charset="UTF-8"/>
     <title>롤 전적 리스트</title>
     <style>
+        table img {
+            width: 24px;
+            height: 24px;
+            object-fit: contain;
+            vertical-align: middle;
+        }
+
+        /* 챔피언 아이콘만 크게 */
+        .champion-image {
+            width: 32px;
+            height: 32px;
+        }
+
+        .ban-img {
+            width: 24px;
+            height: 24px;
+            margin-left: 4px;
+        }
+
+        .kda-stats {
+            font-size: 11px;
+            color: #555;
+            margin-left: 4px;
+            display: inline-block;
+        }
+
+        .bar-number {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .bar-container {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar {
+            height: 100%;
+            background: #4caf50;
+        }
+
         body {
             font-family: 'Segoe UI', sans-serif;
             background-color: #f0f4f8;
@@ -72,56 +116,8 @@
             min-width: 180px;
         }
 
-        .items {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-        }
-
-        #more {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-        }
-
-        .item-box {
-            width: 48px;
-            height: 48px;
-            border-radius: 6px;
-            background-color: #e5e7eb;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .item-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
         .kda {
             font-weight: bold;
-        }
-
-        .cs {
-            font-size: 12px;
-            color: #4b5563;
-        }
-
-        .summoner-spells {
-            display: flex;
-            gap: 4px;
-            margin-top: 4px;
-        }
-
-        .summoner-spells img {
-            width: 24px;
-            height: 24px;
-            border-radius: 4px;
         }
 
         .toggle-btn {
@@ -130,7 +126,6 @@
             border: none;
             color: #6b7280;
             cursor: pointer;
-            transform: rotate(0deg);
             transition: transform 0.2s ease;
         }
 
@@ -146,195 +141,382 @@
             display: none;
         }
 
-        /* 페이징 스타일 */
-        .paging {
-            margin-top: 20px;
+        body {
+            zoom: 0.7;   /* 85% 크기로 축소 */
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+            padding-bottom: 100px; /* 추가 */
             display: flex;
             justify-content: center;
+            flex-direction: column;
             align-items: center;
         }
 
-        .paging .page-btn {
-            margin: 0 5px;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-
-        .paging .page-btn.active {
-            background-color: orangered;
-            color: white;
-        }
-
+        /* 2) 더보기 버튼 스타일 */
         #more {
             position: fixed;
             bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             padding: 12px 24px;
-            font-size: 16px;
             background: #10b981;
-            color: white;
+            color: #ffffff;
+            font-size: 16px;
             border: none;
             border-radius: 24px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
             z-index: 1000;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .match-detail .red-row td {
+            background-color: #ffcdd2; /* 연한 레드 계열, 완전 불투명 */
+        }
+
+        .match-detail .blue-row td {
+            background-color: #bbdefb; /* 연한 블루 계열, 완전 불투명 */
         }
 
         #more:hover {
             background: #059669;
             transform: translateX(-50%) scale(1.05);
         }
+
+        /* 상세 테이블 스타일 */
+        .match-detail table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            table-layout: fixed;
+        }
+
+        .match-detail th,
+        .match-detail td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: center;
+            vertical-align: middle;
+            overflow: hidden;
+        }
+
+        .match-detail .red-row td {
+            background-color: #ffcdd2;
+        }
+
+        .match-detail .blue-row td {
+            background-color: #bbdefb;
+        }
+
+        .match-detail .label-row td {
+            background: transparent;
+            border: none;
+            text-align: left;
+            padding: 4px;
+            font-weight: bold;
+        }
+
+        .match-detail .champion-image {
+            width: 32px;
+            height: 32px;
+        }
+
+        .match-detail .spell-container img,
+        .match-detail .rune-row img,
+        .match-detail .item-row img {
+            width: 20px;
+            height: 20px;
+            margin: 1px;
+        }
+
+        .match-detail .kda-ratio {
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .match-detail .kda-stats {
+            font-size: 11px;
+            color: #333;
+        }
+
+        .match-detail .bar-container {
+            background: #e0e0e0;
+            height: 12px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .match-detail .bar {
+            height: 100%;
+            background: #4CAF50;
+        }
     </style>
 </head>
 <body>
 
 <button class="back-btn" onclick="loadPageWithJWT('/main.html','/main.html')">← 메인으로 돌아가기</button>
-
 <button class="btn btn-danger" id="more">더보기</button>
-
-<div id="matches">로딩 중…</div>
-
+<div id="matches"></div>
 
 <script>
+
+
     (function () {
+        let jsonData = [], currentPage = 1, pageSize = 5, isLastPage = false;
 
 
-        let jsonData = [];
-        let currentPage = 1;
-        const pageSize = 5;
-        let isLastPage = false;
+        // 몇일전인지
+        function timeAgo(timestampMs) {
+            const diff = Date.now() - timestampMs;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            return days + '일 전';
+        }
 
-        let DetailData = [];
 
-
-        $('#more').click(function () {
-            if (!isLastPage) {
-                getJsonData();
-            }
+        // 더보기 버튼 기능
+        $('#more').click(() => {
+            if (!isLastPage) getJsonData();
         });
-
         window.addEventListener('DOMContentLoaded', getJsonData);
 
+
+        //전적 불러오기
         function getJsonData() {
             $.ajax({
                 type: 'POST',
                 url: `/api/bygameid?page=${currentPage - 1}&size=${pageSize}`,
                 contentType: 'application/json',
-                data: JSON.stringify({
-                    riotIdGameName: '류천이',
-                    riotIdTagline: 'KR1',
-
-                }),
+                data: JSON.stringify({riotIdGameName: '류천이', riotIdTagline: 'KR1'}),
                 dataType: 'json',
-                success: function (data) {
-                    console.log("통신성공");
+                success(data) {
                     jsonData = jsonData.concat(data.content);
-
                     isLastPage = data.last;
-
-
                     renderMatches();
-
                     currentPage++;
-                    if (isLastPage) {
-                        $('#more').hide();
-                    }
+                    if (isLastPage) $('#more').hide();
                 },
-                error: function () {
-                    document.getElementById('matches').textContent = '데이터 로딩에 실패했습니다.';
-                }
-            })
-        }
-
-
-        function MatchDetail(matchId) {
-            $.ajax({
-                type: 'POST',
-                url: `/api/bymatchid?matchId=${matchId}`,
-                contentType: 'application/json',
-                dataType: 'json',
-                data: JSON.stringify({matchId}),
-                success: function (data) {
-                    console.log('전적 상세:', data);
-                    DetailData = data;
-
-                },
-                error: function () {
-                    $('#matches').text('전적 조회에 실패했습니다.');
+                error() {
+                    $('#matches').text('데이터 로딩에 실패했습니다.');
                 }
             });
         }
 
 
-        // 승리팀과 패배팀 구분
-        const winTeam = jsonData.filter(player => player.win);
-        const loseTeam = jsonData.filter(player => !player.win);
 
+
+
+
+ //상세보기
+        async function showMatchDetail(matchId, container) {
+
+            const response   = await fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json');
+            const spellData  = await response.json();
+
+            const detailData = await $.ajax({
+                type: 'POST',
+                url: `/api/bymatchid?matchId=${matchId}`,
+                contentType: 'application/json',
+                data: JSON.stringify({matchId}),
+                dataType: 'json'
+            });
+
+            const keyToId = {};
+            Object.values(spellData.data).forEach(s => keyToId[s.key] = s.id);
+
+            container.innerHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>챔피언</th><th>닉네임</th><th>스펠</th><th>룬</th>
+          <th>K/D/A</th><th>라인</th><th>아이템</th><th>CS</th>
+          <th>데미지</th><th>받은피해</th><th>힐량</th><th>타워피해</th><th>시야점수</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  `;
+
+            const tbody = container.querySelector('tbody');
+
+            const winTeam = detailData.filter(p => p.win);
+            const loseTeam = detailData.filter(p => !p.win);
+            const order = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'];
+
+            function makeLabel(team, text) {
+                const stats = team.reduce((a, p) => ({
+                    kills: a.kills + p.kills,
+                    deaths: a.deaths + p.deaths,
+                    assists: a.assists + p.assists
+                }), {kills: 0, deaths: 0, assists: 0});
+                const statsData = [
+                    ['타워', 'towerKills'],
+                    ['억제기', 'inhibitorKills'],
+                    ['용', 'dragonKills'],
+                    ['유충', 'hordeKills'],
+                    ['전령', 'riftHeraldKills'],
+                    ['바론', 'baronKills']
+                ];
+                const tr = tbody.insertRow();
+                tr.className = 'label-row';
+                const td = tr.insertCell();
+                td.colSpan = 13;
+                td.style.textAlign = 'center';
+
+                // 팀명 + K/D/A
+                td.appendChild(document.createTextNode(`${text} (${stats.kills}/${stats.deaths}/${stats.assists}) `));
+
+                // 밴 챔프
+                JSON.parse(team[0].bans).forEach(ban => {
+                    const img = document.createElement('img');
+                    img.src = `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${ban.championId}.png`;
+                    img.className = 'ban-img';
+                    td.appendChild(img);
+                });
+
+                // 오브젝트 통계
+                statsData.forEach(([label, key]) => {
+                    const span = document.createElement('span');
+                    span.className = 'stat-text';
+                    span.textContent = ` ${label}: ${team[0][key]}`;
+                    td.appendChild(span);
+                });
+            }
+
+            function insertRow(p) {
+                const tr = tbody.insertRow();
+                tr.className = p.win ? 'blue-row' : 'red-row';
+                const spells = [p.summoner1Id, p.summoner2Id]
+                    .map(k => keyToId[k]
+                        ? `<img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${keyToId[k]}.png">`
+                        : ''
+                    ).join('');
+                const runes = [p.primaryStyle1, p.primaryStyle2, p.primaryStyle3, p.subStyle1, p.subStyle2]
+                    .map(u => `<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`).join('');
+                const items = [0, 1, 2, 3, 4, 5].map(i => {
+                    const c = p['item' + i];
+                    const src = (c && c !== '0')
+                        ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${c}.png`
+                        : `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png`;
+                    return `<img src="${src}">`;
+                }).join('');
+
+                tr.innerHTML = `
+      <td title=" ${p.championName}"><img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png" class="champion-image"></td>
+      <td>${p.riotIdGameName}</td>
+      <td>${spells}</td>
+      <td>${runes}</td>
+      <td>${p.kills}/${p.deaths}/${p.assists} <span class="kda-stats">(${p.kda.toFixed(2)})</span></td>
+      <td>${p.teamPosition}</td>
+      <td>${items}</td>
+      <td>${p.totalMinionsKilled}</td>
+      <td data-value="${p.totalDamageDealtToChampions}"></td>
+      <td data-value="${p.totalDamageTaken}"></td>
+      <td data-value="${p.totalHealsOnTeammates}"></td>
+      <td data-value="${p.damageDealtToBuildings}"></td>
+
+    <td title="
+시야점수: ${p.visionScore}
+핑와드 구매: ${p.visionWardsBoughtInGame}
+와드 설치: ${p.wardsPlaced}
+와드 파괴: ${p.wardsKilled}
+">
+      ${p.visionScore} / ${p.visionWardsBoughtInGame}<br>
+      ${p.wardsPlaced} / ${p.wardsKilled}
+    </td>    `;
+            }
+
+            winTeam.sort((a, b) => order.indexOf(a.teamPosition) - order.indexOf(b.teamPosition))
+                .forEach(insertRow);
+            makeLabel(winTeam, '승리팀');
+
+            makeLabel(loseTeam, '패배팀');
+            loseTeam.sort((a, b) => order.indexOf(a.teamPosition) - order.indexOf(b.teamPosition))
+                .forEach(insertRow);
+
+            renderGraphs(container);
+        }
+
+
+
+        // 막대 그래프
+        function renderGraphs(container) {
+            const cells = container.querySelectorAll('td[data-value]');
+            const vals = Array.from(cells).map(td => +td.dataset.value);
+            const max = Math.max(...vals, 1);
+            cells.forEach(td => {
+                const v = +td.dataset.value;
+                const pct = Math.round(v / max * 100);
+                td.innerHTML = `
+      <div class="bar-number">${v}</div>
+      <div class="bar-container"><div class="bar" style="width:${pct}%"></div></div>
+    `;
+            });
+        }
+
+
+
+
+
+
+
+
+
+// 시간 계산
         function formatTime(sec) {
             return `${Math.floor(sec / 60)}분 ${sec % 60}초`;
         }
 
 
+
+
+        // 전적 불러오기
         function renderMatches() {
             const container = document.getElementById('matches');
-            const startIndex = (currentPage - 1) * pageSize;
-            const endIndex = currentPage * pageSize;
-            const slice = jsonData.slice(startIndex, endIndex);
-
+            const slice = jsonData.slice((currentPage - 1) * pageSize, currentPage * pageSize);
             slice.forEach((m, i) => {
                 const card = document.createElement('div');
                 card.className = `match-card ${m.win ? '' : 'lose'}`;
                 card.innerHTML = `
-                <div class="match-header">
-                    <div style="display:flex;gap:12px;flex-wrap:wrap">
-                        <div class="champion">
-                            <img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${m.championName}.png" alt="">
-                            <div>${m.championName}</div>
-                        </div>
-                        <div class="info">
-                            <div><strong>${m.riotIdGameName}</strong></div>
-                            <div>포지션: ${m.teamPosition}</div>
-                            <div class="kda">${m.kills}/${m.deaths}/${m.assists} (KDA: ${m.kda.toFixed(2)})</div>
-                            <div class> ${formatTime(m.gameDuration)}<br>시작:${timeAgo(m.gameCreation)}</div>
-                            <div><strong>Match ID:</strong> ${m.matchId}</div>
-                        </div>
-                    </div>
-                    <button class="detail-btn" data-target="detail-${i}">▶</button>
-                </div>
-                <div class="match-detail" id="detail-${i}">전적 상세 정보 영역입니다.</div>
-            `;
-                container.appendChild(card);
-                const btn = card.querySelector('.detail-btn');
-                const domain = card.querySelector(`#detail-${i}`);
+          <div class="match-header">
+            <div style="display:flex;gap:12px;flex-wrap:wrap">
+              <div class="champion">
+                <img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${m.championName}.png">
+                <div>${m.championName}</div>
+              </div>
+              <div class="info">
+                <div><strong>${m.riotIdGameName}</strong></div>
+                <div>포지션: ${m.teamPosition}</div>
+                <div class="kda">${m.kills}/${m.deaths}/${m.assists} (KDA: ${m.kda.toFixed(2)})</div>
+                <div> ${timeAgo(m.gameCreation)}</div>
 
+                <div>게임 시작 날짜 : ${new Date(m.gameCreation).toLocaleString()}  </div>
+                <div> 게임 진행 시간 : ${formatTime(m.gameDuration)}</div>
+              </div>
+            </div>
+            <button class="toggle-btn">▶</button>
+          </div>
+          <div class="match-detail"></div>
+        `;
+                container.appendChild(card);
+
+                const btn = card.querySelector('.toggle-btn');
+                const detailEl = card.querySelector('.match-detail');
                 btn.addEventListener('click', () => {
-                    MatchDetail(m.matchId, domain);
-                    // detailHtml(domain);
-                    const open = domain.style.display === 'block';
-                    domain.style.display = open ? 'none' : 'block';
-                    btn.textContent = open ? '▶' : '▼';
+                    if (detailEl.style.display !== 'block') {
+                        showMatchDetail(m.matchId, detailEl);
+                        detailEl.style.display = 'block';
+                        btn.classList.add('open');
+                    } else {
+                        detailEl.style.display = 'none';
+                        btn.classList.remove('open');
+                    }
                 });
             });
-
-
         }
-
-
-        function timeAgo(ts) {
-            const diff = Date.now() - ts;
-            const mins = Math.floor(diff / 60000),
-                hrs = Math.floor(mins / 60),
-                days = Math.floor(hrs / 24);
-            if (days > 0) return `${days}일 전`;
-            if (hrs > 0) return `${hrs}시간 전`;
-            if (mins > 0) return `${mins}분 전`;
-            return '방금 전';
-        }
-    })()
+    })();
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

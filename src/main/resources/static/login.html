@@ -122,7 +122,7 @@
                         document.close();
 
                         // 브라우저 주소창을 main.html로 변경
-                        history.pushState({}, '', '/main.html');
+                        history.pushState({}, '/main.html');
                     },
                     error: function(xhr) {
                         alert("메인 페이지 로드 실패: " + xhr.status);

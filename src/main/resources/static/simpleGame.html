@@ -330,7 +330,7 @@
         <tr>
           <th>챔피언</th><th>닉네임</th><th>스펠</th><th>룬</th>
           <th>K/D/A</th><th>라인</th><th>아이템</th><th>CS</th>
-          <th>데미지</th><th>받은피해</th><th>힐량</th><th>타워피해</th><th>시야점수</th>
+          <th>가한피해량</th><th>받은피해</th><th>힐량</th><th>타워피해</th><th>시야점수</th>
         </tr>
       </thead>
       <tbody></tbody>
@@ -403,7 +403,8 @@
 
                 tr.innerHTML = `
       <td title=" ${p.championName}"><img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png" class="champion-image"></td>
-      <td>${p.riotIdGameName}</td>
+      <td>${p.riotIdGameName}#${p.riotIdTagline}\</td>
+
       <td>${spells}</td>
       <td>${runes}</td>
       <td>${p.kills}/${p.deaths}/${p.assists} <span class="kda-stats">(${p.kda.toFixed(2)})</span></td>

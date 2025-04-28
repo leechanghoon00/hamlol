@@ -94,7 +94,8 @@ public class AccountServiceImpl implements AccountService {
                     generatedPuuid,
                     accountRequestDto.gameName(),
                     accountRequestDto.tagLine(),
-                    user
+                    user,
+                    accountRequestDto.userName()
             );
             accountRepository.save(accountEntity);
 
@@ -106,7 +107,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println(("저장"));
 
             // 사용자에게 계정 생성 결과 전달
-            return new AccountResponseDTO(generatedPuuid, accountRequestDto.gameName(), accountRequestDto.tagLine());
+            return new AccountResponseDTO(generatedPuuid, accountRequestDto.gameName(), accountRequestDto.tagLine(),accountRequestDto.userName());
 
             // 예외처리
         } catch (HttpClientErrorException.NotFound e) {

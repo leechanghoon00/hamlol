@@ -20,16 +20,17 @@ public class AccountEntity {
     @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+    @Column(name = "user_name")
+    private String userName;
 
 
 
-
-    public AccountEntity(String puuid, String gameName, String tagLine, UserEntity userEntity){
+    public AccountEntity(String puuid, String gameName, String tagLine, UserEntity userEntity,String userName){
         this.puuid = puuid;
         this.gameName = gameName;
         this.tagLine = tagLine;
         this.userEntity = userEntity;
-
+        this.userName = userName;
     }
 
     public AccountEntity() {

@@ -393,7 +393,7 @@
                     ).join('');
                 const runes = [p.primaryStyle1, p.primaryStyle2, p.primaryStyle3, p.subStyle1, p.subStyle2]
                     .map(u => `<img src="https://ddragon.leagueoflegends.com/cdn/img/${u}">`).join('');
-                const items = [0, 1, 2, 3, 4, 5].map(i => {
+                const items = [0, 1, 2, 3, 4, 5,6].map(i => {
                     const c = p['item' + i];
                     const src = (c && c !== '0')
                         ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${c}.png`
@@ -403,7 +403,8 @@
 
                 tr.innerHTML = `
       <td title=" ${p.championName}"><img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png" class="champion-image"></td>
-      <td>${p.riotIdGameName}#${p.riotIdTagline}\</td>
+      <td>${p.riotIdGameName}
+      #${p.riotIdTagline}\</td>
 
       <td>${spells}</td>
       <td>${runes}</td>
@@ -483,10 +484,10 @@
             <div style="display:flex;gap:12px;flex-wrap:wrap">
               <div class="champion">
                 <img src="https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${m.championName}.png">
-                <div>${m.championName}</div>
+                <div><strong>${m.riotIdGameName}#${m.riotIdTagline}</strong></div>
+
               </div>
               <div class="info">
-                <div><strong>${m.riotIdGameName}</strong></div>
                 <div>포지션: ${m.teamPosition}</div>
                 <div class="kda">${m.kills}/${m.deaths}/${m.assists} (KDA: ${m.kda.toFixed(2)})</div>
                 <div> ${timeAgo(m.gameCreation)}</div>

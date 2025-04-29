@@ -137,7 +137,7 @@
             success: function(response) {
                 // 성공후 main.html로 연결
                 alert("계정 연동 성공");
-                loadPageWithJWT('/main.html', '/main.html');
+                loadPageWithJWT('/login.html', '/login.html');
             },
             error: function(xhr) {
                 const message = xhr.responseText || "계정 연동에 실패했습니다.";

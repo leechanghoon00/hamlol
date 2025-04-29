@@ -39,7 +39,7 @@ public class JwtTokenProvider {
     }
 
 
-    public TokenInfo generateToken(Collection<? extends GrantedAuthority> authorityInfo, String id) {
+    public TokenInfo generateToken(Collection<? extends GrantedAuthority> authorityInfo, String id,String gameName,String tagLine) {
         String authorities = authorityInfo.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -50,6 +50,8 @@ public class JwtTokenProvider {
         String accessToken = Jwts.builder()
                 .setSubject(id)
                 .claim("auth", authorities)
+                .claim("gameName",gameName)
+                .claim("tagLine",tagLine)
                 .setIssuedAt(new Date())
                 .setExpiration(accessTokenExpiresIn)
                 .signWith(key, SignatureAlgorithm.HS256)
@@ -91,6 +93,9 @@ public class JwtTokenProvider {
 
     public Authentication getAuthentication(String token) {
         Claims claims = parseClaims(token);
+        String id = claims.getSubject();
+        String gameName = claims.get("gameName", String.class);
+        String tagLine  = claims.get("tagLine", String.class);
         if (claims.get("auth") == null) {
             throw new RuntimeException("권한 정보가 없는 토큰입니다.");
         }
@@ -98,7 +103,10 @@ public class JwtTokenProvider {
                 .stream(claims.get("auth").toString().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
-        User principal = new User(claims.getSubject(), "", authorities);
+
+        CustomUser principal =
+                new CustomUser(id, gameName, tagLine, authorities);
+
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }
 

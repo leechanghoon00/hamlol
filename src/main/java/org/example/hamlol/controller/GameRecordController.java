@@ -4,12 +4,14 @@ import io.swagger.v3.oas.annotations.Operation;
 import org.example.hamlol.dto.GameRecordDTO;
 import org.example.hamlol.dto.GameRecordRequest;
 import org.example.hamlol.dto.SimpleGameDTO;
+import org.example.hamlol.jwt.CustomUser;
 import org.example.hamlol.service.GameRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.web.PageableDefault;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,12 +34,15 @@ public class GameRecordController {
 
     @Operation(summary = "전적 불러오기",description = "롤닉과 태그로 전적 불러옴")
 @PostMapping("/bygameid")
-    public Page<SimpleGameDTO> gameRecordByGameId(@RequestBody GameRecordRequest gameRecordRequest,
-            Pageable pageable) {
+    public Page<SimpleGameDTO> gameRecordByGameId(@AuthenticationPrincipal CustomUser user,
+                                                  Pageable pageable) {
+
+        String gameName = user.getGameName();
+        String tagLine = user.getTagLine();
+        System.out.println(gameName+"#"+tagLine);
 
         return gameRecordService.gameRecordByGameId(
-                gameRecordRequest.getRiotIdGameName(),
-                gameRecordRequest.getRiotIdTagline(),
+                gameName,tagLine,
                 pageable);
 
 }

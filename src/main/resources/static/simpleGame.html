@@ -287,7 +287,6 @@
                 type: 'POST',
                 url: `/api/bygameid?page=${currentPage - 1}&size=${pageSize}`,
                 contentType: 'application/json',
-                data: JSON.stringify({riotIdGameName: '류천이', riotIdTagline: 'KR1'}),
                 dataType: 'json',
                 success(data) {
                     jsonData = jsonData.concat(data.content);

@@ -106,7 +106,7 @@
                 console.log("로그인 성공:", response);
                 alert("로그인 성공");
 //  JWT 토큰 저장
-                localStorage.setItem("jwtToken", response.accessToken);
+                localStorage.setItem("accessToken", response.accessToken);
 
                 //  JWT 토큰을 헤더에 넣어서 main.html 요청
                 $.ajax({

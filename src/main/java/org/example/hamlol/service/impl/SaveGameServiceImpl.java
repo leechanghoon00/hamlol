@@ -155,14 +155,13 @@ public class SaveGameServiceImpl implements SaveGameService {
                         String riotIdTage =  player.get("riotIdTagline").toString().replace("\"","");
 
 
-
-                        if (myGameNames.equals(riotGameName) && myGameTag.equals(riotIdTage)) {
-
-
+                        // 전적등록할 때 소문자대문자
+                        if (myGameNames.toUpperCase().equals(riotGameName.toUpperCase())
+                                && myGameTag.toUpperCase().equals(riotIdTage.toUpperCase())) {
                             isMatchFound = true;
                             break;
-
                         }
+
                     }
 
 

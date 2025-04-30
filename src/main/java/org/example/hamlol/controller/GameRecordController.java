@@ -1,6 +1,7 @@
 package org.example.hamlol.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import lombok.extern.slf4j.Slf4j;
 import org.example.hamlol.dto.GameRecordDTO;
 import org.example.hamlol.dto.GameRecordRequest;
 import org.example.hamlol.dto.SimpleGameDTO;
@@ -15,7 +16,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api")
 public class GameRecordController {
@@ -39,14 +39,12 @@ public class GameRecordController {
 
         String gameName = user.getGameName();
         String tagLine = user.getTagLine();
-        System.out.println(gameName+"#"+tagLine);
 
         return gameRecordService.gameRecordByGameId(
                 gameName,tagLine,
                 pageable);
 
 }
-
 
 
 }

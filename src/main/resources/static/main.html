@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Main Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -68,13 +69,13 @@
     document.querySelector("a[href='/logout']").addEventListener("click", function(e) {
         e.preventDefault();
 
-        localStorage.removeItem("jwtToken"); // JWT 토큰 삭제
+        localStorage.removeItem("accessToken");
         alert("로그아웃 되었습니다.");
         location.href = "/login.html"; // 로그인 페이지로 리디렉션
     });
 
     function loadPageWithJWT(url, targetUrl) {
-        const jwtToken = localStorage.getItem("jwtToken");
+        const jwtToken = localStorage.getItem("accessToken");
 
         if (!jwtToken) {
             alert("로그인이 필요합니다.");

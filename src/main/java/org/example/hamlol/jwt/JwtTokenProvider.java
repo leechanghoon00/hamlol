@@ -8,12 +8,14 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.example.hamlol.service.CustomDetailService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -31,15 +33,16 @@ public class JwtTokenProvider {
     // Access Token 유효기간: 30분, Refresh Token 유효기간: 1주 (밀리초 단위)
     private final long THIRTY_MINUTES = 1000 * 60 * 180;
     private final long ONE_WEEK = 1000 * 60 * 60 * 24 * 7;
-
+    private final CustomDetailService customDetailService;
     // application.properties 또는 application.yml에 등록된 jwt.secret 값을 주입받아 Key 객체를 생성합니다.
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, CustomDetailService customDetailService) {
+        this.customDetailService = customDetailService;
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
     }
 
 
-    public TokenInfo generateToken(Collection<? extends GrantedAuthority> authorityInfo, String id,String gameName,String tagLine) {
+    public TokenInfo generateToken(Collection<? extends GrantedAuthority> authorityInfo, String email,String gameName,String tagLine) {
         String authorities = authorityInfo.stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
@@ -48,7 +51,7 @@ public class JwtTokenProvider {
         // Access Token 생성 (유효기간: 30분)
         Date accessTokenExpiresIn = new Date(now + THIRTY_MINUTES);
         String accessToken = Jwts.builder()
-                .setSubject(id)
+                .setSubject(email)
                 .claim("auth", authorities)
                 .claim("gameName",gameName)
                 .claim("tagLine",tagLine)
@@ -91,24 +94,16 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
-    public Authentication getAuthentication(String token) {
-        Claims claims = parseClaims(token);
-        String id = claims.getSubject();
-        String gameName = claims.get("gameName", String.class);
-        String tagLine  = claims.get("tagLine", String.class);
-        if (claims.get("auth") == null) {
-            throw new RuntimeException("권한 정보가 없는 토큰입니다.");
+        public Authentication getAuthentication(String token) {
+            // 토큰을 객체로 바꿈
+            Claims claims = parseClaims(token);
+            // 그안에서 email을 꺼냄
+            String email = claims.getSubject();
+            // 꺼낸 email로 db를 조회해서 롤닉과 태그 꺼내서 저장
+            UserDetails userDetails = customDetailService.gameNamebyemail(email);
+            // 저장
+            return new UsernamePasswordAuthenticationToken(userDetails,token,userDetails.getAuthorities());
         }
-        Collection<? extends GrantedAuthority> authorities = Arrays
-                .stream(claims.get("auth").toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-
-        CustomUser principal =
-                new CustomUser(id, gameName, tagLine, authorities);
-
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
-    }
 
     // 내부: 토큰 파싱. 만료된 토큰의 경우 ExpiredJwtException을 발생시킵니다.
     private Claims parseClaims(String token) {

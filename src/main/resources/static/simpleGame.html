@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8"/>
     <title>롤 전적 리스트</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         table img {
             width: 24px;
@@ -258,7 +260,6 @@
 <button class="back-btn" onclick="loadPageWithJWT('/main.html','/main.html')">← 메인으로 돌아가기</button>
 <button class="btn btn-danger" id="more">더보기</button>
 <div id="matches"></div>
-
 <script>
 
 
@@ -283,11 +284,14 @@
 
         //전적 불러오기
         function getJsonData() {
+            const token = localStorage.getItem('accessToken');
+
             $.ajax({
                 type: 'POST',
                 url: `/api/bygameid?page=${currentPage - 1}&size=${pageSize}`,
                 contentType: 'application/json',
                 dataType: 'json',
+                headers: { 'Authorization': 'Bearer ' + token },
                 success(data) {
                     jsonData = jsonData.concat(data.content);
                     isLastPage = data.last;
@@ -308,12 +312,16 @@
 
  //상세보기
         async function showMatchDetail(matchId, container) {
+            const token = localStorage.getItem('accessToken');
+
 
             const response   = await fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json');
             const spellData  = await response.json();
 
             const detailData = await $.ajax({
                 type: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+
                 url: `/api/bymatchid?matchId=${matchId}`,
                 contentType: 'application/json',
                 data: JSON.stringify({matchId}),
@@ -517,7 +525,6 @@
         }
     })();
 </script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </body>
 </html>

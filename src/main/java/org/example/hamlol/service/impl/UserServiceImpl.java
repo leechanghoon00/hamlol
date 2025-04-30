@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
 
 
-        return jwtTokenProvider.generateToken(authentication.getAuthorities(),userEntity.getUserId().toString(),gameName,tagLine
+        return jwtTokenProvider.generateToken(authentication.getAuthorities(),userEntity.getEmail(),gameName,tagLine
         );
     }
 

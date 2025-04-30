@@ -84,7 +84,7 @@
 <script>
     // JWT로 페이지 이동 함수 (추가 필수)
     function loadPageWithJWT(url, targetUrl) {
-        const jwtToken = localStorage.getItem("jwtToken");
+        const jwtToken = localStorage.getItem("accessToken");
         if (!jwtToken) {
             alert("로그인이 필요합니다.");
             location.href = "/login.html";

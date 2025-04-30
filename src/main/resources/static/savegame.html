@@ -110,6 +110,8 @@
     }
 
     $("#gameCodeForm").on("submit", function(e) {
+        const jwtToken = localStorage.getItem("accessToken");
+
         e.preventDefault();
         const code = $("#gameCode").val().trim();
         const matchId = code.startsWith("KR_") ? code : "KR_" + code;
@@ -119,10 +121,11 @@
         $.ajax({
             url: '/api/game/save',
             type: 'POST',
+
             data: JSON.stringify(gameData),
             contentType: 'application/json',
             headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem('jwtToken') // JWT 헤더 포함 필수
+                'Authorization': 'Bearer ' + localStorage.getItem('accessToken') // JWT 헤더 포함 필수
             },
             success: function(response) {
                 alert(response);

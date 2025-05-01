@@ -10,7 +10,7 @@ public interface AccountService {
 
 
     //라이엇에서 소환사 정보 조회, 저장
-    AccountResponseDTO getAccountInfoAndSaveAccount(AccountRequestDTO accountRequestDto)throws Exception;
+    AccountResponseDTO getAccountInfoAndSaveAccount(String gameName,String tagLine,String userName)throws Exception;
 
 
 

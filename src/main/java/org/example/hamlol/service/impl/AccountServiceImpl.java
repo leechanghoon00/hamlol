@@ -2,13 +2,11 @@ package org.example.hamlol.service.impl;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.hamlol.dto.AccountRequestDTO;
-import org.example.hamlol.dto.AccountRequestDTO;
+
 import org.example.hamlol.dto.AccountResponseDTO;
 import org.example.hamlol.entity.AccountEntity;
 import org.example.hamlol.entity.UserEntity;
 import org.example.hamlol.repository.AccountRepository;
-import org.example.hamlol.repository.ApiKeyRepository;
 import org.example.hamlol.repository.UserRepository;
 import org.example.hamlol.service.AccountService;
 import org.example.hamlol.service.ApiKeyProvider;
@@ -55,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     // AccountRequestDto를 받아 Riotapi로부터 계정정보 조회후 저장하고  AccountResponseDTO 형태로 반환
-    public AccountResponseDTO getAccountInfoAndSaveAccount(AccountRequestDTO accountRequestDto) throws Exception {
+    public AccountResponseDTO getAccountInfoAndSaveAccount(String gameName,String tagLine,String userName) throws Exception {
 // throws Exception : 메소드 실행 도중 발생할 수 있는 예외를 전달함
 
         // api키 가져오기
@@ -68,8 +66,8 @@ public class AccountServiceImpl implements AccountService {
 
 
         String uriString = uriBuilder.buildAndExpand( //accountRequestDto에서 게임이름이랑 태그를 받아 URL 경로변수에 넣어 URL생성
-                accountRequestDto.gameName(),
-                accountRequestDto.tagLine()
+                gameName,
+                tagLine
         ).toUriString();
 
         try {
@@ -79,7 +77,7 @@ public class AccountServiceImpl implements AccountService {
             // 응답 JSON에서 puuid 추출
             String puuid = extractPuuidFromResponse(response);
             //중복 방지
-            if (accountRepository.existsById(accountRequestDto.gameName())) { //gameName이 데이터베이스ㅔ 있는지 확인
+            if (accountRepository.existsById(gameName)) { //gameName이 데이터베이스ㅔ 있는지 확인
                 throw new IllegalArgumentException("이미 있음");
             }
 
@@ -87,19 +85,16 @@ public class AccountServiceImpl implements AccountService {
             String generatedPuuid = UUID.randomUUID().toString();
 
             //accountRequestDto에서 가져온 UserName을 통해 userRepository에서 입력받은userName과 같은 이름을 UserEntity에 있는 user에 객체로 넣는다
-            UserEntity user = userRepository.findByUserName(accountRequestDto.userName());
+            UserEntity user = userRepository.findByUserName(userName);
 
             // 새 계정정보를 저장할 인스턴스 생성후 set으로 각각 새로 집어넣음
             AccountEntity accountEntity = new AccountEntity(
                     generatedPuuid,
-                    accountRequestDto.gameName(),
-                    accountRequestDto.tagLine(),
+                    gameName,
+                    tagLine,
                     user,
-                    accountRequestDto.userName()
+                    userName
             );
-            accountRepository.save(accountEntity);
-
-
 
 
             // 레파지토리의 JPA를 이용하여 AccountEntity 객체를 데이터 베이스에 저장 후 "저장" 출력
@@ -107,7 +102,7 @@ public class AccountServiceImpl implements AccountService {
             System.out.println(("저장"));
 
             // 사용자에게 계정 생성 결과 전달
-            return new AccountResponseDTO(generatedPuuid, accountRequestDto.gameName(), accountRequestDto.tagLine(),accountRequestDto.userName());
+            return new AccountResponseDTO(puuid, gameName, tagLine, userName);
 
             // 예외처리
         } catch (HttpClientErrorException.NotFound e) {

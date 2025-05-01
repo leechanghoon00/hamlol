@@ -215,11 +215,11 @@
   $("#signupForm").on("submit", function(e) {
     e.preventDefault();
 
-    if (!emailId(email.value))   return alert('이메일 형식을 확인하세요.');
-    if (!nameLong(name.value))   return alert('이름은 최소 2자 이상이어야 합니다.');
-    if (!pwdHard(pwd.value))     return alert('비밀번호 조건을 확인하세요.');
-    if (!pwdSame(pwd.value, pwd2.value)) return alert('비밀번호가 일치하지 않습니다.');
-    if (!phonNom(phone.value))   return alert('전화번호를 확인하세요.');
+    // if (!emailId(email.value))   return alert('이메일 형식을 확인하세요.');
+    // if (!nameLong(name.value))   return alert('이름은 최소 2자 이상이어야 합니다.');
+    // if (!pwdHard(pwd.value))     return alert('비밀번호 조건을 확인하세요.');
+    // if (!pwdSame(pwd.value, pwd2.value)) return alert('비밀번호가 일치하지 않습니다.');
+    // if (!phonNom(phone.value))   return alert('전화번호를 확인하세요.');
     const user = {
       email:    email.value,
       username: name.value,

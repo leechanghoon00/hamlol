@@ -1,0 +1,81 @@
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+
+function Account(){
+
+    const navigate = useNavigate();
+    const [gameName,setGameName] = useState("");
+    console.log('gamename',gameName)
+    const [tagLine,setTagLine]=useState("")
+    console.log('tagLine',tagLine)
+
+    const handleAccount = async (e) => {
+        e.preventDefault();
+
+        const jwtToken = localStorage.getItem("accessToken");
+        if (!jwtToken) {
+            alert("로그인이 필요합니다.");
+            navigate("/login");
+            return;
+        }
+
+        try {
+            const res = await fetch("/api/account", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${jwtToken}`,
+                },
+                body: JSON.stringify({ gameName, tagLine }),
+            });
+
+            if (!res.ok) {
+                const text = await res.text();
+                throw new Error(text || res.status);
+            }
+
+            alert("계정 연동 성공");
+            navigate("/main");
+
+        } catch (err) {
+            alert("연동 실패: " + err.message);
+        }
+    };
+    return (
+        <div className="link-wrap">
+            <div className="link-html">
+                <h2>계정 연동</h2>
+                <form onSubmit={handleAccount} id="accountLinkForm">
+                    <div className="form-group">
+                        <label className="label" htmlFor="gameName">롤 아이디 (소환사명)</label>
+                        <input value={gameName} onChange={e => setGameName(e.target.value)}id="gameName" type="text" className="input" placeholder="대소문자 정확하게 입력" required/>
+
+                    </div>
+                    <div className="form-group">
+                        <label className="label" htmlFor="tagLine">태그라인</label>
+                        <input value={tagLine}  onChange={e => setTagLine(e.target.value)}id="tagLine" type="text" className="input" placeholder="대소문자 정확하게 입력" required/>
+
+
+                    </div>
+                    <div className="form-group">
+                        <input type="submit" className="button" value="연동"/>
+                    </div>
+                </form>
+                <div className="hr"></div>
+                <div className="foot-lnk">
+
+                     <a
+                       href="#"onClick={e => {
+                         e.preventDefault();
+                         navigate("/main");
+                       }}
+                     >
+                       메인 페이지로 돌아가기
+                     </a>
+                </div>
+            </div>
+        </div>
+    )
+}
+
+export default Account;

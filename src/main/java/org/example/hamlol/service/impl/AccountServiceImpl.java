@@ -85,7 +85,8 @@ public class AccountServiceImpl implements AccountService {
             String generatedPuuid = UUID.randomUUID().toString();
 
             //accountRequestDto에서 가져온 UserName을 통해 userRepository에서 입력받은userName과 같은 이름을 UserEntity에 있는 user에 객체로 넣는다
-            UserEntity user = userRepository.findByUserName(userName);
+            UserEntity user = userRepository.findByEmail(userName).orElseThrow(() -> new IllegalArgumentException("사용자 없음: " + userName));
+
 
             // 새 계정정보를 저장할 인스턴스 생성후 set으로 각각 새로 집어넣음
             AccountEntity accountEntity = new AccountEntity(

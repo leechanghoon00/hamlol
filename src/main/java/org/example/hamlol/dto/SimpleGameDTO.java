@@ -23,5 +23,6 @@ public record SimpleGameDTO(
         String item6,                             // 아이템 슬롯 6
         Integer totalMinionsKilled, //총 CS
         String riotIdGameName,
-        String riotIdTagline
+        String riotIdTagline,
+        Integer championLevel
 ) {}

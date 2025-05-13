@@ -127,6 +127,8 @@ public class PlayerEntity {
     @Column(name = "sub_style2")
     private String subStyle2;
 
+    @Column(name = "champion_level", nullable = false)
+    private Integer championLevel;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_type", referencedColumnName = "team_type", insertable = false, updatable = false)
@@ -149,7 +151,7 @@ public class PlayerEntity {
                         Integer totalHealsOnTeammates, Integer totalMinionsKilled, Integer visionScore,
                         Integer visionWardsBoughtInGame, Integer wardsPlaced, Integer wardsKilled,
                         Boolean win, String primaryStyle1, String primaryStyle2, String primaryStyle3,
-                        String primaryStyle4, String subStyle1, String subStyle2,
+                        String primaryStyle4, String subStyle1, String subStyle2, Integer championLevel,
                         MatchEntity match) {
         this.matchId = matchId;
         this.teamType = teamType;
@@ -189,6 +191,7 @@ public class PlayerEntity {
         this.subStyle1 = subStyle1;
         this.subStyle2 = subStyle2;
         this.match = match;
+        this.championLevel = championLevel;
     }
 
     public PlayerEntity() {

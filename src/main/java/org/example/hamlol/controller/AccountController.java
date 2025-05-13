@@ -20,10 +20,10 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping
-    public ResponseEntity<String> saveAccount(@AuthenticationPrincipal CustomUser user,@RequestBody AccountRequestDTO dto) {
+    public ResponseEntity<String> saveAccount(@AuthenticationPrincipal CustomUser customUser,@RequestBody AccountRequestDTO dto) {
         try {
             // 1. Riot API에서 소환사 정보 조회+ 저장
-            AccountResponseDTO saveAccount = accountService.getAccountInfoAndSaveAccount(dto.gameName(),dto.tagLine(),user.getUsername());
+            AccountResponseDTO saveAccount = accountService.getAccountInfoAndSaveAccount(dto.gameName(),dto.tagLine(),customUser.getUsername());
             return ResponseEntity.ok("저장성공!");
         } catch (Exception e) {
             return ResponseEntity.status(500).body("실패 : " + e.getMessage());

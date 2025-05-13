@@ -124,7 +124,8 @@ public class GameRecordRepositoryImpl implements GameRecordRepository {
                         playerEntity.item6,
                         playerEntity.totalMinionsKilled,
                         playerEntity.riotIdGameName,
-                        playerEntity.riotIdTagline
+                        playerEntity.riotIdTagline,
+                        playerEntity.championLevel
                 ))
                 .from(matchEntity)
                 .join(playerEntity).on(matchEntity.matchId.eq(playerEntity.matchId))

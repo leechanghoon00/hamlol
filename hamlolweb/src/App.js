@@ -1,14 +1,14 @@
-import './Login.css';
+// import './Login.css';
 import Login from "./Login";
-import './Signup.css';
+// import './Signup.css';
 import {Signup} from "./Signup";
-import './Main.css'
+// import './Main.css'
 import Main from "./Main";
-import './Account.css'
+// import './Account.css'
 import Account from "./Account";
 import './GameList.css'
 import GameList from "./GameList";
-import './SaveGame.css'
+// import './SaveGame.css'
 import SaveGame from "./SaveGame";
 
 

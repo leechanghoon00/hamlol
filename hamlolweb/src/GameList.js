@@ -1,74 +1,87 @@
+// src/GameList.js
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import './GameList.css';
 
-function GameList() {
+export default function GameList() {
     const navigate = useNavigate();
-    const [matches, setMatches] = useState([]);
-    const [page, setPage] = useState(0);
-    const pageSize = 10;
-    const [isLastPage, setIsLastPage] = useState(false);
-    const [details, setDetails] = useState({});    // { [matchId]: detailData }
-    const [expanded, setExpanded] = useState({});  // { [matchId]: boolean }
-    const token = localStorage.getItem('accessToken');
 
-    // 시간 차 계산
-    const timeAgo = (ts) => {
-        const diff = Date.now() - ts;
-        return `${Math.floor(diff/(1000*60*60*24))}일 전`;
+    // ---- state 정의 ----
+    const [matches, setMatches]     = useState([]);
+    const [details, setDetails]     = useState({});     // { [matchId]: participantArray }
+    const [expanded, setExpanded]   = useState({});     // { [matchId]: boolean }
+    const [keyToId, setKeyToId]     = useState({});     // spell key→id 매핑
+    const [page, setPage]           = useState(0);
+    const [isLastPage, setIsLastPage] = useState(false);
+    const pageSize = 10;
+    const token    = localStorage.getItem('accessToken');
+
+    // 1) 스펠 매핑 한 번만 불러오기
+    useEffect(() => {
+        fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json')
+            .then(res => res.json())
+            .then(data => {
+                const map = {};
+                Object.values(data.data).forEach(s => {
+                    map[s.key] = s.id;
+                });
+                setKeyToId(map);
+            })
+            .catch(console.error);
+    }, []);
+
+    // 2) 매치 리스트 불러오기
+    const fetchMatches = () => {
+        if (isLastPage) return;
+        fetch(`/api/bygameid?page=${page}&size=${pageSize}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`,
+            }
+        })
+            .then(res => {
+                if (!res.ok) throw new Error(res.status);
+                return res.json();
+            })
+            .then(data => {
+                setMatches(prev => [...prev, ...data.content]);
+                setIsLastPage(data.last);
+                setPage(p => p + 1);
+            })
+            .catch(console.error);
     };
 
-    // 매치 리스트 불러오기
-    const fetchMatches = async () => {
-        if (isLastPage) return;
-        try {
-            const res = await fetch(`/api/bygameid?page=${page}&size=${pageSize}`, {
+    // 3) 상세 토글 & fetch
+    const toggleDetail = matchId => {
+        setExpanded(prev => ({ ...prev, [matchId]: !prev[matchId] }));
+        if (!details[matchId]) {
+            fetch(`/api/bymatchid?matchId=${matchId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`,
                 },
-            });
-            if (!res.ok) throw new Error(res.status);
-            const data = await res.json();
-            setMatches(prev => [...prev, ...data.content]);
-            setIsLastPage(data.last);
-            setPage(p => p + 1);
-        } catch (err) {
-            console.error('매치 로드 실패', err);
+                body: JSON.stringify({ matchId }),
+            })
+                .then(res => {
+                    if (!res.ok) throw new Error(res.status);
+                    return res.json();
+                })
+                .then(d => {
+                    setDetails(prev => ({ ...prev, [matchId]: d }));
+                })
+                .catch(console.error);
         }
     };
 
-    useEffect(() => {
-        fetchMatches();
-    }, []);
+    // 4) 초기 로드
+    useEffect(fetchMatches, []);
 
-    // 상세 정보 토글 및 fetch
-    const toggleDetail = async (matchId) => {
-        // 닫기
-        if (expanded[matchId]) {
-            setExpanded(prev => ({ ...prev, [matchId]: false }));
-            return;
-        }
-        // 아직 fetch 안 한 경우
-        if (!details[matchId]) {
-            try {
-                const res = await fetch(`/api/bymatchid?matchId=${matchId}`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ matchId }),
-                });
-                if (!res.ok) throw new Error(res.status);
-                const detailData = await res.json();
-                setDetails(prev => ({ ...prev, [matchId]: detailData }));
-            } catch (err) {
-                console.error('상세 불러오기 실패', err);
-                return;
-            }
-        }
-        setExpanded(prev => ({ ...prev, [matchId]: true }));
+    // 5) 시간차 계산 헬퍼
+    const timeAgo = ts => {
+        const diff = Date.now() - ts;
+        return `${Math.floor(diff / (1000 * 60 * 60 * 24))}일 전`;
     };
 
     return (
@@ -77,86 +90,111 @@ function GameList() {
                 ← 메인으로 돌아가기
             </button>
 
-            {matches.map(m => (
-                <div
-                    key={m.matchId}
-                    className={`match-card ${m.win ? '' : 'lose'}`}
-                >
-                    <div className="match-header">
-                        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-                            <div className="champion">
-                                <img
-                                    src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${m.championName}.png`}
-                                    alt={m.championName}
-                                    className="champion-image"
-                                />
-                                <div><strong>{m.riotIdGameName}#{m.riotIdTagline}</strong></div>
-                            </div>
-                            <div className="info">
-                                <div>포지션: {m.teamPosition}</div>
-                                <div className="kda">
-                                    {m.kills}/{m.deaths}/{m.assists} (KDA: {m.kda.toFixed(2)})
-                                </div>
-                                <div>{timeAgo(m.gameCreation)}</div>
-                                <div>시작: {new Date(m.gameCreation).toLocaleString()}</div>
-                                <div>시간: {Math.floor(m.gameDuration/60)}분 {m.gameDuration%60}초</div>
-                            </div>
-                        </div>
-                        <button
-                            className={`toggle-btn${expanded[m.matchId] ? ' open' : ''}`}
-                            onClick={() => toggleDetail(m.matchId)}
-                        >
-                            ▶
-                        </button>
-                    </div>
+            <div className="container">
+                {matches.map(m => {
+                    // (1) 상세 데이터 배열
+                    const participants = details[m.matchId] || [];
+                    // (2) 이 카드의 챔피언과 일치하는 “내” 참가자
+                    const me = participants.find(p => p.championName === m.championName);
 
-                    {expanded[m.matchId] && details[m.matchId] && (
-                        <div className="match-detail">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>챔피언</th>
-                                    <th>닉네임</th>
-                                    <th>K/D/A</th>
-                                    <th>라인</th>
-                                    <th>CS</th>
-                                    <th>피해량</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {details[m.matchId].map(p => (
-                                    <tr key={p.puuid} className={p.win ? 'blue-row' : 'red-row'}>
-                                        <td>
+                    return (
+                        <div key={m.matchId} className={`box ${m.win ? '' : 'lose'}`}>
+                            {/* 1. 요약 */}
+                            <div className="inner">
+                <span className="text red title">
+                  {m.gamemode === 'CLASSIC' ? '개인/2인 랭크' : m.gamemode}
+                </span>
+                                <span className="text">{timeAgo(m.gameCreation)}</span>
+                            </div>
+
+                            {/* 2. 구분선 */}
+                            <div className="bar" />
+
+                            {/* 3. 승패 + 게임시간 */}
+                            <div className="inner">
+                <span className={`text title ${m.win ? '' : 'gray'}`}>
+                  {m.win ? '승리' : '패배'}
+                </span>
+                                <span className="text">
+                  {Math.floor(m.gameDuration / 60)}분 {m.gameDuration % 60}초
+                </span>
+                            </div>
+
+                            {/* 4. 챔프/스펠/룬/KDA */}
+                            <div className="inner info">
+                                <div className="champ_img">
+                                    <img
+                                        src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${m.championName}.png`}
+                                        width="48"
+                                        height="48"
+                                        alt={m.championName}
+                                    />
+                                    <span className="level">{m.championLevel}</span>
+                                </div>
+
+                                {/* spells */}
+                                <div className="spell">
+                                    {[m.summoner1Id, m.summoner2Id].map((k, i) =>
+                                        keyToId[k] ? (
                                             <img
-                                                src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png`}
-                                                className="champion-image"
-                                                alt={p.championName}
+                                                key={i}
+                                                src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${keyToId[k]}.png`}
+                                                width="22"
+                                                height="22"
+                                                alt=""
                                             />
-                                        </td>
-                                        <td>{p.riotIdGameName}#{p.riotIdTagline}</td>
-                                        <td>
-                                            {p.kills}/{p.deaths}/{p.assists}
-                                            <span className="kda-stats">({p.kda.toFixed(2)})</span>
-                                        </td>
-                                        <td>{p.teamPosition}</td>
-                                        <td>{p.totalMinionsKilled}</td>
-                                        <td data-value={p.totalDamageDealtToChampions}></td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
+                                        ) : null
+                                    )}
+                                </div>
+
+                                {/* runes */}
+                                <div className="rune">
+                                    {me ? (
+                                        <>
+                                            <img
+                                                src={`https://ddragon.leagueoflegends.com/cdn/img/${me.primaryStyle1}`}
+                                                width="22"
+                                                height="22"
+                                                alt="primary rune"
+                                            />
+                                            <img
+                                                src={`https://ddragon.leagueoflegends.com/cdn/img/${me.subStyle1}`}
+                                                width="22"
+                                                height="22"
+                                                alt="sub rune"
+                                            />
+                                        </>
+                                    ) : (
+                                        <span className="text">룬 로딩중…</span>
+                                    )}
+                                </div>
+
+                                <div className="kda">
+                  <span>
+                    {m.kills} / <span className="red">{m.deaths}</span> / {m.assists}
+                  </span>
+                                    <span>{m.kda.toFixed(2)} 평점</span>
+                                </div>
+                            </div>
+
+                            {/* 5. 접기/펼치기 버튼 */}
+                            <div className="box button">
+                                <div className="button_inner">
+                                    <button onClick={() => toggleDetail(m.matchId)}>
+                                        {expanded[m.matchId] ? '접기' : '펼치기'}
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-                    )}
-                </div>
-            ))}
+                    );
+                })}
+            </div>
 
             {!isLastPage && (
-                <button id="more" className="btn btn-danger" onClick={fetchMatches}>
+                <button id="more" onClick={fetchMatches}>
                     더보기
                 </button>
             )}
         </>
     );
 }
-
-export default GameList;

@@ -37,5 +37,6 @@ public record PlayerDTO(
         String primaryStyle3,//주룬 3
         String primaryStyle4,//주룬 4
         String subStyle1, //부룬1
-        String subStyle2 //부룬 2
+        String subStyle2, //부룬 2
+        Integer championLevel
 ) {}

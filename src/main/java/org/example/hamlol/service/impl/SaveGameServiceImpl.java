@@ -145,6 +145,8 @@ public class SaveGameServiceImpl implements SaveGameService {
             // 참가자 목록을 돌리면서 로그인한 유저의 게임아이디가있는지 확인
             if (participantsNode != null && participantsNode.isArray()) {
                 for (JsonNode participant : participantsNode) {
+                    int championLevel = participant.get("champLevel").asInt(0);
+
                     String riotIdGameName = participant.get("riotIdGameName").asText("");
 
 
@@ -331,7 +333,8 @@ public class SaveGameServiceImpl implements SaveGameService {
                             primaryStyle3,
                             primaryStyle4,
                             subStyle1,
-                            subStyle2
+                            subStyle2,
+                            championLevel
                     );
                     extractedPlayerList.add(playerDto);
                 }
@@ -395,7 +398,7 @@ public class SaveGameServiceImpl implements SaveGameService {
                             dto.totalDamageTaken(), dto.totalHealsOnTeammates(), dto.totalMinionsKilled(),
                             dto.visionScore(), dto.visionWardsBoughtInGame(), dto.wardsPlaced(), dto.wardsKilled(),
                             dto.win(),dto.primaryStyle1(),dto.primaryStyle2(), dto.primaryStyle3(), dto.primaryStyle4(),
-                            dto.subStyle1(), dto.subStyle2(), matchEntity
+                            dto.subStyle1(), dto.subStyle2(), dto.championLevel(),matchEntity
                     )
             ).toList();
             playerRepository.saveAll(playerEntities);

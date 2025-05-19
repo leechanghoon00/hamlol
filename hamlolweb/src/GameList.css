@@ -1,4 +1,4 @@
-/* 최상위 컨테이너를 flex로 */
+/* ── 컨테이너 ── */
 .container {
     display: flex;
     flex-direction: column;
@@ -9,116 +9,125 @@
     margin: 0 auto;
 }
 
-/* 각 카드 박스 */
+/* ── 한 경기 행 전체 ── */
+.matchRow {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.matchRow.win  { background-color: #ebf4ff; }  /* 연한 파랑 */
+.matchRow.lose { background-color: #ffe4e6; }  /* 연한 빨강 */
+
+/* ── 공통 박스 ── */
 .box {
+    flex: 1 1 auto;
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
-    background: #fff;
-    border-radius: 8px;
-    padding: 8px;
-    margin-bottom: 12px;
+    background: transparent; /* summary 외엔 투명 */
+}
+.box.summary {
+    background: transparent;
 }
 
-/* 패배 시 붉은 테두리 */
-.box.lose {
-    border: 1px solid #f87171;
-}
+/* ── 텍스트 스타일 ── */
+.text  { display: block; }
+.red   { color: #D31A45; }
+.gray  { color: #777; }
+.title { font-weight: bold; }
 
-/* 구역별 inner */
+/* ── inner ── */
 .inner {
     display: flex;
     align-items: center;
-    padding: 4px 0;
+    padding: 5px 8px;
+}
+/* column 모드를 줄 때 쓰는 클래스 */
+.inner.column {
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-/* 구분선 */
+
+/* ── 구분선 ── */
 .bar {
-    display: block;
     width: 48px;
     height: 1px;
     background: rgb(255,216,217);
-    margin-left: 5px;
-    margin-bottom: 4px;
+    margin: 0 8px;
 }
 
-/* 챔피언 이미지 + 레벨 */
+/* ── 챔피언 이미지 + 레벨 ── */
 .champ_img {
     position: relative;
     margin-right: 8px;
 }
+.champ_img img {
+    border-radius: 50%;
+}
 .level {
     position: absolute;
     bottom: 0; right: 0;
+    width: 20px; height: 20px;
     background: rgb(32,45,55);
     color: #fff;
     border-radius: 50%;
-    font-size: 11px;
-    width: 20px; height: 20px;
-    line-height: 20px;
     text-align: center;
+    line-height: 20px;
+    font-size: 11px;
 }
 
-/* spell, rune */
-.spell, .rune {
+/* ── 스펠 ── */
+.spell {
     display: flex;
     flex-direction: column;
     margin-right: 8px;
 }
-.spell_img img, .rune .spell_img img {
-    border-radius: 4px;
+.spell_img img {
+    width: 22px; height: 22px;
+    border-radius: 5px;
+    margin-bottom: 2px;
 }
 
-/* KDA */
+/* ── 룬 ── */
+.rune {
+    display: flex;
+    flex-direction: column;
+    margin-right: 8px;
+}
+
+/* ── KDA ── */
 .kda {
     display: flex;
     flex-direction: column;
     font-weight: bold;
     margin-right: 8px;
 }
-.kda_detail {
-    display: flex;
-    flex-direction: column;
-    font-size: 10px;
-    margin-left: 16px;
+.kda span:nth-child(1) {
+    font-size: 15px;
 }
 
-/* 아이템 */
-.item {
-    display: flex;
-    margin-right: 8px;
-}
+/* ── 아이템 ── */
 .item img {
-    border-radius: 4px;
+    width: 22px; height: 22px;
+    border-radius: 5px;
     margin-right: 2px;
 }
 
-/* 라벨 */
-.label span {
-    display: inline-block;
-    padding: 1px 6px;
-    border-radius: 4px;
-    color: #fff;
-    margin-right: 4px;
+/* ── 토글 버튼 ── */
+.box.toggle {
+    flex: 0 0 24px;
 }
-.background_red { background: #D31A45; }
-.background_purple { background: rgb(125,89,234); }
-
-/* 접기/펼치기 버튼 */
-.box.button {
-    display: flex;
-    justify-content: flex-end;
-}
-.button_inner button {
+.box.toggle button {
     border: none;
     background: none;
+    padding: 0;
     cursor: pointer;
-    color: rgb(232,64,87);
-    display: flex;
-    align-items: center;
 }
 
-/* 뒤로가기 */
+/* ── 뒤로가기 & 더보기 ── */
 .back-btn {
     margin-bottom: 16px;
     padding: 6px 12px;
@@ -128,8 +137,6 @@
     border-radius: 4px;
     cursor: pointer;
 }
-
-/* 더보기 */
 #more {
     margin: 12px auto;
     padding: 8px 16px;
@@ -140,9 +147,53 @@
     cursor: pointer;
     display: block;
 }
-.item-img {
-    width: 20px;
-    height: 20px;
-    margin: 2px;
-    object-fit: contain;
+/* ── 상세 테이블 스타일 ── */
+.box.detail-box {
+    padding: 8px;
+    background: rgba(0,0,0,0.05);
 }
+.detail-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+.detail-table th,
+.detail-table td {
+    border: 1px solid #ddd;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 11px;
+}
+.detail-table .red-row td {
+    background-color: #ffe4e6;  /* 연한 빨강 */
+}
+.detail-table .blue-row td {
+    background-color: #ebf4ff;  /* 연한 파랑 */
+}
+/* ── 팀 레이블 행 ── */
+.label-row td {
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+/* ── 밴 챔프 아이콘 ── */
+.ban-img {
+    width: 24px;
+    height: 24px;
+    margin: 0 4px;
+    vertical-align: middle;
+}
+
+/* ── 오브젝트 통계 텍스트 ── */
+.stat-text {
+    font-size: 11px;
+    margin-left: 8px;
+    color: #333;
+}
+
+/* ── (기존 상세 테이블 배경색 유지) ── */
+.red-row td  { background-color: #ffe4e6; }
+.blue-row td { background-color: #ebf4ff; }

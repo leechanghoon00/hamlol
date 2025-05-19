@@ -1,14 +1,26 @@
 /* Main.css */
 
-/* 1. 화면 전체 flex 중앙 정렬 (배경색 유지) */
+/* CSS 변수로 배경색 통합 관리 */
+:root {
+    --page-bg: #f5f5f5;   /* 연한 회색 */
+}
+
+/* 라이트/다크 모드 대응 (선택사항) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-bg: #2b2b2b; /* 다크 모드 배경 */
+    }
+}
+
+/* 1. 화면 전체 flex 중앙 정렬 + 배경색 적용 */
 body {
+    background-color: var(--page-bg);
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
     padding: 0;
-    /* 시스템 폰트 우선 */
     font-family: -apple-system, BlinkMacSystemFont,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -17,7 +29,7 @@ body {
 .container {
     width: 360px;
     padding: 40px 32px;
-    background: #fff;                /* 흰색 배경 유지 */
+    background: #ffffff !important;  /* 흰색 고정 */
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     box-sizing: border-box;

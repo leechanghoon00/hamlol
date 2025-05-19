@@ -1,7 +1,6 @@
 // src/GameList.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './GameList.css';
 
 export default function GameList() {
     const navigate = useNavigate();

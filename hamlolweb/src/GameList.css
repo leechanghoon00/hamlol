@@ -170,3 +170,30 @@
 .detail-table .blue-row td {
     background-color: #ebf4ff;  /* 연한 파랑 */
 }
+/* ── 팀 레이블 행 ── */
+.label-row td {
+    background: transparent;
+    border: none;
+    text-align: left;
+    padding: 4px 8px;
+    font-weight: bold;
+}
+
+/* ── 밴 챔프 아이콘 ── */
+.ban-img {
+    width: 24px;
+    height: 24px;
+    margin: 0 4px;
+    vertical-align: middle;
+}
+
+/* ── 오브젝트 통계 텍스트 ── */
+.stat-text {
+    font-size: 11px;
+    margin-left: 8px;
+    color: #333;
+}
+
+/* ── (기존 상세 테이블 배경색 유지) ── */
+.red-row td  { background-color: #ffe4e6; }
+.blue-row td { background-color: #ebf4ff; }

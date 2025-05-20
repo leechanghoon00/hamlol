@@ -1,7 +1,6 @@
 // src/GameList.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 export default function GameList() {
     const navigate = useNavigate();
     const [matches, setMatches] = useState([]);
@@ -86,7 +85,7 @@ export default function GameList() {
                 ← 메인으로 돌아가기
             </button>
 
-            <div className="container">
+            <div className="GameList-container">
                 {matches.map((m, idx) => (
                     <React.Fragment key={`${m.matchId}-${idx}`}>
                         {/* ── 메인 한 줄 ── */}

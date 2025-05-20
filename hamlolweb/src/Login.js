@@ -1,7 +1,6 @@
 import {useState,useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 
-
 function Main(){
     const navigate = useNavigate();
     const [email,setEmail] = useState("")
@@ -45,7 +44,7 @@ function Main(){
     };
 
     return (
-        <div className="container">
+        <div className="login-container">
             <h2>로그인</h2>
             <form onSubmit={handleLogin}  id="loginForm">
                 <div className="group">

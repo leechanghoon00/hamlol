@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+
 function SaveGame(){
     const navigate = useNavigate();
     const [gameCode, setGameCode] = useState("");
@@ -39,7 +40,7 @@ function SaveGame(){
 
 
     return (
-        <div className="container">
+        <div className="SaveGame-container">
             <h2>게임코드 등록</h2>
             <form onSubmit={handleSave} id="gameCodeForm">
                 <div className="group">

@@ -5,6 +5,7 @@ buildscript {
 }
 plugins {
     id 'java'
+    id 'war'
     id 'org.springframework.boot' version '3.4.3'
     id 'io.spring.dependency-management' version '1.1.7'
     // queryDSL
@@ -79,6 +80,9 @@ dependencies {
 
     runtimeOnly 'com.mysql:mysql-connector-j'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // 외장 톰캣에서만 로드되도록 내장 톰캣 분리
+    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }
 
 tasks.withType(Test) {
@@ -98,4 +102,11 @@ sourceSets {
             srcDir querydslDir
         }
     }
+}
+// build.gradle 맨 아래 또는 plugins/dependencies 블록 아래에 추가
+bootWar {
+    enabled = false    // 내장 톰캣용 실행 WAR 비활성화
+}
+war {
+    enabled = true     // 외장 톰캣용 WAR 활성화
 }

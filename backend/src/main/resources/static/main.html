@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>Main Page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: #1161ee;
+        }
+        p {
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+        }
+        .link {
+            margin-top: 20px;
+        }
+        .link a {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 10px 20px;
+            background: #1161ee;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+        .link a:hover {
+            background: #0d4bb3;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>환영합니다!</h1>
+    <p>로그인에 성공했습니다.</p>
+    <p>이곳은 메인 페이지입니다.</p>
+    <div class="link">
+        <!-- 로그아웃 링크 (Spring Security의 /logout URL 사용) -->
+        <a href="/logout">로그아웃</a>
+        <!-- 전적 등록하기 링크 -->
+        <a href="#" onclick="loadPageWithJWT('/savegame.html', '/savegame.html'); return false;">전적 등록하기</a>
+        <a href="#" onclick="loadPageWithJWT('/lol.html', '/lol.html'); return false;">계정 연동하기</a>
+        <a href="#" onclick="loadPageWithJWT('/simpleGame.html', '/simpleGame.html'); return false;">전적 보기</a>
+
+    </div>
+</div>
+<script>
+    document.querySelector("a[href='/logout']").addEventListener("click", function(e) {
+        e.preventDefault();
+
+        localStorage.removeItem("accessToken");
+        alert("로그아웃 되었습니다.");
+        location.href = "/login.html"; // 로그인 페이지로 리디렉션
+    });
+
+    function loadPageWithJWT(url, targetUrl) {
+        const jwtToken = localStorage.getItem("accessToken");
+
+        if (!jwtToken) {
+            alert("로그인이 필요합니다.");
+            location.href = "/login.html";
+            return;
+        }
+
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + jwtToken
+            },
+            success: function(htmlData) {
+                document.open();
+                document.write(htmlData);
+                document.close();
+
+                history.pushState({}, '', targetUrl);
+            },
+            error: function(xhr) {
+                alert('페이지 로드 실패: ' + xhr.status);
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

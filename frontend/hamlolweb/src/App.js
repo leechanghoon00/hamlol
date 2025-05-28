@@ -1,16 +1,16 @@
-// import './Login.css';
 import Login from "./Login";
-// import './Signup.css';
 import {Signup} from "./Signup";
-// import './Main.css'
 import Main from "./Main";
-// import './Account.css'
-import Account from "./Account";
-import './GameList.css'
 import GameList from "./GameList";
-// import './SaveGame.css'
 import SaveGame from "./SaveGame";
+import Account from "./Account";
 
+import './Login.css';
+import './Signup.css';
+import './Main.css';
+import './GameList.css';
+import './SaveGame.css';
+import './Account.css';
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 

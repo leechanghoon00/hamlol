@@ -105,7 +105,7 @@ function Signup(){
         }
     };
     return (
-        <div className="container">
+        <div className="Signup-container">
             <h2>회원가입</h2>
             <form onSubmit={handleSignup} id="signupForm">
                 <div className="group">

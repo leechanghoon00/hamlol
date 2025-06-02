@@ -10,7 +10,6 @@ spring:
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
 ---
-
 spring:
   profiles:
     active: prd

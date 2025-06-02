@@ -1,3 +1,5 @@
+# ─────────────────────────────────────────────────────────────────────────────
+
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/hamlol
@@ -10,9 +12,11 @@ spring:
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
 ---
+# ─────────────────────────────────────────────────────────────────────────────
+
 spring:
-  profiles:
-    active: prd
+  profiles: prd
+
   datasource:
     url: jdbc:postgresql://3.34.136.222:5432/hamlol
     username: hame
@@ -21,6 +25,7 @@ spring:
     hibernate:
       ddl-auto: none
     show-sql: true
+
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
 

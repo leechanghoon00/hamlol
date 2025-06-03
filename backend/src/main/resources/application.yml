@@ -15,7 +15,10 @@ jwt:
 # ─────────────────────────────────────────────────────────────────────────────
 
 spring:
-  profiles: prd
+  config:
+    activate:
+      on-profile: prd
+
 
   datasource:
     url: jdbc:postgresql://3.34.136.222:5432/hamlol
@@ -32,3 +35,5 @@ jwt:
 server:
   tomcat:
     uri-encoding: UTF-8
+  port: 8080
+  address: 0.0.0.0

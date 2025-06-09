@@ -1,5 +1,4 @@
 # ─────────────────────────────────────────────────────────────────────────────
-
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/hamlol
@@ -12,13 +11,10 @@ spring:
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
 ---
-# ─────────────────────────────────────────────────────────────────────────────
-
 spring:
   config:
     activate:
       on-profile: prd
-
 
   datasource:
     url: jdbc:postgresql://3.34.136.222:5432/hamlol
@@ -37,3 +33,4 @@ server:
     uri-encoding: UTF-8
   port: 8080
   address: 0.0.0.0
+# ─────────────────────────────────────────────────────────────────────────────

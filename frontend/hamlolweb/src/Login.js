@@ -45,7 +45,7 @@ function Main(){
 
     return (
         <div className="login-container">
-            <h2>로그인</h2>
+            <h2>Hamlol</h2>
             <form onSubmit={handleLogin}  id="loginForm">
                 <div className="group">
                     <label htmlFor="user">이메일</label>

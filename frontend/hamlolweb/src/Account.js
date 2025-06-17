@@ -48,7 +48,7 @@ function Account() {
                             id="gameName"
                             type="text"
                             className="input"
-                            placeholder="대소문자 정확하게 입력"
+                            placeholder="# 제외하고, 대소문자 정확하게 입력"
                             value={gameName}
                             onChange={(e) => setGameName(e.target.value)}
                             required

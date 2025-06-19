@@ -43,5 +43,5 @@ jobs:
 
       # 7) Docker 이미지 푸시
       - name: Push Docker Image
-        run: docker build -t ryu1002/github-actions-demo .
+        run: docker push ryu1002/github-actions-demo
 

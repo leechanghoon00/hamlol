@@ -14,7 +14,7 @@ RUN npm install
 RUN npm run build
 
 # 🚀 3단계: 최종 실행 이미지
-FROM amazoncorretto:17-alpine
+FROM amazoncorretto:17
 WORKDIR /app
 
 # ✅ Spring Boot JAR 복사

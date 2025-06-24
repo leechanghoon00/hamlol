@@ -74,15 +74,20 @@ function Account() {
                 </form>
                 <div className="hr" />
                 <div className="foot-lnk">
-                    <a
-                        href="#"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            navigate("/main");
+                    <button
+                        type="button"
+                        onClick={() => navigate("/main")}
+                        style={{
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            textDecoration: "underline",
+                            padding: 0
                         }}
                     >
                         메인 페이지로 돌아가기
-                    </a>
+                    </button>
+
                 </div>
             </div>
         </div>

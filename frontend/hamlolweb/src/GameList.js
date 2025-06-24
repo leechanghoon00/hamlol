@@ -34,7 +34,8 @@ export default function GameList() {
             fetchMatches();
             didFetch.current = true;
         }
-    }, []);
+    }, [fetchMatches]);
+
 
     // 3) 매치 리스트 불러오기
 

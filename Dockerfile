@@ -1,17 +1,15 @@
 # 📦 1단계: Backend 빌드
 FROM gradle:8.2.1-jdk17 AS backend-builder
 
-# 🔐 Gradle 권한 문제 방지
-USER root
-
-WORKDIR /app
+# ✅ 권장: Gradle 기본 홈 디렉토리 기반
+WORKDIR /home/gradle/app
 COPY backend ./backend
-WORKDIR /app/backend
+WORKDIR /home/gradle/app/backend
 
-# 🔧 캐시 디렉토리 경로 설정
-ENV GRADLE_USER_HOME=/app/.gradle
+# ✅ 캐시 디렉토리 설정
+ENV GRADLE_USER_HOME=/home/gradle/.gradle
 
-# ✅ 테스트 제외하고 빌드 실행
+# ✅ 빌드 수행
 RUN gradle clean build -x test --no-daemon --refresh-dependencies
 
 
@@ -30,13 +28,13 @@ RUN npm run build
 FROM amazoncorretto:17
 WORKDIR /app
 
-# ✅ Spring Boot JAR 복사
-COPY --from=backend-builder /app/backend/build/libs/*.jar app.jar
+# ✅ JAR 파일 경로 수정
+COPY --from=backend-builder /home/gradle/app/backend/build/libs/*.jar app.jar
 
 # ✅ React 정적 파일 복사
 COPY --from=frontend-builder /frontend/hamlolweb/build /app/static
 
-# 🌐 Spring이 정적 파일을 /static 경로에서 서빙하도록 설정
+# 🌐 정적 리소스 서빙 설정
 ENV SPRING_RESOURCES_STATIC_LOCATIONS=file:/app/static/
 
 EXPOSE 8080

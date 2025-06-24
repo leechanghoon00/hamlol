@@ -1,5 +1,5 @@
 // src/GameList.js
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 export default function GameList() {
     const navigate = useNavigate();

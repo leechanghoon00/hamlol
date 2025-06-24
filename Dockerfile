@@ -3,6 +3,10 @@ FROM gradle:8.2.1-jdk17 AS backend-builder
 WORKDIR /app
 COPY backend ./backend
 WORKDIR /app/backend
+
+# 🔧 권한 이슈 방지를 위한 Gradle 캐시 경로 변경
+ENV GRADLE_USER_HOME=/app/.gradle
+
 RUN gradle clean build -x test --no-daemon --refresh-dependencies
 
 # 🎨 2단계: Frontend 빌드

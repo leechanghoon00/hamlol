@@ -13,31 +13,7 @@ export default function GameList() {
     const token = localStorage.getItem('accessToken');
     const didFetch = useRef(false);
 
-    // 0) 정렬 기준: 라인 순서
-    const order = ['TOP','JUNGLE','MIDDLE','BOTTOM','UTILITY'];
-
-    // 1) 스펠 키→아이디 매핑 (한 번만)
-    useEffect(() => {
-        fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json')
-            .then(res => res.json())
-            .then(data => {
-                const map = {};
-                Object.values(data.data).forEach(s => map[s.key] = s.id);
-                setKeyToId(map);
-            })
-            .catch(console.error);
-    }, []);
-
-    // 2) 첫 페이지 로드 (한 번만)
-    useEffect(() => {
-        if (!didFetch.current) {
-            fetchMatches();
-            didFetch.current = true;
-        }
-    }, [fetchMatches]);
-
-
-    // 3) 매치 리스트 불러오기
+    // 0) 매치 리스트 불러오기
 
     const fetchMatches = useCallback(() => {
         if (isLastPage) return;
@@ -57,12 +33,33 @@ export default function GameList() {
             .catch(console.error);
     }, [page, pageSize, isLastPage, token]);
 
+    // 1) 정렬 기준: 라인 순서
+    const order = ['TOP','JUNGLE','MIDDLE','BOTTOM','UTILITY'];
+
+    // 2) 스펠 키→아이디 매핑 (한 번만)
+    useEffect(() => {
+        fetch('https://ddragon.leagueoflegends.com/cdn/15.7.1/data/en_US/summoner.json')
+            .then(res => res.json())
+            .then(data => {
+                const map = {};
+                Object.values(data.data).forEach(s => map[s.key] = s.id);
+                setKeyToId(map);
+            })
+            .catch(console.error);
+    }, []);
+
+    // 3) 첫 페이지 로드 (한 번만)
     useEffect(() => {
         if (!didFetch.current) {
             fetchMatches();
             didFetch.current = true;
         }
     }, [fetchMatches]);
+
+
+
+
+
 
 
     // 4) 상세 토글 & 데이터 fetch

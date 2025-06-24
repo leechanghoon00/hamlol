@@ -8,12 +8,12 @@ WORKDIR /home/gradle/app/backend
 
 ENV GRADLE_USER_HOME=/home/gradle/.gradle
 
-# 🔑 소유자 권한 설정
+# ✅ 권한 변경
 RUN chown -R gradle:gradle /home/gradle
 
-# ✅ gradle 유저로 다시 변경
+# ✅ gradle 유저로 실행
 USER gradle
-RUN gradle clean build -x test --no-daemon
+RUN ./gradlew clean build -x test --no-daemon
 
 # 🎨 Frontend 빌드
 FROM node:20 AS frontend-builder
@@ -23,7 +23,7 @@ WORKDIR /frontend/hamlolweb
 RUN npm install
 RUN npm run build
 
-# 🚀 최종 이미지
+# 🚀 최종 실행 이미지
 FROM amazoncorretto:17
 WORKDIR /app
 

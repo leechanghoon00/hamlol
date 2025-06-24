@@ -3,17 +3,22 @@ FROM gradle:8.2.1-jdk17 AS backend-builder
 
 USER root
 WORKDIR /home/gradle/app
+
+# ✅ gradlew & gradle 관련 파일 먼저 복사
+COPY gradlew gradlew
+COPY gradle gradle
+RUN chmod +x gradlew
+
+# ✅ backend 소스 복사
 COPY backend ./backend
+
 WORKDIR /home/gradle/app/backend
 
 ENV GRADLE_USER_HOME=/home/gradle/.gradle
-
-# ✅ 권한 변경
 RUN chown -R gradle:gradle /home/gradle
 
-# ✅ gradle 유저로 실행
 USER gradle
-RUN ./gradlew clean build -x test --no-daemon
+RUN ../gradlew clean build -x test --no-daemon
 
 # 🎨 Frontend 빌드
 FROM node:20 AS frontend-builder

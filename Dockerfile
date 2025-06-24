@@ -1,13 +1,20 @@
 # 📦 1단계: Backend 빌드
 FROM gradle:8.2.1-jdk17 AS backend-builder
+
+# 🔐 Gradle 권한 문제 방지
+USER root
+
 WORKDIR /app
 COPY backend ./backend
 WORKDIR /app/backend
 
-# 🔧 권한 이슈 방지를 위한 Gradle 캐시 경로 변경
+# 🔧 캐시 디렉토리 경로 설정
 ENV GRADLE_USER_HOME=/app/.gradle
 
+# ✅ 테스트 제외하고 빌드 실행
 RUN gradle clean build -x test --no-daemon --refresh-dependencies
+
+
 
 # 🎨 2단계: Frontend 빌드
 FROM node:20 AS frontend-builder
@@ -16,6 +23,8 @@ COPY frontend/hamlolweb ./hamlolweb
 WORKDIR /frontend/hamlolweb
 RUN npm install
 RUN npm run build
+
+
 
 # 🚀 3단계: 최종 실행 이미지
 FROM amazoncorretto:17

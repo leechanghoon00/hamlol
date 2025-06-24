@@ -3,7 +3,7 @@ FROM gradle:8.2.1-jdk17 AS backend-builder
 WORKDIR /app
 COPY backend ./backend
 WORKDIR /app/backend
-RUN gradle clean build -x test
+RUN gradle clean build -x test --no-daemon --refresh-dependencies
 
 # 🎨 2단계: Frontend 빌드
 FROM node:20 AS frontend-builder

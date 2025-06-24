@@ -65,3 +65,4 @@ jobs:
             docker rm hamlol-container || true
             docker run -d -p 8080:8080 -p 3000:3000 \
               --name hamlol-container ryu1002/hamlol-full
+

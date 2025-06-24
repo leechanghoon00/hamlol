@@ -37,7 +37,6 @@ export default function GameList() {
     }, []);
 
     // 3) 매치 리스트 불러오기
-    import React, { useState, useEffect, useRef, useCallback } from 'react';
 
     const fetchMatches = useCallback(() => {
         if (isLastPage) return;

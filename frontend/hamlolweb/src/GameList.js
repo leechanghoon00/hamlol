@@ -37,7 +37,9 @@ export default function GameList() {
     }, []);
 
     // 3) 매치 리스트 불러오기
-    const fetchMatches = () => {
+    import React, { useState, useEffect, useRef, useCallback } from 'react';
+
+    const fetchMatches = useCallback(() => {
         if (isLastPage) return;
         fetch(`/api/bygameid?page=${page}&size=${pageSize}`, {
             method: 'POST',
@@ -53,7 +55,15 @@ export default function GameList() {
                 setPage(prev => prev + 1);
             })
             .catch(console.error);
-    };
+    }, [page, pageSize, isLastPage, token]);
+
+    useEffect(() => {
+        if (!didFetch.current) {
+            fetchMatches();
+            didFetch.current = true;
+        }
+    }, [fetchMatches]);
+
 
     // 4) 상세 토글 & 데이터 fetch
     const toggleDetail = matchId => {

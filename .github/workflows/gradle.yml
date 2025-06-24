@@ -33,7 +33,7 @@ jobs:
       # 5️⃣ Frontend(React) 빌드
       - name: Build React App (Frontend)
         run: |
-          cd frontend
+          cd frontend/hamlolweb
           npm install
           npm run build
 

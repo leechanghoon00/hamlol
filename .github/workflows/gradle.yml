@@ -23,13 +23,12 @@ jobs:
 
       # 3️⃣ gradlew 실행 권한 부여
       - name: Grant execute permission for gradlew
-        run: chmod +x ./backend/gradlew
+        run: chmod +x ./gradlew
 
       # 4️⃣ Backend(Spring Boot) 빌드 (test 제외)
       - name: Build Spring Boot (Backend)
-        run: |
-          cd backend
-          ./gradlew clean build -x test
+        run: ./gradlew :backend:clean :backend:build -x test
+
 
       # 5️⃣ Frontend(React) 빌드
       - name: Build React App (Frontend)

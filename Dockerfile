@@ -35,8 +35,7 @@ WORKDIR /app
 COPY --from=backend-builder /home/gradle/app/backend/build/libs/*.jar app.jar
 COPY --from=frontend-builder /frontend/hamlolweb/build /app/static
 
-# ✅ 여기가 핵심!! application-prd.yml도 같이 복사해야 함
-COPY backend/src/main/resources/application-prd.yml /app/application-prd.yml
+COPY backend/src/main/resources/application.yml /app/application.yml
 
 ENV SPRING_RESOURCES_STATIC_LOCATIONS=file:/app/static/
 EXPOSE 8080

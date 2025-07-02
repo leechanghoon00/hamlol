@@ -9,8 +9,7 @@ function Signup(){
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
     const [phone, setPhone] = useState("");
-    console.log('email : ',email,', username : ',username,', password : ',password,
-        ', password2 : ',password2, 'phone : ',phone)
+
 
     const [emailError, setEmailError] = useState(false);
     const [nameError, setNameError] = useState("");

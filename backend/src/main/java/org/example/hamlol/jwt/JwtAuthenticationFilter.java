@@ -20,11 +20,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    private static final String[] WHITELIST = {
+            "/api/adduser",
+            "/api/login",
+            "/swagger-ui",
+            "/v3/api-docs",
+            "/favicon.ico",
+            "/error"
+    };
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
+
+        // ✅ 화이트리스트 경로는 필터 로직을 건너뜀
+        String path = request.getRequestURI();
+        for (String uri : WHITELIST) {
+            if (path.startsWith(uri)) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+        }
+
         // HTTP 요청의 Authorization 헤더에서 "Bearer " 접두어를 제거한 토큰을 추출합니다.
         String token = jwtTokenProvider.resolveToken(request);
 

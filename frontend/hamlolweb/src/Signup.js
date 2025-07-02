@@ -83,7 +83,7 @@ function Signup(){
         if (!pwdSame(password, password2)) return alert("비밀번호가 일치하지 않습니다.");
         if (!phonNom(phone))              return alert("전화번호를 확인하세요.");
 
-        const user = { email, username, password, number: phone };
+        const user = { email, username, password, number: phone ,user_type: "USER"};
 
         try {
             const res = await fetch("/api/adduser", {

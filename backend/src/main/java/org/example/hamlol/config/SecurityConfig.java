@@ -52,7 +52,9 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                                 "/signup.html",
                                 "/static/**",
                                 "/favicon",
-                                "/error"
+                                "/error",
+                                "/",
+                                "/index.html"
                         ).permitAll()
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()

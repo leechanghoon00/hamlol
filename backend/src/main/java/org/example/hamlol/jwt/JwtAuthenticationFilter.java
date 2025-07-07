@@ -37,7 +37,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // ✅ 화이트리스트 경로는 필터 로직을 건너뜀
         String path = request.getRequestURI();
         for (String uri : WHITELIST) {
-            if (path.startsWith(uri)) {
+            if (path.equals(uri)) {
                 filterChain.doFilter(request, response);
                 return;
             }

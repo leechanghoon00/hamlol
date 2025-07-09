@@ -43,8 +43,8 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                 )
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers(
-                                "/api/adduser",
-                                "/api/login",
+                                "/adduser",
+                                "/login",
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/favicon.ico",

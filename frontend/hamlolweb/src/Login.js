@@ -4,14 +4,14 @@ import {useNavigate} from "react-router-dom";
 function Main(){
     const navigate = useNavigate();
     const [email,setEmail] = useState("")
-    console.log('email',email);
+    // console.log('email',email);
     const emailChange = (e) => {
         setEmail(e.target.value)
 
     }
 
     const [pwd ,setPwd] = useState("")
-    console.log('pwd',pwd);
+    // console.log('pwd',pwd);
     const pwdChange = (e) => {
         setPwd(e.target.value)
     }

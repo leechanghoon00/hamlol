@@ -7,6 +7,7 @@ import org.example.hamlol.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -42,6 +43,9 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authorizeHttpRequests(authz -> authz
+                        .requestMatchers(HttpMethod.POST, "/api/adduser").permitAll()
+                        // 로그인도 누구나
+                        .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .requestMatchers(
                                 "/adduser",
                                 "/login",
@@ -57,7 +61,7 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                                 "/index.html"
                         ).permitAll()
                         .requestMatchers("/api/**").authenticated()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(customAuthenticationEntryPoint)) // ✅ 핵심
                 .logout(logout -> logout.logoutSuccessUrl("/login.html").invalidateHttpSession(true).permitAll())

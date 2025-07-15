@@ -36,8 +36,8 @@ function Signup(){
         setUsername(v);
         if (!v) {
             setNameError("");
-        } else if (!nameLong(v)) {
-            setNameError("이름은 최소 2자 이상이어야 합니다.");
+        } else if (!nameLong(v) || hasSpace(v)) {
+            setNameError("이름은 최소 2자 이상이고 공백을 포함할 수 없습니다.");
         } else {
             setNameError("");
         }
@@ -46,10 +46,9 @@ function Signup(){
     const pwdChange = (e) => {
         const v = e.target.value;
         setPassword(v);
-        setPwdError(v !== "" && !pwdHard(v));
-        // 비밀번호 확인 검증 재실행
+        setPwdError((v !== "" && !pwdHard(v)) || hasSpace(v));
         setPwd2Error(password2 !== "" && !pwdSame(v, password2));
-        setSuccessMsg(password2 !== "" && pwdSame(v, password2));
+        setSuccessMsg(password2 !== "" && pwdSame(v, password2) && !hasSpace(v));
     };
 
     const pwd2Change = (e) => {
@@ -58,12 +57,12 @@ function Signup(){
         if (!v) {
             setPwd2Error(false);
             setSuccessMsg(false);
-        } else if (pwdSame(password, v)) {
-            setPwd2Error(false);
-            setSuccessMsg(true);
-        } else {
+        } else if (!pwdSame(password, v) || hasSpace(v)) {
             setPwd2Error(true);
             setSuccessMsg(false);
+        } else {
+            setPwd2Error(false);
+            setSuccessMsg(true);
         }
     };
 
@@ -72,6 +71,7 @@ function Signup(){
         setPhone(v);
         setPhoneError(!phonNom(v) || hasSpace(v));
     };
+
 
     const handleSignup  = async (e) => {
         e.preventDefault();
@@ -120,7 +120,7 @@ function Signup(){
                     <input value={email} onChange={emailChange} id="signup-email" type="text" name="email"
                            placeholder="이메일 입력" required/>
                     {emailError && (
-                        <div className="email-error">올바른 이메일 형식이 아닙니다.</div>
+                        <div className="email-error">이메일 형식이 잘못되었거나 공백이 포함되었습니다.</div>
                     )}
                 </div>
                 <div className="group">
@@ -134,7 +134,7 @@ function Signup(){
                     <label htmlFor="signup-password">비밀번호</label>
                     <input value={password} onChange={pwdChange} id="signup-password" type="password" name="password" placeholder="비밀번호 입력" required/>
                     {pwdError && (
-                        <div className="pwd-error">8~16자, 대/소문자·숫자·특수문자 모두 포함해야 합니다.</div>
+                        <div className="pwd-error">비밀번호는 8~16자이며 대/소문자·숫자·특수문자를 포함하고 공백을 포함할 수 없습니다.</div>
                     )}
 
                 </div>

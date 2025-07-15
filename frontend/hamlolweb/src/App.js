@@ -5,6 +5,7 @@ import GameList from "./GameList";
 import SaveGame from "./SaveGame";
 import Account from "./Account";
 import FindPassword from "./FindPassword";
+import ResetPassword from "./ResetPassword";
 
 import './Login.css';
 import './Signup.css';
@@ -13,6 +14,7 @@ import './GameList.css';
 import './SaveGame.css';
 import './Account.css';
 import './FindPassword.css';
+import './ResetPassword.css'
 
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 
@@ -28,6 +30,7 @@ function App() {
               <Route path="/gameList" element={<GameList />}/>
               <Route path="/saveGame" element={<SaveGame />}/>
               <Route path="/findpassword" element={<FindPassword />}/>
+              <Route path="/reset-password/:uuid" element={<ResetPassword />} />
 
           </Routes>
       </BrowserRouter>  );

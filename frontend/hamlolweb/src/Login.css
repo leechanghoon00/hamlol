@@ -124,3 +124,19 @@ body {
     cursor: pointer;
     z-index: 1000; /* 다른 요소 위에 표시 */
 }
+.find-password-wrapper {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.find-password-link {
+    color: #007bff;
+    text-decoration: underline;
+    margin-left: 4px;
+}
+
+.find-password-link:hover {
+    color: #0056b3;
+}

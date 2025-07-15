@@ -18,17 +18,18 @@ function Signup(){
     const [successMsg, setSuccessMsg] = useState(false);
     const [phoneError, setPhoneError] = useState(false);
 
-    const emailId   = (value) => /^\S+@\S+\.\S+$/.test(value);
+    const emailId = (value) => /^[^\s@가-힣]+@[^\s@가-힣]+\.[^\s@가-힣]+$/.test(value);
     const nameLong  = (value) => value.trim().length >= 2;
     const pwdHard   = (str)   => /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,16}$/.test(str);
     const pwdSame   = (p1, p2)=> p1 === p2;
-    const phonNom   = (value) => /^\d{9,11}$/.test(value);
+    const phonNom = (value) => /^\d{11}$/.test(value);
+    const hasSpace = (value) => /\s/.test(value);
 
-     const emailChange = (e) => {
-           const v = e.target.value;
-           setEmail(v);
-           setEmailError(!emailId(v));
-         };
+    const emailChange = (e) => {
+        const v = e.target.value;
+        setEmail(v);
+        setEmailError(!emailId(v) || hasSpace(v));
+    };
 
     const usernameChange = (e) => {
         const v = e.target.value;
@@ -69,7 +70,7 @@ function Signup(){
     const phoneChange = (e) => {
         const v = e.target.value;
         setPhone(v);
-        setPhoneError(!phonNom(v));
+        setPhoneError(!phonNom(v) || hasSpace(v));
     };
 
     const handleSignup  = async (e) => {

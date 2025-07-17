@@ -47,6 +47,8 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                         // 로그인도 누구나
                         .requestMatchers(HttpMethod.POST, "/api/login").permitAll()
                         .requestMatchers(
+                                "/api/reset-password",
+                                "/api/send-reset-password",
                                 "/adduser",
                                 "/login",
                                 "/swagger-ui/**",

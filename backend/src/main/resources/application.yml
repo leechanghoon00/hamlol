@@ -9,8 +9,23 @@ spring:
     hibernate:
       ddl-auto: update
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hamlolservice@gmail.com
+    password: trvv ahen rbiy yhcc
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
+
+props:
+  reset-password-url: https://hamlol.xyz/reset-password
 
 logging:
   level:
@@ -35,8 +50,25 @@ spring:
       ddl-auto: none
     show-sql: true
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: hamlolservice@gmail.com
+    password: "sbmo yplh pfgu yezs"
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+  redis:
+    host: localhost
+    port: 6379
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33
+
+props:
+  reset-password-url: https://hamlol.xyz/reset-password
 
 server:
   tomcat:
@@ -46,7 +78,7 @@ server:
 
 logging:
   level:
-    org.example.hamlol: DEBUG
+    org.example.hamlol: INFO
   file:
     name: logs/hamlol.log
     path: ./

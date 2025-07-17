@@ -18,7 +18,7 @@ function FindPassword() {
                 body: JSON.stringify({ email }),
             });
 
-            if (!res.ok) throw new Error("메일 전송 실패. 이메일을 다시 확인해주세요.");
+            if (!res.ok) throw new Error("존재하지 않는 이메일입니다. 이메일을 다시 확인해주세요.");
 
             setMessage("📩 비밀번호 재설정 링크가 이메일로 전송되었습니다.");
         } catch (err) {
@@ -43,6 +43,9 @@ function FindPassword() {
             </form>
             {message && <p className="success">{message}</p>}
             {error && <p className="error">{error}</p>}
+            <div className="link">
+                <a href="/login">로그인 하러가기</a>
+            </div>
         </div>
     );
 }

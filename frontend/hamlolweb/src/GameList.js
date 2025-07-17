@@ -93,8 +93,11 @@ export default function GameList() {
             </button>
 
             <div className="GameList-container">
-                {matches.map((m, idx) => (
-                    <React.Fragment key={`${m.matchId}-${idx}`}>
+                {matches.length === 0 ? (
+                    <div className="empty-message">등록된 전적이 없습니다</div>
+                ):(
+                    matches.map((m, idx) => (
+                        <React.Fragment key={`${m.matchId}-${idx}`}>
                         {/* ── 메인 한 줄 ── */}
                         <div className={`matchRow ${m.win ? 'win' : 'lose'}`}>
                             {/* 1) 요약 박스 */}
@@ -371,7 +374,8 @@ export default function GameList() {
                             );
                         })()}
                     </React.Fragment>
-                ))}
+                ))
+                )}
             </div>
 
             {!isLastPage && (

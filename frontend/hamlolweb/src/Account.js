@@ -29,7 +29,7 @@ function Account() {
                 throw new Error(text || res.status);
             }
             alert("계정 연동 성공");
-            navigate("/main");
+            navigate("/login");
         } catch (err) {
             alert("연동 실패: " + err.message);
         }

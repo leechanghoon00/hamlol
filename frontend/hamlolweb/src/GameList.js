@@ -128,7 +128,7 @@ export default function GameList() {
                                 <div className="inner info">
                                     <div className="champ_img">
                                         <img
-                                            src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${m.championName}.png`}
+                                            src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/champion/${m.championName}.png`}
                                             width="48" height="48" alt={m.championName}
                                         />
                                         <span className="level">{m.championLevel}</span>
@@ -138,7 +138,7 @@ export default function GameList() {
                                             keyToId[k] ? (
                                                 <span key={i} className="spell_img">
                                                     <img
-                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${keyToId[k]}.png`}
+                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/spell/${keyToId[k]}.png`}
                                                         width="22" height="22" alt=""
                                                     />
                                                 </span>
@@ -158,8 +158,8 @@ export default function GameList() {
                                         {[0,1,2,3,4,5,6].map(i => {
                                             const code = m[`item${i}`];
                                             const src = code && code !== '0'
-                                                ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${code}.png`
-                                                : `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png`;
+                                                ? `https://ddragon.leagueoflegends.com/cdn/15.14.1/img/item/${code}.png`
+                                                : `https://ddragon.leagueoflegends.com/cdn/15.14.1/img/profileicon/588.png`;
                                             return <img key={i} src={src} width="22" height="22" alt="" />;
                                         })}
                                     </div>
@@ -227,7 +227,7 @@ export default function GameList() {
                                             <tr key={p.puuid} className="red-row">
                                                 <td>
                                                     <img
-                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png`}
+                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/champion/${p.championName}.png`}
                                                         width="24" height="24" alt={p.championName}
                                                     />
                                                 </td>
@@ -235,7 +235,7 @@ export default function GameList() {
                                                 <td>
                                                     {[p.summoner1Id, p.summoner2Id].map((k, i) => keyToId[k] ? (
                                                         <img key={i}
-                                                             src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${keyToId[k]}.png`}
+                                                             src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/spell/${keyToId[k]}.png`}
                                                              width="20" height="20" alt="spell"/>
                                                     ) : null)}
                                                 </td>
@@ -253,8 +253,8 @@ export default function GameList() {
                                                     {[0, 1, 2, 3, 4, 5, 6].map(i => {
                                                         const c = p[`item${i}`];
                                                         const src = c && c !== '0'
-                                                            ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${c}.png`
-                                                            : `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png`;
+                                                            ? `https://ddragon.leagueoflegends.com/cdn/15.14.1/img/item/${c}.png`
+                                                            : `https://ddragon.leagueoflegends.com/cdn/15.14.1/img/profileicon/588.png`;
                                                         return (
                                                             <img
                                                                 key={i}
@@ -284,7 +284,7 @@ export default function GameList() {
                                                     <img
                                                         key={i}
                                                         className="ban-img"
-                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${ban.championId}.png`}
+                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/champion/${ban.championId}.png`}
                                                         alt="ban"
                                                     />
                                                 ))}
@@ -304,7 +304,7 @@ export default function GameList() {
                                                     <img
                                                         key={i}
                                                         className="ban-img"
-                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${ban.championId}.png`}
+                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/champion/${ban.championId}.png`}
                                                         alt="ban"
                                                     />
                                                 ))}
@@ -321,7 +321,7 @@ export default function GameList() {
                                             <tr key={p.puuid} className="blue-row">
                                                 <td>
                                                     <img
-                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/champion/${p.championName}.png`}
+                                                        src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/champion/${p.championName}.png`}
                                                         width="24" height="24" alt={p.championName}
                                                     />
                                                 </td>
@@ -329,7 +329,7 @@ export default function GameList() {
                                                 <td>
                                                     {[p.summoner1Id, p.summoner2Id].map((k, i) => keyToId[k] ? (
                                                         <img key={i}
-                                                             src={`https://ddragon.leagueoflegends.com/cdn/15.7.1/img/spell/${keyToId[k]}.png`}
+                                                             src={`https://ddragon.leagueoflegends.com/cdn/15.14.1/img/spell/${keyToId[k]}.png`}
                                                              width="20" height="20" alt="spell"/>
                                                     ) : null)}
                                                 </td>
@@ -347,8 +347,8 @@ export default function GameList() {
                                                     {[0, 1, 2, 3, 4, 5, 6].map(i => {
                                                         const c = p[`item${i}`];
                                                         const src = c && c !== '0'
-                                                            ? `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/item/${c}.png`
-                                                            : `https://ddragon.leagueoflegends.com/cdn/15.7.1/img/profileicon/588.png`;
+                                                            ? `https://ddragon.leagueoflegends.com/cdn/15.14.1/img/item/${c}.png`
+                                                            : `https://ddragon.leagueoflegends.com/cdn/15.14.1/img/profileicon/588.png`;
                                                         return (
                                                             <img
                                                                 key={i}

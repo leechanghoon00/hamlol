@@ -18,9 +18,19 @@ function FindPassword() {
                 body: JSON.stringify({ email }),
             });
 
-            if (!res.ok) throw new Error("존재하지 않는 이메일입니다. 이메일을 다시 확인해주세요.");
+            const data = await res.json(); // ✅ JSON 응답 파싱
 
-            setMessage("📩 비밀번호 재설정 링크가 이메일로 전송되었습니다.");
+            if (!res.ok) {
+                //  에러 응답인 경우, data.error 존재
+                throw new Error(data.error || "오류가 발생했습니다.");
+            }
+
+            // ✅ 성공 응답 처리
+            if (data.uuid?.startsWith("메일 전송은 완료되었으나")) {
+                setMessage("메일은 전송되었지만, 인증 링크 저장에 문제가 있을 수 있습니다.");
+            } else {
+                setMessage("📩 비밀번호 재설정 링크가 이메일로 전송되었습니다.");
+            }
         } catch (err) {
             setError(err.message);
         }

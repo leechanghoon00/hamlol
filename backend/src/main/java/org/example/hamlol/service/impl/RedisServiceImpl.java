@@ -35,7 +35,8 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public String getValues(String key) {
         //key로 저장된 value 조회
-        return redisTemplate.opsForValue().get(key);
+        return redisTemplate.
+                opsForValue().get(key);
     }
 
     // 값 삭제

@@ -62,7 +62,7 @@ spring:
             enable: true
           auth: true
   redis:
-    host: localhost
+    host: 172.31.39.11
     port: 6379
 jwt:
   secret: XUKemfiZfrEWLtykdkjfeliwjfd59YLt5XXXkAdqZu33

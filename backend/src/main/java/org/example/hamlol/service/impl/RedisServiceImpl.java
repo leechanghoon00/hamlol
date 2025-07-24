@@ -15,9 +15,7 @@ public class RedisServiceImpl implements RedisService {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    /**
-     * ✅ 단순 저장 (영구 저장)
-     */
+// 단순 저장 (영구 저장)
     @Override
     @Transactional
     public void setValues(String key, String value) {
@@ -31,15 +29,13 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
-    /**
-     * ✅ 저장 + 유효 시간 설정 (Duration 사용)
-     */
+// 저장 + 유효 시간 설정 (Duration 사용)
     @Override
     @Transactional
-    public void setValuesWithTimeout(String key, String value, long timeoutMillis) {
+    public void setValuesWithTimeout(String key, String value, Duration timeout) {
         try {
-            System.out.println("✅ Redis 저장 시도: " + key + " (TTL: " + timeoutMillis + "ms)");
-            redisTemplate.opsForValue().set(key, value, Duration.ofMillis(timeoutMillis));
+            System.out.println("✅ Redis 저장 시도: " + key + " (TTL: " + timeout.toMillis() + "ms)");
+            redisTemplate.opsForValue().set(key, value, timeout);
             System.out.println("✅ Redis 저장 성공 (TTL 적용): " + key);
         } catch (Exception e) {
             System.out.println("❌ Redis 저장 실패: " + e.getMessage());
@@ -47,9 +43,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
-    /**
-     * ✅ 값 조회
-     */
+    // 값 조회
     @Override
     public String getValues(String key) {
         try {
@@ -63,9 +57,7 @@ public class RedisServiceImpl implements RedisService {
         }
     }
 
-    /**
-     * ✅ 값 삭제
-     */
+//값 삭제
     @Override
     @Transactional
     public void deleteValues(String key) {

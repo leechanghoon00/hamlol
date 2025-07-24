@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.UnsupportedEncodingException;
+import java.time.Duration;
 import java.util.UUID;
 
 @Slf4j
@@ -56,7 +57,7 @@ public class SendMailServiceImpl implements SendMailService {
         sendEmail(email, title, content);
 
         // Redis 저장
-        long ttl = 60 * 60 * 24 * 1000L; // 24시간
+        Duration ttl = Duration.ofHours(24);
         redisService.setValuesWithTimeout(uuid, email, ttl);
         log.info("🧠 Redis에 UUID 저장 완료 - UUID: {}, Email: {}", uuid, email);
 

@@ -6,7 +6,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.concurrent.TimeUnit;
+import java.time.Duration;
 
 @Service
 @Transactional(readOnly = true)
@@ -15,35 +15,66 @@ public class RedisServiceImpl implements RedisService {
 
     private final RedisTemplate<String, String> redisTemplate;
 
-    // 단순 저장
+    /**
+     * ✅ 단순 저장 (영구 저장)
+     */
     @Override
     @Transactional
     public void setValues(String key, String value) {
-        //key에 value 영구 저장
-        redisTemplate.opsForValue().set(key, value);
+        try {
+            System.out.println("✅ Redis 저장 시도: " + key);
+            redisTemplate.opsForValue().set(key, value);
+            System.out.println("✅ Redis 저장 성공 (영구 저장): " + key);
+        } catch (Exception e) {
+            System.out.println("❌ Redis 저장 실패: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    // 저장 + 유효시간 설정
+    /**
+     * ✅ 저장 + 유효 시간 설정 (Duration 사용)
+     */
     @Override
     @Transactional
     public void setValuesWithTimeout(String key, String value, long timeoutMillis) {
-        //key에 value  저장 , 시간지나면 자동삭제
-        redisTemplate.opsForValue().set(key, value, timeoutMillis, TimeUnit.MILLISECONDS);
+        try {
+            System.out.println("✅ Redis 저장 시도: " + key + " (TTL: " + timeoutMillis + "ms)");
+            redisTemplate.opsForValue().set(key, value, Duration.ofMillis(timeoutMillis));
+            System.out.println("✅ Redis 저장 성공 (TTL 적용): " + key);
+        } catch (Exception e) {
+            System.out.println("❌ Redis 저장 실패: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 
-    // 값 조회
+    /**
+     * ✅ 값 조회
+     */
     @Override
     public String getValues(String key) {
-        //key로 저장된 value 조회
-        return redisTemplate.
-                opsForValue().get(key);
+        try {
+            String value = redisTemplate.opsForValue().get(key);
+            System.out.println("🔍 Redis 조회: " + key + " = " + value);
+            return value;
+        } catch (Exception e) {
+            System.out.println("❌ Redis 조회 실패: " + e.getMessage());
+            e.printStackTrace();
+            return null;
+        }
     }
 
-    // 값 삭제
+    /**
+     * ✅ 값 삭제
+     */
     @Override
     @Transactional
     public void deleteValues(String key) {
-        // 삭제
-        redisTemplate.delete(key);
+        try {
+            redisTemplate.delete(key);
+            System.out.println("🗑️ Redis 삭제: " + key);
+        } catch (Exception e) {
+            System.out.println("❌ Redis 삭제 실패: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }

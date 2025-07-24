@@ -25,11 +25,12 @@ public class RedisConfig {
 
     // Redis 템플릿 설정
     @Bean
-    public StringRedisTemplate redisTemplate() {
+    public StringRedisTemplate redisTemplate(RedisConnectionFactory redisConnectionFactory) {
         StringRedisTemplate template = new StringRedisTemplate();
-        template.setConnectionFactory(redisConnectionFactory());
+        template.setConnectionFactory(redisConnectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new StringRedisSerializer());
         return template;
     }
+
 }

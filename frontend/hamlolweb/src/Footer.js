@@ -12,7 +12,7 @@ function Footer() {
             <small>
                 HAMLol은 Riot Games의 공식 서비스가 아니며,<br/>
                 본 서비스는 Riot Games의 입장을 대변하지 않습니다.<br/>
-                League of Legends 및 Riot Games는 Riot Games, Inc.의 등록 상표입니다.
+                해미는 귀엽습니다.
             </small>
         </footer>
     );

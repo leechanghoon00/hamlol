@@ -65,6 +65,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-mail'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
 
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'jakarta.el:jakarta.el-api:5.0.1'
+    runtimeOnly 'org.glassfish:jakarta.el:5.0.0'
+
 }
 
 tasks.withType(Test) {

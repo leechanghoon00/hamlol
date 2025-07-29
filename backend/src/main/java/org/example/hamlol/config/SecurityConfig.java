@@ -62,7 +62,7 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                                 "/",
                                 "/index.html"
                         ).permitAll()
-                        .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/download/**", "/get.php", "/admin/**").denyAll()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling(e -> e.authenticationEntryPoint(customAuthenticationEntryPoint)) // ✅ 핵심

@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @Builder
-public class RestPasswordResponseDTO {
+//백엔드에서 응답
+public class ResetPasswordEmailResponseDTO {
     private String UUID;
 
     public String getUUID() {

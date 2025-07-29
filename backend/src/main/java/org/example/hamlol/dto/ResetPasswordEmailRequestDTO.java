@@ -3,7 +3,8 @@ package org.example.hamlol.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class RestPasswordRequestDTO {
+// 백엔드에 요청
+public class ResetPasswordEmailRequestDTO {
     @Email
     @NotBlank
     private String email;

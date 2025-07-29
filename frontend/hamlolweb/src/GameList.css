@@ -142,17 +142,21 @@
 /* ── 뒤로가기 버튼 고정 ── */
 .back-btn {
     position: fixed;
-    top: 16px;
-    left: 16px;
-    padding: 6px 12px;
-    background: #60a5fa;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
+    top: 20px;
+    left: 20px;
     z-index: 1000;
+    padding: 8px 16px;
+    background-color: #409eff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
 }
-
+.back-btn:hover {
+    background-color: #3a8ee6;
+}
 /* ── 더보기 버튼 ── */
 #more {
     margin: 12px auto;
@@ -220,4 +224,18 @@
     color: #777;
     font-size: 14px;
     padding: 120px 0;
+}
+.banner-container {
+    display: flex;
+    justify-content: center;
+    padding-top: 70px; /* 🔥 버튼 아래 공간 확보 */
+    margin-bottom: 20px;
+}
+
+.banner-img {
+    width: 100%;
+    max-width: 750px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
 }

@@ -1,6 +1,7 @@
 {
   "name": "hamlolweb",
   "version": "0.1.0",
+  "homepage": "https://hamlol.xyz",
   "proxy": "http://localhost:8080",
   "private": true,
   "dependencies": {

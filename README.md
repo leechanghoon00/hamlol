@@ -11,7 +11,7 @@
 | 📆 개발 기간    | 2024.03.01 \~ ∞                                                        |
 | 👨‍💼 개발 인원 | 1명 (개인 프로젝트)                                                           |
 | 🔗 배포 주소    | [hamlol.xyz](http://hamlol.xyz/login)                               |
-| 📂 GitHub | [https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)
+| 📂 GitHub | [https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)   |
 | 🗂 상세 포트폴리오 | [Notion 포트폴리오 보기](https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f) |
 
 ---
@@ -43,16 +43,16 @@
 
 * Spring Security로 미인증 사용자 접근 차단
 * `/error`, `/login`, `/signup` 등 예외 경로 처리
-* 정적 리소스 검사 허용 및 403/401 핸들링
+* 정적 리소스 접근 허용 및 403/401 핸들링
 
 ---
 
 ## ⚙️ 사용 기술 스택
 
-| 구분          | 기술                                                    |
+| 구분          | 기술                                                |
 | ----------- | ----------------------------------------------------- |
 | 🧠 Language | Java 17, JavaScript                                   |
-| 🧹 Backend  | Spring Boot 3, Spring Security, JWT, JPA, Redis, Mail |
+| 🧹 Backend  | Spring Boot 3, Spring Security, JWT, Redis            |
 | 💻 Frontend | React.js, React Router, Fetch API                     |
 | 🐘 DB       | PostgreSQL                                            |
 | 😳 DevOps   | Docker, GitHub Actions, Nginx, AWS EC2, Route53       |
@@ -111,8 +111,8 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 ```
 
 * **table\_match**: 게임 시작 시간, 게임 모드 등 전체 매치 정보
-* **table\_team**: 블루/레드 팀의 승패, 오브젝트 처치, 벤 목록 등
-* **table\_player**: 플레이어별 선택한 챔피언, 포지션, 전투 지표, 아이템, 시야 지표 등
+* **table\_team**: 블루/레드 팀의 승패, 오브젝트 처치, 밴 목록 등
+* **table\_player**: 플레이어별 사용 챔피언, 포지션, 전투 지표, 아이템, 시야 지표 등
 
 ### ERD 이미지 첨부
 
@@ -135,7 +135,7 @@ Entity 변환 후 DB 저장
 사용자 조회 및 전적 분석 제공
 ```
 
-Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 테이블 컬럼이 어떻게 매핑되는지를 명시적으로 표현한다
+Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 테이블 컬럼이 어떻게 매핑되는지를 명확하게 매핑되도록 설계하였다 또는 테이블 컬럼과 API 필드 간 관계를 정의하였다
 ---
 
 ## 📈 확장 계획 (Future Work)

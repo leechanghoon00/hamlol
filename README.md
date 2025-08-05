@@ -49,16 +49,7 @@
 
 ## ⚙️ 사용 기술 스택
 
-| 구분          | 기술                                                |
-| ----------- | ----------------------------------------------------- |
-| 🧠 Language | Java 17, JavaScript                                   |
-| 🧹 Backend  | Spring Boot 3, Spring Security, JWT, Redis            |
-| 💻 Frontend | React.js, React Router, Fetch API                     |
-| 🐘 DB       | PostgreSQL                                            |
-| 😳 DevOps   | Docker, GitHub Actions, Nginx, AWS EC2, Route53       |
-
----
-🧠 Language & Runtime
+🧠 Language 
 <p> <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=openjdk&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"/> </p>
 🧹 Backend
 <p> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=springsecurity&logoColor=white"/> <img src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white"/> <img src="https://img.shields.io/badge/Mail-0072C6?style=flat-square&logo=gmail&logoColor=white"/> <img src="https://img.shields.io/badge/JPA-007396?style=flat-square"/> </p>

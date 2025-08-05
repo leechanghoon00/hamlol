@@ -150,18 +150,18 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ```
 
-🧩 테이블 설명
-테이블명	역할 및 설명
-User Table	회원 정보 (username, password, email, phone 등)
-Lol Table	Riot API에서 가져온 소환사명, 태그, puuid
-Api Key Table	사용자가 발급받은 Riot API Key 정보
-Champ Table	챔피언별 플레이 수, 챔피언명, 사용자 ID
-RecentUser Table	최근 함께한 사용자 기록 (누구랑 몇 판 했는지, 승률 등)
-Match Table	게임 전적 (게임ID, 날짜, 킬/데스/어시, 승패, 티어 등)
-Team Table	팀별 전적 지표 (승리 여부, 오브젝트 처치, 밴 등)
-Player Table	팀 내부 개별 플레이어 데이터 (챔피언, 아이템, 포지션, KDA 등)
-Champ	Riot 챔피언 고정 정보 테이블 (id, key, name)
-Match	MatchDto 기반 전적 구조 (gameDuration, gamemode 등)
+🔗 테이블 구조 및 설명
+🗂️ 테이블명	🔍 설명
+User Table	회원의 ID, 비밀번호, 이메일, 전화번호 등 기본 계정 정보를 저장
+Lol Table	Riot API로부터 받은 소환사명, 태그, PUUID 정보를 저장 (puuid 기반 식별)
+Api Key Table	Riot 개발자 API Key 관리용 테이블 (사용자별 API 키 저장)
+Champ Table	사용자의 챔피언별 게임 수, 통계를 저장하여 챔피언 분석에 활용
+RecentUser Table	최근 함께 플레이한 사용자 ID, 게임 수, 승률 등을 기록
+Match Table	Riot MatchDto 기반의 전적 요약 테이블, 게임 ID, 날짜, 킬/데스, 결과 등을 저장
+Team Table	하나의 매치에 포함된 **각 팀(블루/레드)**의 정보, 승패, 드래곤/타워 처치 등
+Player Table	각 팀 소속 플레이어의 개별 전적 데이터: 챔피언, 포지션, 아이템, KDA 등
+Champ	Riot 챔피언의 **기본 고정 정보(id, key, name)**를 담은 마스터 테이블
+Match	Riot의 MatchDto 기반 구조로, 게임 시작 시간, 모드, 진행 시간 등을 저장
 
 
 ### ERD 이미지 첨부

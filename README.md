@@ -134,8 +134,7 @@ Entity 변환 후 DB 저장
 사용자 조회 및 전적 분석 제공
 ```
 
-> Riot의 ParticipantDto, TeamDto, InfoDto를 기준으로 각 DB 컬럼이 어떻게 메프니까를 명시적으로 표현
-
+Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 테이블 컬럼이 어떻게 매핑되는지를 명시적으로 표현한다
 ---
 
 ## 📈 확장 계획 (Future Work)

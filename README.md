@@ -116,11 +116,11 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ### ERD 이미지 첨부
 
-```
-<img src="https://raw.githubusercontent.com/ryu1002/hamlol/main/frontend/hamlolweb/images/hamlol/erd1.png" width="500" />
 
-<img width="676" height="819" alt="ERD2" src="https://github.com/user-attachments/assets/2eeb6e00-d7d0-4e63-ab86-34b83be65e1a" />
-```
+<img src="https://raw.githubusercontent.com/ryu1002/hamlol/frontend/images/hamlol/erd1.png" width="676" alt="ERD1" /> 
+
+<img src="https://raw.githubusercontent.com/ryu1002/hamlol/frontend/images/hamlol/erd2.png" width="676" alt="ERD2" /> 
+
 
 ---
 

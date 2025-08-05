@@ -91,21 +91,7 @@
 
 ```
 
----
 
-## 🌐 CI/CD 자동화 파이프라인
-
-```
-🔀 GitHub Push →
-⚙ GitHub Actions →
-😳 Docker Image Build →
-📄 DockerHub Push →
-🔐 EC2 접속 (pem) →
-📦 기존 컨테이너 종료 →
-🚀 새 컨테이너 실행
-```
-
----
 
 ## 📊 ERD 및 데이터 설계
 
@@ -190,6 +176,32 @@ Entity 변환 후 DB 저장
 ```
 
 Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 테이블 컬럼이 어떻게 매핑되는지를 명확하게 매핑되도록 설계하였다 또는 테이블 컬럼과 API 필드 간 관계를 정의하였다
+
+
+
+
+
+
+
+
+
+
+---
+
+## 🌐 CI/CD 자동화 파이프라인
+
+```
+🔀 GitHub Push →
+⚙ GitHub Actions →
+😳 Docker Image Build →
+📄 DockerHub Push →
+🔐 EC2 접속 (pem) →
+📦 기존 컨테이너 종료 →
+🚀 새 컨테이너 실행
+```
+
+---
+
 ---
 
 ## 📈 확장 계획 (Future Work)

@@ -10,7 +10,7 @@
 | ----------- | ---------------------------------------------------------------------- |
 | 📆 개발 기간    | 2024.03.01 \~ ∞                                                        |
 | 👨‍💼 개발 인원 | 1명 (개인 프로젝트)                                                           |
-| 🔗 배포 주소    | [https://hamlol.xyz](https://hamlol.xyz)                               |
+| 🔗 배포 주소    | [hamlol.xyz](hamlol.xyz)                               |
 | 📂 GitHub   | [[https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)](https://github.com/leechanghoon00/hamlol) |
 
 ---

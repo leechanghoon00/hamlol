@@ -115,11 +115,12 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 * **table\_player**: 플레이어별 사용 챔피언, 포지션, 전투 지표, 아이템, 시야 지표 등
 
 ### ERD 이미지 첨부
+https://github.com/leechanghoon00/hamlol/blob/main/frontend/images/hamlol/erd%201.png
 
-```
-<img width="899" height="735" alt="ERD1" src="https://github.com/user-attachments/assets/20df8a77-3a0f-4aac-8c0b-273302be5f95" />
-<img width="676" height="819" alt="ERD2" src="https://github.com/user-attachments/assets/2eeb6e00-d7d0-4e63-ab86-34b83be65e1a" />
-```
+<img src="https://raw.githubusercontent.com/leechanghoon00/hamlol/main/hamlol/frontend/images/hamlol/erd1.png" width="676" alt="ERD1" />
+<img src="https://raw.githubusercontent.com/leechanghoon00/hamlol/main/hamlol/frontend/images/hamlol/erd2.png" width="676" alt="ERD2" />
+
+
 
 ---
 

@@ -12,7 +12,7 @@
 | 👨‍💼 개발 인원 | 1명 (개인 프로젝트)                                                           |
 | 🔗 배포 주소    | [hamlol.xyz](http://hamlol.xyz/login)                               |
 | 📂 GitHub | [https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)   |
-| 🗂 상세 포트폴리오 | [Notion 포트폴리오 보기](https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f) |
+| 🗂 Notion | [Notion](https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f) |
 
 ---
 

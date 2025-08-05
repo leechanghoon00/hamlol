@@ -21,31 +21,7 @@
 * 리그 오브 레전드 사용자 설정 게임(내전) 은 전적사이트에 기록이 남지 않아 기록을 남기고자 함
 * Riot API, JWT, Redis 등 다양한 기술을 학습하고 통합하기 위한 실습 목적
 
----
 
-## 🚀 주요 기능
-
-### ✅ 사용자 인증
-
-* 이메일 기반 회원가입 및 로그인 (JWT)
-
-### ✅ 전적 저장 및 조회
-
-* Riot API 연동 후 게임 전적 조회
-* 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
-* 저장된 게임 리스트 조회 및 상세 정보 확인
-
-### ✅ 계정 연동
-
-* 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
-
-### ✅ 관리자/보안 설정
-
-* Spring Security로 미인증 사용자 접근 차단
-* `/error`, `/login`, `/signup` 등 예외 경로 처리
-* 정적 리소스 접근 허용 및 403/401 핸들링
-
----
 
 ## ⚙️ 사용 기술 스택
 
@@ -138,30 +114,32 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ```
 [User Table]
-   ├── 1:1 ──> [Lol Table] (Riot 소환사 정보)
-   ├── 1:N ──> [Api Key Table]
-   ├── 1:N ──> [Match Table]
-   ├── 1:N ──> [Champ Table] (챔피언 통계)
-   └── 1:N ──> [RecentUser Table]
+ ├── 1:1 ──> [Lol Table]         📘 (Riot 소환사 정보)
+ ├── 1:N ──> [Api Key Table]     🔑 (Riot API 키)
+ ├── 1:N ──> [Match Table]       🎮 (유저 전적)
+ ├── 1:N ──> [Champ Table]       🧠 (챔피언 통계)
+ └── 1:N ──> [RecentUser Table]  🧑‍🤝‍🧑 (최근 플레이 유저)
 
 [Match Table]
-   └── 1:N ──> [Team Table]
-                  └── 1:N ──> [Player Table]
+ └── 1:N ──> [Team Table]        🔵🔴 (블루/레드 팀 정보)
+       └── 1:N ──> [Player Table] 🧑‍💻 (플레이어별 전적)
+
 
 ```
 
-🔗 테이블 구조 및 설명
-🗂️ 테이블명	🔍 설명
+🧱 테이블 구조 및 설명
+📁 테이블명	📝 설명
 User Table	회원의 ID, 비밀번호, 이메일, 전화번호 등 기본 계정 정보를 저장
-Lol Table	Riot API로부터 받은 소환사명, 태그, PUUID 정보를 저장 (puuid 기반 식별)
-Api Key Table	Riot 개발자 API Key 관리용 테이블 (사용자별 API 키 저장)
-Champ Table	사용자의 챔피언별 게임 수, 통계를 저장하여 챔피언 분석에 활용
-RecentUser Table	최근 함께 플레이한 사용자 ID, 게임 수, 승률 등을 기록
-Match Table	Riot MatchDto 기반의 전적 요약 테이블, 게임 ID, 날짜, 킬/데스, 결과 등을 저장
-Team Table	하나의 매치에 포함된 **각 팀(블루/레드)**의 정보, 승패, 드래곤/타워 처치 등
-Player Table	각 팀 소속 플레이어의 개별 전적 데이터: 챔피언, 포지션, 아이템, KDA 등
-Champ	Riot 챔피언의 **기본 고정 정보(id, key, name)**를 담은 마스터 테이블
-Match	Riot의 MatchDto 기반 구조로, 게임 시작 시간, 모드, 진행 시간 등을 저장
+Lol Table	Riot API로 받은 소환사명, 태그, PUUID 저장. puuid 기준 유저 식별
+Api Key Table	사용자의 Riot API 키를 저장 (개별 요청 인증용)
+Champ Table	사용자의 챔피언별 플레이 수, 통계 저장
+RecentUser Table	최근 같이 게임한 유저의 ID, 게임 수, 승률을 저장
+Match Table	Riot MatchDto 기반 전적 요약 테이블. 게임 ID, 날짜, 킬/데스, 결과 등 저장
+Team Table	각 매치에 속한 팀(블루/레드)의 승패, 드래곤/타워 처치, 밴 목록 저장
+Player Table	각 팀에 속한 플레이어의 챔피언, 포지션, 아이템, KDA, 시야 점수 등 개별 전적 저장
+Champ	Riot 챔피언의 **고정 정보(id, key, name)**를 담은 마스터 테이블
+Match	Riot MatchDto 기반 게임 시작 시간, 모드, 진행 시간 저장
+
 
 
 ### ERD 이미지 첨부
@@ -170,8 +148,31 @@ Match	Riot의 MatchDto 기반 구조로, 게임 시작 시간, 모드, 진행 �
 
 <img src="frontend/images/hamlol/erd2.png" width="700" alt="ERD1" />
 
+---
 
+---
 
+## 🚀 주요 기능
+
+### ✅ 사용자 인증
+
+* 이메일 기반 회원가입 및 로그인 (JWT)
+
+### ✅ 전적 저장 및 조회
+
+* Riot API 연동 후 게임 전적 조회
+* 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
+* 저장된 게임 리스트 조회 및 상세 정보 확인
+
+### ✅ 계정 연동
+
+* 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
+
+### ✅ 관리자/보안 설정
+
+* Spring Security로 미인증 사용자 접근 차단
+* `/error`, `/login`, `/signup` 등 예외 경로 처리
+* 정적 리소스 접근 허용 및 403/401 핸들링
 
 ---
 

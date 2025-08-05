@@ -1,6 +1,6 @@
 # 🎮 hamlol.xyz | 리그 오브 레전드 전적 저장 플랫폼
 
-**hamlol.xyz**는 리그 오브 레전드 플레이어가 자신의 게임 전적을 저장하고 조회할 수 있는 **통합 전적 관리 플랫폼**입니다. Riot API 연동, JWT 인증, Redis 기반 비밀로 재설정, Docker & GitHub Actions 기반 CI/CD 자동화 등 실무 수준의 기술 스택을 적용한 개인 프로젝트입니다.
+**hamlol.xyz**는 리그 오브 레전드 플레이어가 자신의 게임 전적을 저장하고 조회할 수 있는 **통합 전적 관리 플랫폼**입니다. Riot API 연동, JWT 인증, Redis 기반 비밀번호 재설정, Docker & GitHub Actions 기반 CI/CD 자동화 등 실무 수준의 기술 스택을 적용한 개인 프로젝트입니다.
 
 ---
 
@@ -10,8 +10,9 @@
 | ----------- | ---------------------------------------------------------------------- |
 | 📆 개발 기간    | 2024.03.01 \~ ∞                                                        |
 | 👨‍💼 개발 인원 | 1명 (개인 프로젝트)                                                           |
-| 🔗 배포 주소    | [hamlol.xyz](hamlol.xyz)                               |
-| 📂 GitHub   | [[https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)](https://github.com/leechanghoon00/hamlol) |
+| 🔗 배포 주소    | [hamlol.xyz]([hamlol.xyz](http://hamlol.xyz/login))                               |
+| 📂 GitHub | [https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)
+| 🗂 상세 포트폴리오 | [Notion 포트폴리오 보기](https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f) |
 
 ---
 
@@ -36,11 +37,11 @@
 
 ### ✅ 계정 연동
 
-* 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판보해서 검증
+* 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
 
 ### ✅ 관리자/보안 설정
 
-* Spring Security로 무인증 검사 차단
+* Spring Security로 미인증 사용자 접근 차단
 * `/error`, `/login`, `/signup` 등 예외 경로 처리
 * 정적 리소스 검사 허용 및 403/401 핸들링
 
@@ -110,10 +111,10 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 ```
 
 * **table\_match**: 게임 시작 시간, 게임 모드 등 전체 매치 정보
-* **table\_team**: 블루/레드 팀의 승패, 오브젝트 처치, 번 목록 등
-* **table\_player**: 플레이어별 착용, 포지션, 전투 지표, 아이템, 시야 지표 등
+* **table\_team**: 블루/레드 팀의 승패, 오브젝트 처치, 벤 목록 등
+* **table\_player**: 플레이어별 선택한 챔피언, 포지션, 전투 지표, 아이템, 시야 지표 등
 
-### ERD 이미지 참보
+### ERD 이미지 첨부
 
 ```
 <img width="899" height="735" alt="ERD1" src="https://github.com/user-attachments/assets/20df8a77-3a0f-4aac-8c0b-273302be5f95" />
@@ -139,7 +140,7 @@ Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 
 
 ## 📈 확장 계획 (Future Work)
 
-* 비밀로 찾기 기능 개선 (React routing + API)
+* 비밀번호 찾기 기능 개선 (React routing + API)
 * 사용자별 전적 통계 시각화 (PieChart, BarChart 등)
 * 랭킹 시스템, 리그 등급 도입
 * 사용자별 승률 분석, 포지션별 성과 등 추가 예정
@@ -149,7 +150,7 @@ Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 
 ## 🔧 How To Use
 
 ```
-# 프로젝트 클로드
+# 프로젝트 클론
 $ git clone https://github.com/ryu1002/hamlol.git
 
 # 프로젝트 디렉토리로 이동

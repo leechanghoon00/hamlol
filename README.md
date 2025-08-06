@@ -175,14 +175,15 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 - 사용자의 Riot 계정 연동 (gameName, tagLine 입력)
 - Riot API 호출 및 계정 정보 저장
 - 연동 완료 시 DB 저장 및 완료 메시지 출력<br>
-✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증
+ <img src="frontend/images/hamlol/main2.png" width="600" alt="main2" /> <br>
+✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증, 메인화면에 닉네임 표시
 
 🧾 메인 페이지 <br>
 <img src="frontend/images/hamlol/main.png" width="600" alt="main" />
 - 저장한 게임 목록 확인
 - 각 전적에 대한 상세 조회 가능
 - 계정 연동 여부 및 게임 닉네임 표시 <br>
- <img src="frontend/images/hamlol/main2.png" width="600" alt="main2" />
+
  
 🕹️ 전적 저장<br>
 <img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" />

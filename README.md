@@ -157,7 +157,7 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ## 🔐 로그인 (JWT 인증) <br>
 <img src="frontend/images/hamlol/login.png" width="600" alt="login" />
-
+✅ 로그인 API :POST /api/login
 - 이메일 + 비밀번호 기반 로그인 API (POST /api/login)
 - Spring Security + JWT 기반 인증 처리
 - 로그인 성공 시 JWT 토큰 발급 → LocalStorage 저장
@@ -166,7 +166,7 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ## 📝 회원가입 <br>
 <img src="frontend/images/hamlol/signup.png" width="600" alt="signup" />
-
+✅ 회원가입 API : POST /api/adduser
 - 회원가입 API (POST /api/adduser) 사용
 - 이메일, 비밀번호, 닉네임을 입력받아 등록
 - 비밀번호는 BCryptPasswordEncoder로 암호화 후 DB 저장
@@ -177,7 +177,7 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ## ⚙️ 계정 연동 <br>
 <img src="frontend/images/hamlol/account.png" width="600" alt="account" />
-
+✅ 계정 연동 API : POST /api/account
 API: POST /api/account
 - 사용자가 입력한 gameName, tagLine을 통해 Riot API 호출
 - 응답으로 받은 puuid를 추출 후 사용자 계정과 함께 DB에 저장
@@ -202,7 +202,6 @@ API: POST /api/account
  
 ## 🕹️ 전적 저장<br>
 <img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" />
-
 - Riot API를 호출하여 최근 경기 정보 조회
 - 로그인한 사용자의 Riot 계정과 일치하는 게임만 검증 후 저장
 - 게임 전적을 Match / Team / Player 테이블에 분할 저장
@@ -224,16 +223,41 @@ API: POST /api/account
 
 ## 📋 전적 조회 <br>
 <img src="frontend/images/hamlol/gamelist.png" width="600" alt="gamelist" />
+✅ 전적 조회 API : POST /api/bygameid
+- 저장된 게임 리스트를 페이지네이션으로 조회
+- 사용자의 Riot 계정 정보(gameName, tagLine)를 기준으로 전적 불러오기
+- 각 전적 클릭 시 상세 페이지로 이동
 
-- 저장된 게임 리스트 확인
-- 전적 클릭 시 상세 페이지로 이동
+
+
+### 🛠️ 처리 흐름:
+```
+1. JWT 토큰 내 사용자 정보에서 gameName, tagLine 추출
+2. DB에서 해당 사용자와 일치하는 전적 리스트 조회
+3. SimpleGameDTO 형태로 반환하여 리스트 렌더링
+```
+💡 Spring Data JPA의 Pageable을 활용한 전적 페이징 처리
+💡 Riot API가 아닌, 저장된 내부 DB 기준으로 조회 수행
 
 ## 📊 전적 상세 조회 <br>
 <img src="frontend/images/hamlol/detail.png" width="700" alt="detail" />
-
-- 개별 매치 상세 정보 조회
-- 팀별 / 플레이어별 주요 스탯 출력
+✅ 상세 조회 API : POST /api/bymatchid
+- 개별 매치의 모든 정보 출력 (팀별 / 플레이어별)
 - 블루팀 vs 레드팀 비교 뷰 제공
+- Ban 정보도 챔피언 ID → 이름으로 변환 처리
+
+
+### 🛠️ 처리 흐름:
+```
+1. 클라이언트로부터 matchId 수신
+2. DB에서 해당 matchId 기반 팀/플레이어 정보 조회
+3. 챔피언 Ban ID를 Riot 챔피언 이름으로 매핑
+4. GameRecordDTO로 변환 후 응답 반환
+```
+💡 ChampService를 통해 Riot 챔피언 데이터를 사전에 수집 및 캐싱
+💡 ObjectMapper + JsonNode 사용으로 Ban JSON 동적 처리
+
+
 
 ## 🛡️ 관리자 / 보안 설정
 

@@ -38,6 +38,16 @@
 <p> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white"/> <img src="https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white"/> <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white"/> <img src="https://img.shields.io/badge/Route 53-FF9900?style=flat-square&logo=amazonroute53&logoColor=white"/> </p>
 🛠 Tools
 <p> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/> <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat-square&logo=intellijidea&logoColor=white"/> <img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white"/> </p>
+
+🌐 API 연동 기능
+본 프로젝트에서는 Riot API를 사용하여 실제 게임 데이터를 불러와 사용합니다.
+
+구분	내용
+🔑 Riot API - Summoner	소환사 정보 (gameName, tagLine, puuid) 불러오기
+🎮 Riot API - Match	MatchDto 기반 전체 매치 정보 불러오기
+👥 Riot API - Participant	플레이어별 전적 데이터 추출
+
+
 ## 📁 폴더 구조
 
 ```
@@ -143,47 +153,60 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ## 🚀 주요 기능
 
-### ✅ 회원가입
-<img src="frontend/images/hamlol/signup.png" width="700" alt="signup" />
-
-* 이메일 기반 회원가입 및 로그인 (JWT)
-
-### ✅ 사용자 인증
+### 🔐 로그인
 <img src="frontend/images/hamlol/login.png" width="700" alt="login" />
 
-* 이메일 기반 회원가입 및 로그인 (JWT)
+이메일 기반 로그인 (JWT)
+JWT 토큰 발급 및 로컬스토리지 저장
+비밀번호 찾기 기능 포함 (이메일 전송 → 비밀번호 재설정)
 
+### 📝 회원가입
+<img src="frontend/images/hamlol/signup.png" width="700" alt="signup" />
 
-### ✅ 계정 연동
+이메일, 비밀번호, 닉네임 입력
+유효성 검사 및 조건 미충족 시 에러 표시
+회원가입 성공 시 로그인 페이지로 이동
+
+### ⚙️ 계정 연동
 <img src="frontend/images/hamlol/account.png" width="700" alt="account" />
 
+사용자의 Riot 계정 연동
+gameName, tagLine 입력 후 Riot API 호출
+성공 시 DB 저장 및 연동 완료 메시지 표시
 * 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
 
-### ✅ 메인 페이지
+### 🧾 메인 페이지
 <img src="frontend/images/hamlol/main.png" width="700" alt="main" />
+
+사용자가 저장한 게임 목록 확인
+상세 조회 링크 제공
+계정 연동 여부 확인 가능
 
 <img src="frontend/images/hamlol/main2.png" width="700" alt="main2" />
 
+계정연동하면 닉네임 적용
 
-### ✅ 전적 저장 
+### 🕹️ 전적 저장 
 <img src="frontend/images/hamlol/savegame.png" width="700" alt="savegame" />
 
-* Riot API 연동 후 게임 전적 조회
-* 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
-* 저장된 게임 리스트 조회 및 상세 정보 확인
+Riot API 호출 후 최근 경기 목록 출력
+사용자의 Riot ID와 일치하는 게임만 저장
+저장된 게임 리스트를 서버에 전송
 
 
-### ✅ 전적 조회 
+### 📋 전적 조회 
 <img src="frontend/images/hamlol/gamelist.png" width="700" alt="gamelist" />
 
-* Riot API 연동 후 게임 전적 조회
-* 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
-* 저장된 게임 리스트 조회 및 상세 정보 확인
+저장된 전적 리스트 출력
+각각의 전적 클릭 시 상세 조회 페이지로 이동
 
-### ✅ 전적 상세 조회 
+### 📊 전적 상세 조회 
 <img src="frontend/images/hamlol/detail.png" width="700" alt="detail" />
-  
-### ✅ 관리자/보안 설정
+  개별 매치 상세 정보 조회
+팀/플레이어별 주요 스탯 출력
+블루/레드 팀 비교 뷰 제공
+
+### 🛡️ 관리자/보안 설정
 
 * Spring Security로 미인증 사용자 접근 차단
 * `/error`, `/login`, `/signup` 등 예외 경로 처리

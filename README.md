@@ -135,28 +135,47 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 <img src="frontend/images/hamlol/erd1.png" width="700" alt="ERD1" />
 
-<img src="frontend/images/hamlol/erd2.png" width="700" alt="ERD1" />
+<img src="frontend/images/hamlol/erd2.png" width="700" alt="ERD2" />
 
 ---
 
----
+
 
 ## 🚀 주요 기능
 
-### ✅ 사용자 인증
+### ✅ 회원가입
+<img src="frontend/images/hamlol/signup.png" width="700" alt="signup" />
 
 * 이메일 기반 회원가입 및 로그인 (JWT)
 
-### ✅ 전적 저장 및 조회
+### ✅ 사용자 인증
+<img src="frontend/images/hamlol/login.png" width="700" alt="login" />
+
+* 이메일 기반 회원가입 및 로그인 (JWT)
+
+
+### ✅ 계정 연동
+<img src="frontend/images/hamlol/account.png" width="700" alt="account" />
+
+* 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
+
+
+### ✅ 전적 저장 
+<img src="frontend/images/hamlol/savegame.png" width="700" alt="savegame" />
 
 * Riot API 연동 후 게임 전적 조회
 * 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
 * 저장된 게임 리스트 조회 및 상세 정보 확인
 
-### ✅ 계정 연동
 
-* 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
+### ✅ 전적 조회 
+<img src="frontend/images/hamlol/gamelist.png" width="700" alt="gamelist" />
 
+* Riot API 연동 후 게임 전적 조회
+* 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
+* 저장된 게임 리스트 조회 및 상세 정보 확인
+
+  
 ### ✅ 관리자/보안 설정
 
 * Spring Security로 미인증 사용자 접근 차단

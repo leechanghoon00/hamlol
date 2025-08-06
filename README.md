@@ -203,9 +203,21 @@ API: POST /api/account
 ## 🕹️ 전적 저장<br>
 <img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" />
 
-- Riot API 호출 후 최근 경기 목록 출력
-- 본인의 Riot ID가 포함된 게임만 필터링하여 저장
-- 저장된 게임 전적을 서버에 전송
+- Riot API를 호출하여 최근 경기 정보 조회
+- 로그인한 사용자의 Riot 계정과 일치하는 게임만 검증 후 저장
+- 게임 전적을 Match / Team / Player 테이블에 분할 저장
+# ✅ 전적 저장 조건:
+- 로그인한 사용자의 Riot ID(gameName, tagLine)가 경기 참가자 중에 포함되어야 함
+- 포함되지 않을 경우 예외 발생 후 저장 불가 처리
+1. 로그인한 사용자의 이메일 → 연동된 Riot 계정 정보 조회
+2. 입력받은 Match ID 기반 Riot API 호출 → 전체 경기 정보 수신
+3. 본인 Riot ID 포함 여부 확인
+4. 참여자 정보(룬, 아이템, 킬/데스 등) 및 팀 정보 추출
+5. Match, Team, Player 테이블에 저장
+💡 JPA Repository 사용
+
+- matchRepository.save(), teamRepository.saveAll(), playerRepository.saveAll()을 통해 각각 저장
+- 룬 이미지 아이콘 URL은 Riot API에서 추가로 호출하여 필드 매핑
 
 ## 📋 전적 조회 <br>
 <img src="frontend/images/hamlol/gamelist.png" width="600" alt="gamelist" />

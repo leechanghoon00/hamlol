@@ -159,6 +159,11 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 * 저장 시 본인의 리그 오브 레전드 ID 포함 유무를 판별하여 검증
 
+### ✅ 메인 페이지
+<img src="frontend/images/hamlol/main.png" width="700" alt="main" />
+
+<img src="frontend/images/hamlol/main2.png" width="700" alt="main2" />
+
 
 ### ✅ 전적 저장 
 <img src="frontend/images/hamlol/savegame.png" width="700" alt="savegame" />

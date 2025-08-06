@@ -158,31 +158,46 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 🔐 로그인 (JWT 인증) <br>
 <img src="frontend/images/hamlol/login.png" width="600" alt="login" />
 
-- 이메일 기반 로그인
-- JWT 토큰 발급 및 로컬스토리지 저장
-- 비밀번호 찾기 기능 포함 (이메일 전송 → 재설정 가능)
+- 이메일 + 비밀번호 기반 로그인 API (POST /api/login)
+- Spring Security + JWT 기반 인증 처리
+- 로그인 성공 시 JWT 토큰 발급 → LocalStorage 저장
+- 계정 연동 여부(gameName, tagLine)도 함께 토큰에 포함
+- JWT 토큰 발급은 사용자 인증 → 계정 정보 조회 → JwtTokenProvider로 토큰 생성 순서로 진행됩니다.
 
 📝 회원가입 <br>
 <img src="frontend/images/hamlol/signup.png" width="600" alt="signup" />
 
-- 이메일, 비밀번호, 닉네임 입력
-- 유효성 검사 (형식 불일치 시 에러 표시)
-- 회원가입 성공 시 로그인 페이지로 이동
+- 회원가입 API (POST /api/adduser) 사용
+- 이메일, 비밀번호, 닉네임을 입력받아 등록
+- 비밀번호는 BCryptPasswordEncoder로 암호화 후 DB 저장
+- 입력값 유효성 검사 (프론트/백 동시에 검증)
+- 성공 시 로그인 페이지로 자동 이동
+- DTO → Entity 변환 후 DB 저장, 실패 시 예외 메시지 반환
+
 
 ⚙️ 계정 연동 <br>
 <img src="frontend/images/hamlol/account.png" width="600" alt="account" />
 
-- 사용자의 Riot 계정 연동 (gameName, tagLine 입력)
-- Riot API 호출 및 계정 정보 저장
-- 연동 완료 시 DB 저장 및 완료 메시지 출력<br>
- <img src="frontend/images/hamlol/main2.png" width="600" alt="main2" /> <br>
+API: POST /api/account
+- 사용자가 입력한 gameName, tagLine을 통해 Riot API 호출
+- 응답으로 받은 puuid를 추출 후 사용자 계정과 함께 DB에 저장
+- 연동 성공 시 메인 페이지에 게임 닉네임 표시<br>
+
+<img src="frontend/images/hamlol/main2.png" width="600" alt="main2" /> <br>
 ✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증, 메인화면에 닉네임 표시
+
 
 🧾 메인 페이지 <br>
 <img src="frontend/images/hamlol/main.png" width="600" alt="main" />
-- 저장한 게임 목록 확인
-- 각 전적에 대한 상세 조회 가능
-- 계정 연동 여부 및 게임 닉네임 표시 <br>
+
+- JWT 토큰을 jwt-decode 라이브러리로 디코딩하여 로그인된 사용자 정보 확인
+- 계정 연동 여부 확인 후 연동되지 않았을 경우 "계정 연동하기" 버튼 노출
+- 연동된 경우 gameName#tagLine 형식의 닉네임을 상단에 출력
+- 주요 기능 페이지로 이동 가능한 링크 제공
+ - 전적 등록하기
+ - 전적 보기
+ - 로그아웃
+✅ 연동 여부는 JWT 내 gameName, tagLine 값을 기준으로 판단
 
  
 🕹️ 전적 저장<br>

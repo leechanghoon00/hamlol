@@ -114,18 +114,20 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ```
 
-🧱 테이블 구조 및 설명
-📁 테이블명	📝 설명
-User Table	회원의 ID, 비밀번호, 이메일, 전화번호 등 기본 계정 정보를 저장
-Lol Table	Riot API로 받은 소환사명, 태그, PUUID 저장. puuid 기준 유저 식별
-Api Key Table	사용자의 Riot API 키를 저장 (개별 요청 인증용)
-Champ Table	사용자의 챔피언별 플레이 수, 통계 저장
-RecentUser Table	최근 같이 게임한 유저의 ID, 게임 수, 승률을 저장
-Match Table	Riot MatchDto 기반 전적 요약 테이블. 게임 ID, 날짜, 킬/데스, 결과 등 저장
-Team Table	각 매치에 속한 팀(블루/레드)의 승패, 드래곤/타워 처치, 밴 목록 저장
-Player Table	각 팀에 속한 플레이어의 챔피언, 포지션, 아이템, KDA, 시야 점수 등 개별 전적 저장
-Champ	Riot 챔피언의 **고정 정보(id, key, name)**를 담은 마스터 테이블
-Match	Riot MatchDto 기반 게임 시작 시간, 모드, 진행 시간 저장
+## 🧱 테이블 구조 및 설명
+
+| 📁 테이블명           | 📝 설명 |
+|----------------------|--------|
+| **User Table**        | 회원의 ID, 비밀번호, 이메일, 전화번호 등 기본 계정 정보를 저장 |
+| **Lol Table**         | Riot API로 받은 소환사명, 태그, PUUID 저장. `puuid` 기준 유저 식별 |
+| **Api Key Table**     | 사용자의 Riot API 키를 저장 (개별 요청 인증용) |
+| **Champ Table**       | 사용자의 챔피언별 플레이 수, 통계 저장 |
+| **RecentUser Table**  | 최근 같이 게임한 유저의 ID, 게임 수, 승률을 저장 |
+| **Match Table**       | Riot `MatchDto` 기반 전적 요약 테이블. 게임 ID, 날짜, 킬/데스, 결과 등 저장 |
+| **Team Table**        | 각 매치에 속한 팀(블루/레드)의 승패, 드래곤/타워 처치, 밴 목록 저장 |
+| **Player Table**      | 각 팀에 속한 플레이어의 챔피언, 포지션, 아이템, KDA, 시야 점수 등 개별 전적 저장 |
+| **Champ**             | Riot 챔피언의 **고정 정보(id, key, name)**를 담은 마스터 테이블 |
+| **Match**             | Riot `MatchDto` 기반 **게임 시작 시간, 모드, 진행 시간** 저장 |
 
 
 

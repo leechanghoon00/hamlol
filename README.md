@@ -163,59 +163,52 @@ JWT 토큰 발급 및 로컬스토리지 저장
 
 📝 회원가입
 <img src="frontend/images/hamlol/signup.png" width="700" alt="signup" />
-이메일, 비밀번호, 닉네임 입력
 
-유효성 검사 (형식 불일치 시 에러 표시)
-
-회원가입 성공 시 로그인 페이지로 이동
+- 이메일, 비밀번호, 닉네임 입력
+- 유효성 검사 (형식 불일치 시 에러 표시)
+- 회원가입 성공 시 로그인 페이지로 이동
 
 ⚙️ 계정 연동
 <img src="frontend/images/hamlol/account.png" width="700" alt="account" />
-사용자의 Riot 계정 연동 (gameName, tagLine 입력)
 
-Riot API 호출 및 계정 정보 저장
-
-연동 완료 시 DB 저장 및 완료 메시지 출력
+- 사용자의 Riot 계정 연동 (gameName, tagLine 입력)
+- Riot API 호출 및 계정 정보 저장
+- 연동 완료 시 DB 저장 및 완료 메시지 출력
 ✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증
 
 🧾 메인 페이지
-<img src="frontend/images/hamlol/main.png" width="700" alt="main" /> <img src="frontend/images/hamlol/main2.png" width="700" alt="main2" />
-저장한 게임 목록 확인
-
-각 전적에 대한 상세 조회 가능
-
-계정 연동 여부 및 게임 닉네임 표시
-
+<img src="frontend/images/hamlol/main.png" width="700" alt="main" />
+- 저장한 게임 목록 확인
+- 각 전적에 대한 상세 조회 가능
+- 계정 연동 여부 및 게임 닉네임 표시
+ <img src="frontend/images/hamlol/main2.png" width="700" alt="main2" />
+ 
 🕹️ 전적 저장
 <img src="frontend/images/hamlol/savegame.png" width="700" alt="savegame" />
-Riot API 호출 후 최근 경기 목록 출력
 
-본인의 Riot ID가 포함된 게임만 필터링하여 저장
-
-저장된 게임 전적을 서버에 전송
+- Riot API 호출 후 최근 경기 목록 출력
+- 본인의 Riot ID가 포함된 게임만 필터링하여 저장
+- 저장된 게임 전적을 서버에 전송
 
 📋 전적 조회
 <img src="frontend/images/hamlol/gamelist.png" width="700" alt="gamelist" />
-저장된 게임 리스트 확인
 
-전적 클릭 시 상세 페이지로 이동
+- 저장된 게임 리스트 확인
+- 전적 클릭 시 상세 페이지로 이동
 
 📊 전적 상세 조회
 <img src="frontend/images/hamlol/detail.png" width="700" alt="detail" />
-개별 매치 상세 정보 조회
 
-팀별 / 플레이어별 주요 스탯 출력
-
-블루팀 vs 레드팀 비교 뷰 제공
+- 개별 매치 상세 정보 조회
+- 팀별 / 플레이어별 주요 스탯 출력
+- 블루팀 vs 레드팀 비교 뷰 제공
 
 🛡️ 관리자 / 보안 설정
-Spring Security 기반 미인증 사용자 접근 차단
 
-/error, /login, /signup 등 예외 경로 허용 처리
-
-정적 리소스 접근 허용
-
-403 / 401 에러 핸들링
+- Spring Security 기반 미인증 사용자 접근 차단
+- /error, /login, /signup 등 예외 경로 허용 처리
+- 정적 리소스 접근 허용
+- 403 / 401 에러 핸들링
 
 ---
 

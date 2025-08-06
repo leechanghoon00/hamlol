@@ -153,13 +153,14 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 
 🚀 주요 기능
+
+
 🔐 로그인 (JWT 인증)
 <img src="frontend/images/hamlol/login.png" width="700" alt="login" />
-이메일 기반 로그인
 
-JWT 토큰 발급 및 로컬스토리지 저장
-
-비밀번호 찾기 기능 포함 (이메일 전송 → 재설정 가능)
+- 이메일 기반 로그인
+- JWT 토큰 발급 및 로컬스토리지 저장
+- 비밀번호 찾기 기능 포함 (이메일 전송 → 재설정 가능)
 
 📝 회원가입
 <img src="frontend/images/hamlol/signup.png" width="700" alt="signup" />

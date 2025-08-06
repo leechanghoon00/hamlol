@@ -262,24 +262,4 @@ Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 
 * 랭킹 시스템, 리그 등급 도입
 * 사용자별 승률 분석, 포지션별 성과 등 추가 예정
 
----
-
-## 🔧 How To Use
-
-```
-# 프로젝트 클론
-$ git clone https://github.com/ryu1002/hamlol.git
-
-# 프로젝트 디렉토리로 이동
-$ cd hamlol
-
-# React + Spring Boot 다운
-(전용 Dockerfile & docker-compose.yml 같은 것이 존재할 경우)
-$ docker-compose up --build
-
-# EC2 배포 후 접속 URL 확인
-$ http://hamlol.xyz
-```
-
----
 

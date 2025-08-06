@@ -42,10 +42,11 @@
 🌐 API 연동 기능
 본 프로젝트에서는 Riot API를 사용하여 실제 게임 데이터를 불러와 사용합니다.
 
-구분	내용
-🔑 Riot API - Summoner	소환사 정보 (gameName, tagLine, puuid) 불러오기
-🎮 Riot API - Match	MatchDto 기반 전체 매치 정보 불러오기
-👥 Riot API - Participant	플레이어별 전적 데이터 추출
+|    API     |   설명   |
+| ----------- | ---------------------------------------------------------------------- |
+| 🔑 Riot API | Summoner	소환사 정보 (gameName, tagLine, puuid) 불러오기 |
+| 🎮  Riot API | Match	MatchDto 기반 전체 매치 정보 불러오기 |
+| 👥  Riot API | Participant	플레이어별 전적 데이터 추출 |
 
 
 ## 📁 폴더 구조

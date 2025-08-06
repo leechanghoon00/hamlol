@@ -175,6 +175,8 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 * 자신의 리그 오브 레전드 ID와 일치하는 게임만 저장
 * 저장된 게임 리스트 조회 및 상세 정보 확인
 
+### ✅ 전적 상세 조회 
+<img src="frontend/images/hamlol/detail.png" width="700" alt="detail" />
   
 ### ✅ 관리자/보안 설정
 

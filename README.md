@@ -1,4 +1,4 @@
-# 🎮 hamlol.xyz | 리그 오브 레전드 전적 저장 플랫폼
+D# 🎮 hamlol.xyz | 리그 오브 레전드 전적 저장 플랫폼
 
 **hamlol.xyz**는 리그 오브 레전드 플레이어가 자신의 게임 전적을 저장하고 조회할 수 있는 **통합 전적 관리 플랫폼**입니다. Riot API 연동, JWT 인증,  Docker & GitHub Actions 기반 CI/CD 자동화 등 실무 수준의 기술 스택을 적용한 개인 프로젝트입니다.
 
@@ -157,59 +157,58 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ## 🔐 로그인 (JWT 인증) <br>
 <img src="frontend/images/hamlol/login.png" width="600" alt="login" />
-✅ 로그인 API :POST /api/login
-- 이메일 + 비밀번호 기반 로그인 API (POST /api/login)
-- Spring Security + JWT 기반 인증 처리
-- 로그인 성공 시 JWT 토큰 발급 → LocalStorage 저장
-- 계정 연동 여부(gameName, tagLine)도 함께 토큰에 포함
-- JWT 토큰 발급은 사용자 인증 → 계정 정보 조회 → JwtTokenProvider로 토큰 생성 순서로 진행됩니다.
+✅ 로그인 API :POST /api/login <br>
+- 이메일 + 비밀번호 기반 로그인 API (POST /api/login) <br>
+- Spring Security + JWT 기반 인증 처리 <br>
+- 로그인 성공 시 JWT 토큰 발급 → LocalStorage 저장 <br>
+- 계정 연동 여부(gameName, tagLine)도 함께 토큰에 포함 <br>
+- JWT 토큰 발급은 사용자 인증 → 계정 정보 조회 → JwtTokenProvider로 토큰 생성 순서로 진행됩니다. <br>
 
 ## 📝 회원가입 <br>
 <img src="frontend/images/hamlol/signup.png" width="600" alt="signup" />
-✅ 회원가입 API : POST /api/adduser
-- 회원가입 API (POST /api/adduser) 사용
-- 이메일, 비밀번호, 닉네임을 입력받아 등록
-- 비밀번호는 BCryptPasswordEncoder로 암호화 후 DB 저장
-- 입력값 유효성 검사 (프론트/백 동시에 검증)
-- 성공 시 로그인 페이지로 자동 이동
-- DTO → Entity 변환 후 DB 저장, 실패 시 예외 메시지 반환
+✅ 회원가입 API : POST /api/adduser <br>
+- 회원가입 API (POST /api/adduser) 사용 <br>
+- 이메일, 비밀번호, 닉네임을 입력받아 등록 <br>
+- 비밀번호는 BCryptPasswordEncoder로 암호화 후 DB 저장 <br>
+- 입력값 유효성 검사 (프론트/백 동시에 검증) <br>
+- 성공 시 로그인 페이지로 자동 이동 <br>
+- DTO → Entity 변환 후 DB 저장, 실패 시 예외 메시지 반환 <br>
 
 
 ## ⚙️ 계정 연동 <br>
 <img src="frontend/images/hamlol/account.png" width="600" alt="account" />
-✅ 계정 연동 API : POST /api/account
-API: POST /api/account
-- 사용자가 입력한 gameName, tagLine을 통해 Riot API 호출
-- 응답으로 받은 puuid를 추출 후 사용자 계정과 함께 DB에 저장
+✅ 계정 연동 API : POST /api/account <br>
+- 사용자가 입력한 gameName, tagLine을 통해 Riot API 호출 <br>
+- 응답으로 받은 puuid를 추출 후 사용자 계정과 함께 DB에 저장 <br>
 - 연동 성공 시 메인 페이지에 게임 닉네임 표시<br>
 
 <img src="frontend/images/hamlol/main2.png" width="600" alt="main2" /> <br>
-✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증, 메인화면에 닉네임 표시
+✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증, 메인화면에 닉네임 표시 <br>
 
 
 ## 🧾 메인 페이지 <br>
-<img src="frontend/images/hamlol/main.png" width="600" alt="main" />
+<img src="frontend/images/hamlol/main.png" width="600" alt="main" /> <br>
 
-- JWT 토큰을 jwt-decode 라이브러리로 디코딩하여 로그인된 사용자 정보 확인
-- 계정 연동 여부 확인 후 연동되지 않았을 경우 "계정 연동하기" 버튼 노출
-- 연동된 경우 gameName#tagLine 형식의 닉네임을 상단에 출력
-- 주요 기능 페이지로 이동 가능한 링크 제공
- - 전적 등록하기
- - 전적 보기
- - 로그아웃
-✅ 연동 여부는 JWT 내 gameName, tagLine 값을 기준으로 판단
+- JWT 토큰을 jwt-decode 라이브러리로 디코딩하여 로그인된 사용자 정보 확인 <br>
+- 계정 연동 여부 확인 후 연동되지 않았을 경우 "계정 연동하기" 버튼 노출 <br>
+- 연동된 경우 gameName#tagLine 형식의 닉네임을 상단에 출력 <br>
+- 주요 기능 페이지로 이동 가능한 링크 제공 <br>
+ - 전적 등록하기 <br>
+ - 전적 보기 <br>
+ - 로그아웃 <br>
+✅ 연동 여부는 JWT 내 gameName, tagLine 값을 기준으로 판단 <br>
 
  
 ## 🕹️ 전적 저장<br>
-<img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" />
-- Riot API를 호출하여 최근 경기 정보 조회
-- 로그인한 사용자의 Riot 계정과 일치하는 게임만 검증 후 저장
-- 게임 전적을 Match / Team / Player 테이블에 분할 저장
-### ✅ 전적 저장 조건:
-- 로그인한 사용자의 Riot ID(gameName, tagLine)가 경기 참가자 중에 포함되어야 함
-- 포함되지 않을 경우 예외 발생 후 저장 불가 처리
+<img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" /> <br>
+- Riot API를 호출하여 최근 경기 정보 조회 <br>
+- 로그인한 사용자의 Riot 계정과 일치하는 게임만 검증 후 저장 <br>
+- 게임 전적을 Match / Team / Player 테이블에 분할 저장 <br>
+### ✅ 전적 저장 조건: <br>
+- 로그인한 사용자의 Riot ID(gameName, tagLine)가 경기 참가자 중에 포함되어야 함 <br>
+- 포함되지 않을 경우 예외 발생 후 저장 불가 처리 <br>
 
-### 🛠️ 저장 처리 흐름:
+### 🛠️ 저장 처리 흐름: <br>
 ```
 1. 로그인한 사용자의 이메일 → 연동된 Riot 계정 정보 조회
 2. 입력받은 Match ID 기반 Riot API 호출 → 전체 경기 정보 수신
@@ -217,45 +216,45 @@ API: POST /api/account
 4. 참여자 정보(룬, 아이템, 킬/데스 등) 및 팀 정보 추출
 5. Match, Team, Player 테이블에 저장
 ```
-💡 JPA Repository 사용
-- matchRepository.save(), teamRepository.saveAll(), playerRepository.saveAll()을 통해 각각 저장
-- 룬 이미지 아이콘 URL은 Riot API에서 추가로 호출하여 필드 매핑
+💡 JPA Repository 사용 <br>
+- matchRepository.save(), teamRepository.saveAll(), playerRepository.saveAll()을 통해 각각 저장 <br>
+- 룬 이미지 아이콘 URL은 Riot API에서 추가로 호출하여 필드 매핑 <br>
 
 ## 📋 전적 조회 <br>
-<img src="frontend/images/hamlol/gamelist.png" width="600" alt="gamelist" />
-✅ 전적 조회 API : POST /api/bygameid
-- 저장된 게임 리스트를 페이지네이션으로 조회
-- 사용자의 Riot 계정 정보(gameName, tagLine)를 기준으로 전적 불러오기
-- 각 전적 클릭 시 상세 페이지로 이동
+<img src="frontend/images/hamlol/gamelist.png" width="600" alt="gamelist" /> <br>
+✅ 전적 조회 API : POST /api/bygameid <br>
+- 저장된 게임 리스트를 페이지네이션으로 조회 <br>
+- 사용자의 Riot 계정 정보(gameName, tagLine)를 기준으로 전적 불러오기 <br>
+- 각 전적 클릭 시 상세 페이지로 이동 <br>
 
 
 
-### 🛠️ 처리 흐름:
+### 🛠️ 처리 흐름: <br>
 ```
 1. JWT 토큰 내 사용자 정보에서 gameName, tagLine 추출
 2. DB에서 해당 사용자와 일치하는 전적 리스트 조회
 3. SimpleGameDTO 형태로 반환하여 리스트 렌더링
 ```
-💡 Spring Data JPA의 Pageable을 활용한 전적 페이징 처리
-💡 Riot API가 아닌, 저장된 내부 DB 기준으로 조회 수행
+💡 Spring Data JPA의 Pageable을 활용한 전적 페이징 처리 <br>
+💡 Riot API가 아닌, 저장된 내부 DB 기준으로 조회 수행 <br>
 
 ## 📊 전적 상세 조회 <br>
-<img src="frontend/images/hamlol/detail.png" width="700" alt="detail" />
-✅ 상세 조회 API : POST /api/bymatchid
-- 개별 매치의 모든 정보 출력 (팀별 / 플레이어별)
-- 블루팀 vs 레드팀 비교 뷰 제공
-- Ban 정보도 챔피언 ID → 이름으로 변환 처리
+<img src="frontend/images/hamlol/detail.png" width="700" alt="detail" /> <br>
+✅ 상세 조회 API : POST /api/bymatchid <br>
+- 개별 매치의 모든 정보 출력 (팀별 / 플레이어별) <br>
+- 블루팀 vs 레드팀 비교 뷰 제공 <br>
+- Ban 정보도 챔피언 ID → 이름으로 변환 처리 <br>
 
 
-### 🛠️ 처리 흐름:
+### 🛠️ 처리 흐름: <br>
 ```
 1. 클라이언트로부터 matchId 수신
 2. DB에서 해당 matchId 기반 팀/플레이어 정보 조회
 3. 챔피언 Ban ID를 Riot 챔피언 이름으로 매핑
 4. GameRecordDTO로 변환 후 응답 반환
 ```
-💡 ChampService를 통해 Riot 챔피언 데이터를 사전에 수집 및 캐싱
-💡 ObjectMapper + JsonNode 사용으로 Ban JSON 동적 처리
+💡 ChampService를 통해 Riot 챔피언 데이터를 사전에 수집 및 캐싱 <br>
+💡 ObjectMapper + JsonNode 사용으로 Ban JSON 동적 처리 <br>
 
 
 

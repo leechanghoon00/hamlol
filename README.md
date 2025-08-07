@@ -260,29 +260,12 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ## 🛡️ 관리자 / 보안 설정
 
-- Spring Security 기반 미인증 사용자 접근 차단
-- /error, /login, /signup 등 예외 경로 허용 처리
-- 정적 리소스 접근 허용
-- 403 / 401 에러 핸들링
+- Spring Security 기반 JWT 인증 시스템 적용 <br>
+- 미인증 사용자의 API 접근 차단<br>
+- 인증 실패 시 401 / 403 응답 반환 (Custom EntryPoint 처리)<br>
+- JWT 필터를 UsernamePasswordAuthenticationFilter 앞에 적용<br>
 
 ---
-
-## 💡 Riot API 연동 구조
-
-```
-Riot API (MatchDto)
-  ↓
-MatchServiceImpl
-  ↓
-Entity 변환 후 DB 저장
-  ↓
-사용자 조회 및 전적 분석 제공
-```
-
-Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 테이블 컬럼이 어떻게 매핑되는지를 명확하게 매핑되도록 설계하였다 또는 테이블 컬럼과 API 필드 간 관계를 정의하였다
-
-
-
 
 
 
@@ -311,7 +294,7 @@ Riot의 ParticipantDto, TeamDto, InfoDto의 구조를 기반으로 각각의 DB 
 ## 📈 확장 계획 (Future Work)
 
 * 비밀번호 찾기 기능 개선 (React routing + API)
-* 사용자별 전적 통계 시각화 (PieChart, BarChart 등)
+* 사용자별 전적 통계 시각화 
 * 랭킹 시스템, 리그 등급 도입
 * 사용자별 승률 분석, 포지션별 성과 등 추가 예정
 

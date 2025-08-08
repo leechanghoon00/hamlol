@@ -25,7 +25,7 @@ function Main() {
             }
 
             // 프로필 이미지 경로 요청
-            fetch("/api/profile/user/me", {
+            fetch("/api/user/me", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

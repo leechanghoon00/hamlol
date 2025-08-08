@@ -23,5 +23,7 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
     private UserType userType;
+    @Column(name = "profile_image_url")
+    private String profileImageUrl;
 }
 

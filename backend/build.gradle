@@ -69,6 +69,8 @@ dependencies {
     implementation 'jakarta.el:jakarta.el-api:5.0.1'
     runtimeOnly 'org.glassfish:jakarta.el:4.0.2'
 
+    implementation 'commons-io:commons-io:2.11.0'
+
 }
 
 tasks.withType(Test) {

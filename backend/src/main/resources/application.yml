@@ -1,6 +1,10 @@
 # ─────────────────────────────────────────────────────────────────────────────
 # 기본(default) 프로파일 — 로컬 개발용
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     url: jdbc:postgresql://localhost:5432/hamlol
     username: ham
@@ -41,6 +45,10 @@ spring:
   config:
     activate:
       on-profile: prd
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
   datasource:
     url: jdbc:postgresql://13.125.170.126:5432/hamlol
     username: hame

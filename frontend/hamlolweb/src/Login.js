@@ -66,12 +66,12 @@ function Main(){
                 <a href="/signup">회원가입 하러가기</a>
             </div>
 
-            <div className="find-password-wrapper">
-                <span className="findpassword">비밀번호를 잊으셨나요?</span>
-                <Link to="/FindPassword" className="find-password-link">
-                    비밀번호 찾기
-                </Link>
-            </div>
+            {/*<div className="find-password-wrapper">*/}
+            {/*    <span className="findpassword">비밀번호를 잊으셨나요?</span>*/}
+            {/*    <Link to="/FindPassword" className="find-password-link">*/}
+            {/*        비밀번호 찾기*/}
+            {/*    </Link>*/}
+            {/*</div>*/}
 
 
         </div>

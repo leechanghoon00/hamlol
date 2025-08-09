@@ -21,7 +21,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             "/api/adduser",
             "/api/login",
             "/swagger-ui/",
-            "/v3/api-docs/"
+            "/v3/api-docs/",
+            "/images/",
+            "/static/",
+            "/favicon.ico",
+            "/error"
     );
 
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
@@ -34,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String path = request.getRequestURI();
-        return PUBLIC_URLS.contains(path);
+        return PUBLIC_URLS.stream().anyMatch(path::startsWith);
     }
 
 

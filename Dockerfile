@@ -37,6 +37,9 @@ COPY --from=frontend-builder /frontend/hamlolweb/build /app/static
 
 COPY backend/src/main/resources/application.yml /app/application.yml
 
+# 업로드 디렉토리 생성
+RUN mkdir -p /app/uploads/profile
+
 ENV SPRING_RESOURCES_STATIC_LOCATIONS=file:/app/static/
 EXPOSE 8080
 

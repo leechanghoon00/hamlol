@@ -50,6 +50,10 @@ public class Usercontroller {
     @GetMapping("/user/me")
     public ResponseEntity<Map<String, String>> getCurrentUser(@AuthenticationPrincipal CustomUser user) {
         try {
+            if (user == null) {
+                return ResponseEntity.status(401).build();
+            }
+            
             UserEntity userEntity = userRepository.findByEmail(user.getUsername())
                     .orElseThrow(() -> new RuntimeException("해당 사용자를 찾을 수 없습니다."));
 
@@ -59,6 +63,7 @@ public class Usercontroller {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.err.println("사용자 정보 조회 실패: " + e.getMessage());
+            e.printStackTrace();
             return ResponseEntity.status(500).build();
         }
     }

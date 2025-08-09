@@ -82,8 +82,11 @@ props:
 server:
   tomcat:
     uri-encoding: UTF-8
+    max-http-form-post-size: 10MB
+    max-swallow-size: 10MB
   port: 8080
   address: 0.0.0.0
+  forward-headers-strategy: framework
 
 logging:
   level:

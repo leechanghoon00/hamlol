@@ -60,8 +60,10 @@ private final org.example.hamlol.config.CustomAuthenticationEntryPoint customAut
                                 "/favicon",
                                 "/error",
                                 "/",
-                                "/index.html"
+                                "/index.html",
+                                "/images/**"
                         ).permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/user/me").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/profile/upload").authenticated()
                         .anyRequest().permitAll()
 

@@ -49,6 +49,13 @@ function Main() {
         const file = e.target.files[0];
         if (!file) return;
 
+        // 파일 크기 체크 (10MB = 10 * 1024 * 1024 bytes)
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        if (file.size > maxSize) {
+            alert("파일 크기가 너무 큽니다. 10MB 이하로 업로드해주세요.");
+            return;
+        }
+
         if (!["image/jpeg", "image/png", "image/jpg"].includes(file.type)) {
             alert("JPG, JPEG, PNG 형식만 업로드할 수 있습니다.");
             return;

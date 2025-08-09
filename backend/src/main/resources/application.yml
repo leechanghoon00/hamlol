@@ -90,7 +90,9 @@ server:
 
 logging:
   level:
-    org.example.hamlol: INFO
+    org.example.hamlol: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
   file:
     name: logs/hamlol.log
     path: ./

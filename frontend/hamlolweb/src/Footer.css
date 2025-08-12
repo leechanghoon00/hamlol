@@ -1,6 +1,6 @@
 
 .footer {
-    background-color: #1c1c1c;
+    background-color: var(--footer-bg, #1c1c1c);
     color: #999;
     text-align: center;
     padding: 24px 16px;
@@ -8,6 +8,18 @@
     line-height: 1.6;
     border-top: 1px solid #333;
     margin-top: auto;
+    transition: background-color 0.3s ease;
+}
+
+.footer a {
+    color: #999;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer a:hover {
+    color: #fff;
+    text-decoration: underline;
 }
 
 .footer small {

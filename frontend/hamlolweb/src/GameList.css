@@ -8,6 +8,47 @@
     }
 }
 
+/* ── 배너 고정 ── */
+.banner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 999;
+    display: flex;
+    justify-content: center;
+    padding: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.banner-img {
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+/* ── 뒤로가기 버튼 고정 ── */
+.back-btn {
+    position: fixed;
+    top: 15px;
+    left: 20px;
+    z-index: 1000;
+    padding: 6px 12px;
+    background-color: #409eff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #3a8ee6;
+}
+
 /* ── 컨테이너 ── */
 .GameList-container {
     display: flex;
@@ -17,7 +58,7 @@
     color: rgb(117,133,146);
     font-size: 12px;
     margin: 0 auto;
-    padding-top: 64px; /* ✅ 뒤로가기 버튼이 고정이므로 이만큼 공간 확보 */
+    padding-top: 180px; /* 배너 높이 + 충분한 여백 */
 }
 
 /* ── 한 경기 행 전체 ── */
@@ -139,34 +180,31 @@
     margin-bottom: 30px;
 }
 
-/* ── 뒤로가기 버튼 고정 ── */
-.back-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 1000;
-    padding: 8px 16px;
-    background-color: #409eff;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.2s ease;
-}
-.back-btn:hover {
-    background-color: #3a8ee6;
-}
 /* ── 더보기 버튼 ── */
+.more-button-container {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+    padding: 10px 0;
+}
+
 #more {
-    margin: 12px auto;
-    padding: 8px 16px;
+    padding: 10px 20px;
     background: #10b981;
     color: #fff;
     border: none;
     border-radius: 20px;
     cursor: pointer;
-    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+#more:hover {
+    background: #059669;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* ── 상세 테이블 스타일 ── */
@@ -225,17 +263,37 @@
     font-size: 14px;
     padding: 120px 0;
 }
-.banner-container {
-    display: flex;
-    justify-content: center;
-    padding-top: 70px; /* 🔥 버튼 아래 공간 확보 */
-    margin-bottom: 20px;
-}
 
-.banner-img {
-    width: 100%;
-    max-width: 750px;
-    height: auto;
-    border-radius: 8px;
-    object-fit: cover;
+@media (max-width: 600px) {
+    .footer {
+        font-size: 11px;
+        padding: 16px 10px;
+    }
+
+    .footer small {
+        font-size: 10.5px;
+    }
+
+    /* 모바일에서 배너 조정 */
+    .banner-container {
+        padding: 10px;
+    }
+
+    .banner-img {
+        max-width: 95%;
+    }
+
+    /* 모바일에서 뒤로가기 버튼 조정 */
+    .back-btn {
+        top: 10px;
+        left: 15px;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+
+    /* 모바일에서 게임리스트 컨테이너 조정 */
+    .GameList-container {
+        padding-top: 160px;
+        width: 95%;
+    }
 }

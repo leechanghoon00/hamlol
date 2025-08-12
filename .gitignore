@@ -37,3 +37,6 @@ out/
 .vscode/
 /hamlolweb/node_modules/
 /hamlolweb/build/
+backend/src/main/resources/application.properties
+logs/
+uploads/

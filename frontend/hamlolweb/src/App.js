@@ -17,9 +17,10 @@ import "./GameList.css";
 import "./SaveGame.css";
 import "./Account.css";
 import "./FindPassword.css";
-import "./ResetPassword.css";   // ← 세미콜론 보정
+import "./ResetPassword.css";
+
 import "./App.css";
-// import "./Callback.css";     // ← Callback 컴포넌트에서 이미 import하므로 중복 제거
+ import "./Callback.css";     // ← Callback 컴포넌트에서 이미 import하므로 중복 제거
 
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
@@ -76,7 +77,7 @@ function App() {
                         <Route path="/FindPassword" element={<FindPassword />} />
 
                         <Route path="/reset-password/:uuid" element={<ResetPassword />} />
-                        <Route path="/callback" element={<Callback />} />
+                        <Route path="/Callback" element={<Callback />} />
                     </Routes>
                 </div>
                 <Footer />

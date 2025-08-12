@@ -2,7 +2,7 @@ package org.example.hamlol.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import org.example.hamlol.urlenum.UserType;
+// import org.example.hamlol.urlenum.UserType;
 
 @Data
 @Entity
@@ -20,9 +20,9 @@ public class UserEntity {
     private String email;
     private String number;
 
-    @Enumerated(EnumType.STRING)
+    // @Enumerated(EnumType.STRING)
     @Column(name = "user_type", nullable = false)
-    private UserType userType;
+    private String userType; // UserType enum 대신 String 사용
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 }

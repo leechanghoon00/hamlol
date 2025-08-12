@@ -8,7 +8,7 @@ import org.example.hamlol.repository.ChampRepository;
 import org.example.hamlol.repository.GameRecordRepository;
 import org.example.hamlol.service.ChampService;
 import org.example.hamlol.service.GameRecordService;
-import org.example.hamlol.urlenum.RiotUrlApi;
+// import org.example.hamlol.urlenum.RiotUrlApi;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

@@ -9,7 +9,7 @@ import org.example.hamlol.entity.ChampEntity;
 import org.example.hamlol.repository.ChampRepository;
 import org.example.hamlol.repository.GameRecordRepository;
 import org.example.hamlol.service.ChampService;
-import org.example.hamlol.urlenum.RiotUrlApi;
+// import org.example.hamlol.urlenum.RiotUrlApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -45,7 +45,8 @@ private final GameRecordRepository gameRecordRepository;
     @Override
     @Transactional
     public void saveChamp() {
-        String url = RiotUrlApi.FIND_BY_CHAMP.getUrl();
+        String url = "https://ddragon.leagueoflegends.com/cdn/15.14.1/data/ko_KR/champion.json";
+        // String url = RiotUrlApi.FIND_BY_CHAMP.getUrl();
         // get요청보내고 STring형태로 받음
         String response = restTemplate.getForObject(url,String.class);
 

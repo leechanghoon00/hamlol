@@ -10,7 +10,7 @@ import org.example.hamlol.repository.AccountRepository;
 import org.example.hamlol.repository.UserRepository;
 import org.example.hamlol.service.AccountService;
 import org.example.hamlol.service.ApiKeyProvider;
-import org.example.hamlol.urlenum.RiotUrlApi;
+// import org.example.hamlol.urlenum.RiotUrlApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -35,8 +35,8 @@ public class AccountServiceImpl implements AccountService {
 
 
     // 라이엇 api에 요청하는 값
-//    private static final String RIOT_API_URL = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}";
-    private  static final String RIOT_API_URL = RiotUrlApi.FIND_BY_PUUID.getUrl();
+    private static final String RIOT_API_URL = "https://asia.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{gameName}/{tagLine}";
+    // private  static final String RIOT_API_URL = RiotUrlApi.FIND_BY_PUUID.getUrl();
 
 
     // 생성자 주입을 통해 명시적으로 의존성을 주입받음 (테스트와 유지보수에 유리)

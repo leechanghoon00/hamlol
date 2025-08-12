@@ -10,7 +10,7 @@ import org.example.hamlol.entity.*;
 import org.example.hamlol.repository.*;
 import org.example.hamlol.service.ApiKeyProvider;
 import org.example.hamlol.service.SaveGameService;
-import org.example.hamlol.urlenum.RiotUrlApi;
+// import org.example.hamlol.urlenum.RiotUrlApi;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +52,13 @@ public class SaveGameServiceImpl implements SaveGameService {
     private UserRepository userRepository;
 
 
-    // 라이엇 api 주소 ENum으로 관리
-    private static final String RIOT_API_URL = RiotUrlApi.MATCH.getUrl();
-    private static final String FIND_BY_SPELL = RiotUrlApi.FIND_BY_SPELL.getUrl();
-    private static final String FIND_BY_RUNS = RiotUrlApi.FIND_BY_RUNES.getUrl();
+    // 라이엇 api 주소 하드코딩으로 관리 (RiotUrlApi enum 대신)
+    private static final String RIOT_API_URL = "https://asia.api.riotgames.com/lol/match/v5/matches/{matchId}";
+    private static final String FIND_BY_SPELL = "https://ddragon.leagueoflegends.com/cdn/15.14.1/data/en_US/summoner.json";
+    private static final String FIND_BY_RUNS = "https://ddragon.leagueoflegends.com/cdn/15.14.1/data/ko_KR/runesReforged.json";
+    // private static final String RIOT_API_URL = RiotUrlApi.MATCH.getUrl();
+    // private static final String FIND_BY_SPELL = RiotUrlApi.FIND_BY_SPELL.getUrl();
+    // private static final String FIND_BY_RUNS = RiotUrlApi.FIND_BY_RUNES.getUrl();
     @Autowired
     private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
 
@@ -208,7 +211,7 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     primaryStyle4 = selections.get(3).get("perk").asText();
                                     // 룬 사진주소 넣기
                                     try{
-                                        URL runURL = new URL(RiotUrlApi.FIND_BY_RUNES.getUrl());
+                                        URL runURL = new URL(FIND_BY_RUNS);
                                         ObjectMapper mapper = new ObjectMapper();
                                         JsonNode runData = mapper.readTree(runURL);
                                         String icon1 = null,icon2 = null, icon3 = null, icon4 = null;
@@ -253,7 +256,7 @@ public class SaveGameServiceImpl implements SaveGameService {
                                     subStyle1 = selections.get(0).get("perk").asText();
                                     subStyle2 = selections.get(1).get("perk").asText();
                                     try{
-                                        URL runURl = new URL(RiotUrlApi.FIND_BY_RUNES.getUrl());
+                                        URL runURl = new URL(FIND_BY_RUNS);
                                         ObjectMapper mapper = new ObjectMapper();
                                         JsonNode runsData = mapper.readTree(runURl);
                                         String icon1 = null, icon2 = null;

@@ -48,7 +48,7 @@ public class CustomDetailServiceImpl implements CustomDetailService {
 
         //사용자 타입(user,ADMIN)을 꺼내 ROLE_타입 형태의 GrantedAuthority로 추가함
         // SimpleGrantedAuthority : GrantedAuthority의 기본 구현체로 안에있는 역할이나 권한을 문자열로 저장함
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType().name()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserType()));
 
         // 저장
         return new CustomUser(

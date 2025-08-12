@@ -8,19 +8,16 @@
     }
 }
 
-/* ── 배너 고정 ── */
+/* ── 배너: 고정 해제 ── */
 .banner-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 999;
+    position: static !important;   /* 고정 해제의 핵심 */
+    z-index: auto;
     display: flex;
     justify-content: center;
-    padding: 15px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 15px 0;               /* 상·하 여백만 */
+    box-shadow: none;
+    top: auto; left: auto; right: auto; /* 혹시 남아있던 값 초기화 */
 }
-
 .banner-img {
     width: 100%;
     max-width: 500px;
@@ -29,7 +26,7 @@
     object-fit: cover;
 }
 
-/* ── 뒤로가기 버튼 고정 ── */
+/* ── 뒤로가기 버튼(필요 시 고정 유지) ── */
 .back-btn {
     position: fixed;
     top: 15px;
@@ -37,17 +34,14 @@
     z-index: 1000;
     padding: 6px 12px;
     background-color: #409eff;
-    color: white;
+    color: #fff;
     border: none;
     border-radius: 6px;
     cursor: pointer;
     font-size: 14px;
     transition: background-color 0.2s ease;
 }
-
-.back-btn:hover {
-    background-color: #3a8ee6;
-}
+.back-btn:hover { background-color: #3a8ee6; }
 
 /* ── 컨테이너 ── */
 .GameList-container {
@@ -58,7 +52,7 @@
     color: rgb(117,133,146);
     font-size: 12px;
     margin: 0 auto;
-    padding-top: 180px; /* 배너 높이 + 충분한 여백 */
+    padding-top: 16px;   /* 기존 180px → 16px (배너 고정 해제로 보정 불필요) */
 }
 
 /* ── 한 경기 행 전체 ── */
@@ -73,13 +67,7 @@
 .matchRow.lose { background-color: #ffe4e6; }
 
 /* ── 공통 박스 ── */
-.box {
-    flex: 1 1 auto;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    background: transparent;
-}
+.box { flex: 1 1 auto; position: relative; display: flex; flex-direction: column; background: transparent; }
 .box.summary { background: transparent; }
 
 /* ── 텍스트 스타일 ── */
@@ -89,211 +77,86 @@
 .title { font-weight: bold; }
 
 /* ── inner ── */
-.inner {
-    display: flex;
-    align-items: center;
-    padding: 5px 8px;
-}
-.inner.column {
-    flex-direction: column;
-    align-items: flex-start;
-}
+.inner { display: flex; align-items: center; padding: 5px 8px; }
+.inner.column { flex-direction: column; align-items: flex-start; }
 
 /* ── 구분선 ── */
-.bar {
-    width: 48px;
-    height: 1px;
-    background: rgb(255,216,217);
-    margin: 0 8px;
-}
+.bar { width: 48px; height: 1px; background: rgb(255,216,217); margin: 0 8px; }
 
 /* ── 챔피언 이미지 + 레벨 ── */
-.champ_img {
-    position: relative;
-    margin-right: 8px;
-}
-.champ_img img {
-    border-radius: 50%;
-}
+.champ_img { position: relative; margin-right: 8px; }
+.champ_img img { border-radius: 50%; }
 .level {
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 20px; height: 20px;
-    background: rgb(32,45,55);
-    color: #fff;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 20px;
-    font-size: 11px;
+    position: absolute; bottom: 0; right: 0;
+    width: 20px; height: 20px; background: rgb(32,45,55); color: #fff;
+    border-radius: 50%; text-align: center; line-height: 20px; font-size: 11px;
 }
 
 /* ── 스펠 ── */
-.spell {
-    display: flex;
-    flex-direction: column;
-    margin-right: 8px;
-}
-.spell_img img {
-    width: 22px; height: 22px;
-    border-radius: 5px;
-    margin-bottom: 2px;
-}
+.spell { display: flex; flex-direction: column; margin-right: 8px; }
+.spell_img img { width: 22px; height: 22px; border-radius: 5px; margin-bottom: 2px; }
 
 /* ── 룬 ── */
-.rune {
-    display: flex;
-    flex-direction: column;
-    margin-right: 8px;
-}
+.rune { display: flex; flex-direction: column; margin-right: 8px; }
 
 /* ── KDA ── */
-.kda {
-    display: flex;
-    flex-direction: column;
-    font-weight: bold;
-    margin-right: 8px;
-}
-.kda span:nth-child(1) {
-    font-size: 15px;
-}
+.kda { display: flex; flex-direction: column; font-weight: bold; margin-right: 8px; }
+.kda span:nth-child(1) { font-size: 15px; }
 
 /* ── 아이템 ── */
-.item img {
-    width: 22px; height: 22px;
-    border-radius: 5px;
-    margin-right: 2px;
-}
+.item img { width: 22px; height: 22px; border-radius: 5px; margin-right: 2px; }
 
 /* ── 토글 버튼 ── */
-.box.toggle {
-    flex: 0 0 24px;
-}
-.box.toggle button {
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-}
+.box.toggle { flex: 0 0 24px; }
+.box.toggle button { border: none; background: none; padding: 0; cursor: pointer; }
 
 /* ── 상세보기 패널과 하단 매치카드 사이 여백 ── */
-.matchDetailRow {
-    margin-bottom: 30px;
-}
+.matchDetailRow { margin-bottom: 30px; }
 
 /* ── 더보기 버튼 ── */
-.more-button-container {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-    padding: 10px 0;
-}
-
+.more-button-container { display: flex; justify-content: center; margin: 20px 0; padding: 10px 0; }
 #more {
-    padding: 10px 20px;
-    background: #10b981;
-    color: #fff;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px 20px; background: #10b981; color: #fff; border: none; border-radius: 20px;
+    cursor: pointer; font-size: 14px; font-weight: 500; transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }
+#more:hover { background: #059669; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
 
-#more:hover {
-    background: #059669;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+/* ── 상세 테이블 ── */
+.box.detail-box { padding: 8px; background: rgba(0,0,0,0.05); }
+.detail-table { width: 100%; border-collapse: collapse; }
+.detail-table thead th { background-color: #fff; }
+.detail-table th, .detail-table td {
+    border: 1px solid #ddd; padding: 6px; text-align: center; vertical-align: middle; font-size: 11px;
 }
-
-/* ── 상세 테이블 스타일 ── */
-.box.detail-box {
-    padding: 8px;
-    background: rgba(0,0,0,0.05);
-}
-.detail-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-.detail-table thead th {
-    background-color: #fff;
-}
-.detail-table th,
-.detail-table td {
-    border: 1px solid #ddd;
-    padding: 6px;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 11px;
-}
-.detail-table .red-row td {
-    background-color: #ffe4e6;
-}
-.detail-table .blue-row td {
-    background-color: #ebf4ff;
-}
+.detail-table .red-row td { background-color: #ffe4e6; }
+.detail-table .blue-row td { background-color: #ebf4ff; }
 
 /* ── 팀 레이블 행 ── */
 .label-row td {
-    background-color: #fff;
-    border: none;
-    text-align: left;
-    padding: 4px 8px;
-    font-weight: bold;
+    background-color: #fff; border: none; text-align: left; padding: 4px 8px; font-weight: bold;
 }
 
 /* ── 밴 챔프 아이콘 ── */
-.ban-img {
-    width: 24px;
-    height: 24px;
-    margin: 0 4px;
-    vertical-align: middle;
-}
+.ban-img { width: 24px; height: 24px; margin: 0 4px; vertical-align: middle; }
 
 /* ── 오브젝트 통계 텍스트 ── */
-.stat-text {
-    font-size: 11px;
-    margin-left: 8px;
-    color: #333;
-}
-.empty-message {
-    text-align: center;
-    color: #777;
-    font-size: 14px;
-    padding: 120px 0;
-}
+.stat-text { font-size: 11px; margin-left: 8px; color: #333; }
 
+/* ── 빈 상태 ── */
+.empty-message { text-align: center; color: #777; font-size: 14px; padding: 40px 0; }
+
+/* ── 모바일 ── */
 @media (max-width: 600px) {
-    .footer {
-        font-size: 11px;
-        padding: 16px 10px;
-    }
+    .banner-container { padding: 10px 0; }
+    .banner-img { max-width: 95%; }
 
-    .footer small {
-        font-size: 10.5px;
-    }
-
-    /* 모바일에서 배너 조정 */
-    .banner-container {
-        padding: 10px;
-    }
-
-    .banner-img {
-        max-width: 95%;
-    }
-
-    /* 모바일에서 뒤로가기 버튼 조정 */
     .back-btn {
-        top: 10px;
-        left: 15px;
-        padding: 5px 10px;
-        font-size: 12px;
+        top: 10px; left: 15px; padding: 5px 10px; font-size: 12px;
     }
 
-    /* 모바일에서 게임리스트 컨테이너 조정 */
     .GameList-container {
-        padding-top: 160px;
         width: 95%;
+        padding-top: 12px;
     }
 }

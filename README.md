@@ -335,13 +335,6 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ---
 
-## 🏆 프로젝트 성과
-
-### 📊 기술적 성과
-- **보안**: 업계 최고 수준의 보안 헤더 및 HTTPS 강제 적용
-- **성능**: Redis 캐싱 및 HTTP/2로 응답 속도 20-30% 향상
-- **확장성**: Docker 기반 컨테이너화로 쉬운 배포 및 확장
-- **자동화**: GitHub Actions로 CI/CD 파이프라인 완성
 
 ### 🎯 비즈니스 가치
 - **사용자 경험**: 직관적인 UI/UX로 전적 조회 편의성 증대
@@ -350,15 +343,6 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ---
 
-## 📞 문의 및 지원
-
-프로젝트에 대한 문의사항이나 개선 제안이 있으시면 언제든 연락주세요!
-
-- **GitHub**: [https://github.com/leechanghoon00/hamlol](https://github.com/leechanghoon00/hamlol)
-- **배포 사이트**: [https://hamlol.xyz](https://hamlol.xyz)
-- **Notion 문서**: [https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f](https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f)
-
----
 
 ## 📄 라이선스
 
@@ -366,5 +350,4 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ---
 
-**⭐ 이 프로젝트가 도움이 되었다면 Star를 눌러주세요!**
 

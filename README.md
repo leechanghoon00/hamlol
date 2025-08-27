@@ -1,6 +1,6 @@
-# 🎮 hamlol.xyz | 리그 오브 레전드 전적 저장 플랫폼
+D# 🎮 hamlol.xyz | 리그 오브 레전드 전적 저장 플랫폼
 
-**hamlol.xyz**는 리그 오브 레전드 플레이어가 자신의 게임 전적을 저장하고 조회할 수 있는 **통합 전적 관리 플랫폼**입니다. Riot API 연동, JWT 인증, Docker & GitHub Actions 기반 CI/CD 자동화 등 실무 수준의 기술 스택을 적용한 개인 프로젝트입니다.
+**hamlol.xyz**는 리그 오브 레전드 플레이어가 자신의 게임 전적을 저장하고 조회할 수 있는 **통합 전적 관리 플랫폼**입니다. Riot API 연동, JWT 인증,  Docker & GitHub Actions 기반 CI/CD 자동화 등 실무 수준의 기술 스택을 적용한 개인 프로젝트입니다.
 
 ---
 
@@ -8,46 +8,38 @@
 
 | 항목          | 내용                                                                     |
 | ----------- | ---------------------------------------------------------------------- |
-| 📆 개발 기간    | 2024.03.01 ~ 현재                                                        |
+| 📆 개발 기간    | 2024.03.01 \~ ∞                                                        |
 | 👨‍💼 개발 인원 | 1명 (개인 프로젝트)                                                           |
-| 🔗 배포 주소    | [hamlol.xyz](https://hamlol.xyz)                               |
-| 📂 GitHub | [https://github.com/leechanghoon00/hamlol](https://github.com/leechanghoon00/hamlol)   |
+| 🔗 배포 주소    | [hamlol.xyz](http://hamlol.xyz/login)                               |
+| 📂 GitHub | [https://github.com/ryu1002/hamlol](https://github.com/ryu1002/hamlol)   |
 | 🗂 Notion | [Notion](https://www.notion.so/hamlol-gg-1a4ba840cadf806ab06df45e9993ce9f) |
 
 ---
 
 ## 🌟 기획 배경
 
-* 리그 오브 레전드 사용자 설정 게임은 전적사이트에 기록이 남지 않아 기록을 남기고자 함
+* 리그 오브 레전드 사용자 설정 게임 은 전적사이트에 기록이 남지 않아 기록을 남기고자 함
 * Riot API, JWT, Redis 등 다양한 기술을 학습하고 통합하기 위한 실습 목적
-* **실무 수준의 보안 및 성능 최적화** 적용
 
----
+
+
 
 ## ⚙️ 사용 기술 스택
 
-### 🧠 Language 
+🧠 Language 
 <p> <img src="https://img.shields.io/badge/Java-007396?style=flat-square&logo=openjdk&logoColor=white"/> <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black"/> </p>
-
-### 🧹 Backend
-<p> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=springsecurity&logoColor=white"/> <img src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white"/> <img src="https://img.shields.io/badge/QueryDSL-007396?style=flat-square"/> <img src="https://img.shields.io/badge/JPA-007396?style=flat-square"/> </p>
-
-### 💻 Frontend
+🧹 Backend
+<p> <img src="https://img.shields.io/badge/Spring Boot-6DB33F?style=flat-square&logo=springboot&logoColor=white"/> <img src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-square&logo=springsecurity&logoColor=white"/> <img src="https://img.shields.io/badge/JWT-000000?style=flat-square&logo=jsonwebtokens&logoColor=white"/> <img src="https://img.shields.io/badge/Redis-DC382D?style=flat-square&logo=redis&logoColor=white"/> <img src="https://img.shields.io/badge/Mail-0072C6?style=flat-square&logo=gmail&logoColor=white"/> <img src="https://img.shields.io/badge/JPA-007396?style=flat-square"/> </p>
+💻 Frontend
 <p> <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black"/> <img src="https://img.shields.io/badge/React Router-CA4245?style=flat-square&logo=reactrouter&logoColor=white"/> <img src="https://img.shields.io/badge/Fetch API-000000?style=flat-square"/> </p>
-
-### 🐘 Database
+🐘 Database
 <p> <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=flat-square&logo=postgresql&logoColor=white"/> </p>
-
-### ⚙️ DevOps & Infra
+⚙️ DevOps & Infra
 <p> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white"/> <img src="https://img.shields.io/badge/Nginx-009639?style=flat-square&logo=nginx&logoColor=white"/> <img src="https://img.shields.io/badge/AWS EC2-FF9900?style=flat-square&logo=amazonec2&logoColor=white"/> <img src="https://img.shields.io/badge/Route 53-FF9900?style=flat-square&logo=amazonroute53&logoColor=white"/> </p>
-
-### 🛠 Tools
+🛠 Tools
 <p> <img src="https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white"/> <img src="https://img.shields.io/badge/GitHub-181717?style=flat-square&logo=github&logoColor=white"/> <img src="https://img.shields.io/badge/Notion-000000?style=flat-square&logo=notion&logoColor=white"/> <img src="https://img.shields.io/badge/IntelliJ IDEA-000000?style=flat-square&logo=intellijidea&logoColor=white"/> <img src="https://img.shields.io/badge/Postman-FF6C37?style=flat-square&logo=postman&logoColor=white"/> </p>
 
----
-
-## 🌐 API 연동 기능
-
+🌐 API 연동 기능
 본 프로젝트에서는 Riot API를 사용하여 실제 게임 데이터를 불러와 사용합니다.
 
 |    API     |   설명   |
@@ -56,7 +48,6 @@
 | 🎮  Riot API | Match	MatchDto 기반 전체 매치 정보 불러오기 |
 | 👥  Riot API | Participant	플레이어별 전적 데이터 추출 |
 
----
 
 ## 📁 폴더 구조
 
@@ -107,9 +98,11 @@
 ┃ ┗ 📜nginx.conf          # 리버스 프록시 설정
 ┣ 📜Dockerfile            # 전체 프로젝트용 도커파일
 ┣ 📜README.md             # 메인 프로젝트 리드미
+
+
 ```
 
----
+
 
 ## 📊 ERD 및 데이터 설계
 
@@ -128,6 +121,8 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 [Match Table]
  └── 1:N ──> [Team Table]        🔵🔴 (블루/레드 팀 정보)
        └── 1:N ──> [Player Table] 🧑‍💻 (플레이어별 전적)
+
+
 ```
 
 ## 🧱 테이블 구조 및 설명
@@ -143,85 +138,77 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 | **Team Table**        | 각 매치에 포함된 팀(블루/레드)의 승패, 오브젝트(드래곤/타워/바론 등) 처치, 밴 목록 등을 저장 |
 | **Player Table**      | 각 팀 소속 플레이어의 전적 데이터(챔피언, 포지션, 아이템, KDA, 골드, 룬, 피해량, 회복량, 미니언 수, 시야 점수, 와드 설치/제거 수, 승리 여부 등)를 저장 |
 
+
+
+
+
 ### ERD 이미지 첨부
 
-<img src="frontend/images/hamlol/erd1.png" width="700" alt="ERD1" />
+<img src="frontend/images/hamlol/erd1.png" width="700" width="600" alt="ERD1" />
 
-<img src="frontend/images/hamlol/erd2.png" width="700" alt="ERD2" />
+<img src="frontend/images/hamlol/erd2.png" width="700" width="600" alt="ERD2" />
 
 ---
+
+
 
 ## 🚀 주요 기능
 
-### 🔐 로그인 (JWT 인증)
+
+## 🔐 로그인 (JWT 인증) <br>
 <img src="frontend/images/hamlol/login.png" width="600" alt="login" />
+✅ 로그인 API :POST /api/login <br>
+- 이메일 + 비밀번호 기반 로그인 API (POST /api/login) <br>
+- Spring Security + JWT 기반 인증 처리 <br>
+- 로그인 성공 시 JWT 토큰 발급 → LocalStorage 저장 <br>
+- 계정 연동 여부(gameName, tagLine)도 함께 토큰에 포함 <br>
+- JWT 토큰 발급은 사용자 인증 → 계정 정보 조회 → JwtTokenProvider로 토큰 생성 순서로 진행됩니다. <br>
 
-✅ **로그인 API**: `POST /api/login`
-
-- 이메일 + 비밀번호 기반 로그인 API
-- Spring Security + JWT 기반 인증 처리
-- 로그인 성공 시 JWT 토큰 발급 → LocalStorage 저장
-- 계정 연동 여부(gameName, tagLine)도 함께 토큰에 포함
-- JWT 토큰 발급은 사용자 인증 → 계정 정보 조회 → JwtTokenProvider로 토큰 생성 순서로 진행
-
----
-
-### 📝 회원가입
+## 📝 회원가입 <br>
 <img src="frontend/images/hamlol/signup.png" width="600" alt="signup" />
+✅ 회원가입 API : POST /api/adduser <br>
+- 회원가입 API (POST /api/adduser) 사용 <br>
+- 이메일, 비밀번호, 닉네임을 입력받아 등록 <br>
+- 비밀번호는 BCryptPasswordEncoder로 암호화 후 DB 저장 <br>
+- 입력값 유효성 검사 (프론트/백 동시에 검증) <br>
+- 성공 시 로그인 페이지로 자동 이동 <br>
+- DTO → Entity 변환 후 DB 저장, 실패 시 예외 메시지 반환 <br>
 
-✅ **회원가입 API**: `POST /api/adduser`
 
-- 회원가입 API 사용
-- 이메일, 비밀번호, 닉네임을 입력받아 등록
-- 비밀번호는 BCryptPasswordEncoder로 암호화 후 DB 저장
-- 입력값 유효성 검사 (프론트/백 동시에 검증)
-- 성공 시 로그인 페이지로 자동 이동
-- DTO → Entity 변환 후 DB 저장, 실패 시 예외 메시지 반환
-
----
-
-### ⚙️ 계정 연동
+## ⚙️ 계정 연동 <br>
 <img src="frontend/images/hamlol/account.png" width="600" alt="account" />
+✅ 계정 연동 API : POST /api/account <br>
+- 사용자가 입력한 gameName, tagLine을 통해 Riot API 호출 <br>
+- 응답으로 받은 puuid를 추출 후 사용자 계정과 함께 DB에 저장 <br>
+- 연동 성공 시 메인 페이지에 게임 닉네임 표시<br>
 
-✅ **계정 연동 API**: `POST /api/account`
+<img src="frontend/images/hamlol/main2.png" width="600" alt="main2" /> <br>
+✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증, 메인화면에 닉네임 표시 <br>
 
-- 사용자가 입력한 gameName, tagLine을 통해 Riot API 호출
-- 응답으로 받은 puuid를 추출 후 사용자 계정과 함께 DB에 저장
-- 연동 성공 시 메인 페이지에 게임 닉네임 표시
 
-<img src="frontend/images/hamlol/main2.png" width="600" alt="main2" />
+## 🧾 메인 페이지 <br>
+<img src="frontend/images/hamlol/main.png" width="600" alt="main" /> <br>
 
-✅ 저장 시 본인의 게임 ID가 포함된 게임만 저장 가능하도록 검증, 메인화면에 닉네임 표시
+- JWT 토큰을 jwt-decode 라이브러리로 디코딩하여 로그인된 사용자 정보 확인 <br>
+- 계정 연동 여부 확인 후 연동되지 않았을 경우 "계정 연동하기" 버튼 노출 <br>
+- 연동된 경우 gameName#tagLine 형식의 닉네임을 상단에 출력 <br>
+- 주요 기능 페이지로 이동 가능한 링크 제공 <br>
+ - 전적 등록하기 <br>
+ - 전적 보기 <br>
+ - 로그아웃 <br>
+✅ 연동 여부는 JWT 내 gameName, tagLine 값을 기준으로 판단 <br>
 
----
+ 
+## 🕹️ 전적 저장<br>
+<img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" /> <br>
+- Riot API를 호출하여 최근 경기 정보 조회 <br>
+- 로그인한 사용자의 Riot 계정과 일치하는 게임만 검증 후 저장 <br>
+- 게임 전적을 Match / Team / Player 테이블에 분할 저장 <br>
+### ✅ 전적 저장 조건: <br>
+- 로그인한 사용자의 Riot ID(gameName, tagLine)가 경기 참가자 중에 포함되어야 함 <br>
+- 포함되지 않을 경우 예외 발생 후 저장 불가 처리 <br>
 
-### 🧾 메인 페이지
-<img src="frontend/images/hamlol/main.png" width="600" alt="main" />
-
-- JWT 토큰을 jwt-decode 라이브러리로 디코딩하여 로그인된 사용자 정보 확인
-- 계정 연동 여부 확인 후 연동되지 않았을 경우 "계정 연동하기" 버튼 노출
-- 연동된 경우 gameName#tagLine 형식의 닉네임을 상단에 출력
-- 주요 기능 페이지로 이동 가능한 링크 제공
-  - 전적 등록하기
-  - 전적 보기
-  - 로그아웃
-
-✅ 연동 여부는 JWT 내 gameName, tagLine 값을 기준으로 판단
-
----
-
-### 🕹️ 전적 저장
-<img src="frontend/images/hamlol/savegame.png" width="600" alt="savegame" />
-
-- Riot API를 호출하여 최근 경기 정보 조회
-- 로그인한 사용자의 Riot 계정과 일치하는 게임만 검증 후 저장
-- 게임 전적을 Match / Team / Player 테이블에 분할 저장
-
-#### ✅ 전적 저장 조건:
-- 로그인한 사용자의 Riot ID(gameName, tagLine)가 경기 참가자 중에 포함되어야 함
-- 포함되지 않을 경우 예외 발생 후 저장 불가 처리
-
-#### 🛠️ 저장 처리 흐름:
+### 🛠️ 저장 처리 흐름: <br>
 ```
 1. 로그인한 사용자의 이메일 → 연동된 Riot 계정 정보 조회
 2. 입력받은 Match ID 기반 Riot API 호출 → 전체 경기 정보 수신
@@ -229,75 +216,62 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 4. 참여자 정보(룬, 아이템, 킬/데스 등) 및 팀 정보 추출
 5. Match, Team, Player 테이블에 저장
 ```
+💡 JPA Repository 사용 <br>
+- matchRepository.save(), teamRepository.saveAll(), playerRepository.saveAll()을 통해 각각 저장 <br>
+- 룬 이미지 아이콘 URL은 Riot API에서 추가로 호출하여 필드 매핑 <br>
 
-💡 **JPA Repository 사용**
-- `matchRepository.save()`, `teamRepository.saveAll()`, `playerRepository.saveAll()`을 통해 각각 저장
-- 룬 이미지 아이콘 URL은 Riot API에서 추가로 호출하여 필드 매핑
+## 📋 전적 조회 <br>
+<img src="frontend/images/hamlol/gamelist.png" width="600" alt="gamelist" /> <br>
+✅ 전적 조회 API : POST /api/bygameid <br>
+- 저장된 게임 리스트를 페이지네이션으로 조회 <br>
+- 사용자의 Riot 계정 정보(gameName, tagLine)를 기준으로 전적 불러오기 <br>
+- 각 전적 클릭 시 상세 페이지로 이동 <br>
 
----
 
-### 📋 전적 조회
-<img src="frontend/images/hamlol/gamelist.png" width="600" alt="gamelist" />
 
-✅ **전적 조회 API**: `POST /api/bygameid`
-
-- 저장된 게임 리스트를 페이지네이션으로 조회
-- 사용자의 Riot 계정 정보(gameName, tagLine)를 기준으로 전적 불러오기
-- 각 전적 클릭 시 상세 페이지로 이동
-
-#### 🛠️ 처리 흐름:
+### 🛠️ 처리 흐름: <br>
 ```
 1. JWT 토큰 내 사용자 정보에서 gameName, tagLine 추출
 2. DB에서 해당 사용자와 일치하는 전적 리스트 조회
 3. SimpleGameDTO 형태로 반환하여 리스트 렌더링
 ```
+💡 Spring Data JPA의 Pageable을 활용한 전적 페이징 처리 <br>
+💡 Riot API가 아닌, 저장된 내부 DB 기준으로 조회 수행 <br>
 
-💡 **Spring Data JPA의 Pageable을 활용한 전적 페이징 처리**
-💡 **Riot API가 아닌, 저장된 내부 DB 기준으로 조회 수행**
+## 📊 전적 상세 조회 <br>
+<img src="frontend/images/hamlol/detail.png" width="700" alt="detail" /> <br>
+✅ 상세 조회 API : POST /api/bymatchid <br>
+- 개별 매치의 모든 정보 출력 (팀별 / 플레이어별) <br>
+- 블루팀 vs 레드팀 비교 뷰 제공 <br>
+- Ban 정보도 챔피언 ID → 이름으로 변환 처리 <br>
 
----
 
-### 📊 전적 상세 조회
-<img src="frontend/images/hamlol/detail.png" width="700" alt="detail" />
-
-✅ **상세 조회 API**: `POST /api/bymatchid`
-
-- 개별 매치의 모든 정보 출력 (팀별 / 플레이어별)
-- 블루팀 vs 레드팀 비교 뷰 제공
-- Ban 정보도 챔피언 ID → 이름으로 변환 처리
-
-#### 🛠️ 처리 흐름:
+### 🛠️ 처리 흐름: <br>
 ```
 1. 클라이언트로부터 matchId 수신
 2. DB에서 해당 matchId 기반 팀/플레이어 정보 조회
 3. 챔피언 Ban ID를 Riot 챔피언 이름으로 매핑
 4. GameRecordDTO로 변환 후 응답 반환
 ```
+💡 ChampService를 통해 Riot 챔피언 데이터를 사전에 수집 및 캐싱 <br>
+💡 ObjectMapper + JsonNode 사용으로 Ban JSON 동적 처리 <br>
 
-💡 **ChampService를 통해 Riot 챔피언 데이터를 사전에 수집 및 캐싱**
-💡 **ObjectMapper + JsonNode 사용으로 Ban JSON 동적 처리**
+
+
+## 🛡️ 관리자 / 보안 설정
+
+- Spring Security 기반 JWT 인증 시스템 적용 <br>
+- 미인증 사용자의 API 접근 차단<br>
+- 인증 실패 시 401 / 403 응답 반환 (Custom EntryPoint 처리)<br>
+- JWT 필터를 UsernamePasswordAuthenticationFilter 앞에 적용<br>
 
 ---
 
-## 🛡️ 보안 및 성능 최적화
 
-### 🔒 Spring Security + JWT
-- Spring Security 기반 JWT 인증 시스템 적용
-- 미인증 사용자의 API 접근 차단
-- 인증 실패 시 401 / 403 응답 반환 (Custom EntryPoint 처리)
-- JWT 필터를 UsernamePasswordAuthenticationFilter 앞에 적용
 
-### 🚀 성능 최적화
-- **Redis 캐싱**: 자주 사용되는 데이터 캐싱으로 DB 부하 감소
-- **QueryDSL**: 동적 쿼리 생성으로 복잡한 검색 조건 처리
-- **비동기 처리**: Riot API 호출 시 응답 대기 시간 최소화
-- **페이지네이션**: 대용량 데이터 효율적 처리
 
-### 🌐 Nginx 보안 설정
-- **HTTPS 강제**: HTTP → HTTPS 자동 리다이렉트
-- **보안 헤더**: XSS, 클릭재킹, MIME 스니핑 등 방어
-- **HTTP/2 지원**: 성능 향상 및 최신 웹 표준 준수
-- **접근 제한**: 숨겨진 파일 및 로그 파일 접근 차단
+
+
 
 ---
 
@@ -305,49 +279,23 @@ Riot API의 MatchDto → InfoDto → ParticipantDto / TeamDto 를 기준으로 �
 
 ```
 🔀 GitHub Push →
-⚙️ GitHub Actions →
-🐳 Docker Image Build →
+⚙ GitHub Actions →
+😳 Docker Image Build →
 📄 DockerHub Push →
 🔐 EC2 접속 (pem) →
 📦 기존 컨테이너 종료 →
 🚀 새 컨테이너 실행
 ```
 
-### 📋 자동화 단계별 설명
-
-1. **GitHub Push**: 코드 변경사항을 main 브랜치에 푸시
-2. **GitHub Actions**: 자동으로 빌드 및 테스트 실행
-3. **Docker Build**: 애플리케이션을 Docker 이미지로 패키징
-4. **DockerHub Push**: 빌드된 이미지를 DockerHub에 업로드
-5. **EC2 배포**: SSH를 통해 서버에 접속하여 새 컨테이너 실행
-6. **무중단 배포**: 기존 컨테이너 종료 후 새 컨테이너로 교체
+---
 
 ---
 
 ## 📈 확장 계획 (Future Work)
 
-- **비밀번호 찾기 기능 개선**: React routing + API 연동
-- **사용자별 전적 통계 시각화**: 차트 및 그래프로 승률, 포지션별 성과 표시
-- **랭킹 시스템**: MMR 기반 리그 등급 도입
-- **실시간 알림**: 게임 결과 및 친구 활동 알림
-- **모바일 앱**: React Native를 활용한 크로스 플랫폼 앱 개발
-- **AI 분석**: 머신러닝을 활용한 게임 패턴 분석 및 승률 예측
-
----
-
-
-### 🎯 비즈니스 가치
-- **사용자 경험**: 직관적인 UI/UX로 전적 조회 편의성 증대
-- **데이터 무결성**: Riot API 연동으로 정확한 게임 데이터 제공
-- **개인화**: 사용자별 맞춤 전적 관리 및 통계 제공
-
----
-
-
-## 📄 라이선스
-
-이 프로젝트는 개인 학습 및 포트폴리오 목적으로 제작되었습니다.
-
----
+* 비밀번호 찾기 기능 개선 (React routing + API)
+* 사용자별 전적 통계 시각화 
+* 랭킹 시스템, 리그 등급 도입
+* 사용자별 승률 분석, 포지션별 성과 등 추가 예정
 
 

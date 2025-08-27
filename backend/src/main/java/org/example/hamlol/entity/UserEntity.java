@@ -21,8 +21,8 @@ public class UserEntity {
     private String number;
 
     // @Enumerated(EnumType.STRING)
-    @Column(name = "user_type", nullable = false)
-    private String userType; // UserType enum 대신 String 사용
+    @Column(name = "user_type", nullable = true)
+    private String userType = "USER"; // 기본값 설정
     @Column(name = "profile_image_url")
     private String profileImageUrl;
 }

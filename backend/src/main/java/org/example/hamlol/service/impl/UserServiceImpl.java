@@ -44,6 +44,11 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void addUser(UserDTO userDTO) { // 클라이언트로부터 받은 UserDTO를 기반으로 새로운 정보를 데이터 베이스에 저장
 
+        // userType 검증 및 기본값 설정
+        if (userDTO.getUserType() == null || userDTO.getUserType().trim().isEmpty()) {
+            userDTO.setUserType("USER");
+        }
+
         // 평문 비밀번호를 암호화
         String encryptedPassword = bCryptPasswordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(encryptedPassword);

@@ -25,5 +25,13 @@ public class UserEntity {
     private String userType = "USER"; // 기본값 설정
     @Column(name = "profile_image_url")
     private String profileImageUrl;
+    
+    @PrePersist
+    @PreUpdate
+    public void prePersist() {
+        if (this.userType == null || this.userType.trim().isEmpty()) {
+            this.userType = "USER";
+        }
+    }
 }
 

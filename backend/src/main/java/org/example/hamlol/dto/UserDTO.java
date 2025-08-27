@@ -14,7 +14,11 @@ public class UserDTO {
     private String email;
     private String number;
     private String userType = "USER";
-
+    
+    // 기본 생성자에서 userType 초기화
+    public UserDTO() {
+        this.userType = "USER";
+    }
 
     // DTO를 Entity로 변환하는 메서드
     public UserEntity toEntity() {
@@ -24,7 +28,12 @@ public class UserDTO {
         userEntity.setPassword(this.password);  // DTO에서 password를 가져와 Entity에 설정
         userEntity.setEmail(this.email);
         userEntity.setNumber(this.number);
-        userEntity.setUserType(this.userType != null ? this.userType : "USER");
+        
+        // userType null 체크 강화
+        if (this.userType == null || this.userType.trim().isEmpty()) {
+            this.userType = "USER";
+        }
+        userEntity.setUserType(this.userType);
 
         return userEntity;
     }

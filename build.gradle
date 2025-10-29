@@ -105,8 +105,10 @@ sourceSets {
 }
 // build.gradle 맨 아래 또는 plugins/dependencies 블록 아래에 추가
 bootWar {
-    enabled = false    // 내장 톰캣용 실행 WAR 비활성화
+    enabled = true  // 내장 톰캣용 실행 WAR 비활성화
+    // enabled = false
 }
 war {
-    enabled = true     // 외장 톰캣용 WAR 활성화
+    enabled = false  // 외장 톰캣용 WAR 활성화
+    // enabled = true
 }

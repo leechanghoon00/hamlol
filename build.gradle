@@ -83,6 +83,15 @@ dependencies {
 
     // 외장 톰캣에서만 로드되도록 내장 톰캣 분리
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'   // WebClient
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' // 로그인 버튼 페이지를 직접 띄울 경우만
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'com.google.code.gson:gson:2.10.1'
+
 }
 
 tasks.withType(Test) {

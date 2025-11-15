@@ -20,10 +20,10 @@ import com.google.gson.JsonParser;
 @Component
 public class KakaoApi {
 
-    @Value("${kakao.api_key}")
+    @Value("${kakao.api_key:}")
     private String kakaoApiKey;
 
-    @Value("${kakao.redirect_uri}")
+    @Value("${kakao.redirect_uri:}")
     private String kakaoRedirectUri;
 
     // Getter (최신 컨트롤러에서 model에 값 전달 필요 시)

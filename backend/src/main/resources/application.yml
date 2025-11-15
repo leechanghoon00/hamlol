@@ -79,6 +79,11 @@ jwt:
 props:
   reset-password-url: https://hamlol.xyz/reset-password
 
+# 카카오 API 설정 (사용하지 않으면 빈 값으로 두거나 주석 처리)
+# kakao:
+#   api_key: YOUR_KAKAO_REST_API_KEY
+#   redirect_uri: https://hamlol.xyz/auth/kakao/callback
+
 server:
   tomcat:
     uri-encoding: UTF-8
